@@ -1,0 +1,18 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Merriweather:ital,opsz,wght@0,18..144,300..900;1,18..144,300..900&display=swap');
+
+@import "tailwindcss";
+@plugin "daisyui";
+
+
+:root {
+  --font-primary: 'Inter', sans-serif;
+  --font-heading: 'Merriweather', serif;
+}
+
+body {
+  font-family: var(--font-primary);
+}
+
+.font-title {
+  font-family: var(--font-heading);
+}
