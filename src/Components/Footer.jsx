@@ -9,12 +9,12 @@ import Logo from './Logo';
 const Footer = () => {
     return (
         <>
-        {/* className=" bg-black  lg:bg-[url('assets/footer_bg.jpg')]  bg-blend-overlay" */}
+            {/* className=" bg-black  lg:bg-[url('assets/footer_bg.jpg')]  bg-blend-overlay" */}
             <footer >
                 {/* Social Media Follow Section */}
                 <div className='bg-[#37475A]'>
                     <Container>
-                        <div className="footer sm:footer-horizontal   text-neutral-content items-center py-4 ">
+                        <div className="footer sm:footer-horizontal   text-neutral-content items-center  ">
                             <aside className="grid-flow-col   ">
                                 <Logo />
                                 {/* <img className='h-9 md:h-10 lg:14  ' src={logo} alt="" /> */}

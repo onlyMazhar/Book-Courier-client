@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link, Navigate } from 'react-router';
+import { Link  } from 'react-router';
 import SocialLogin from '../../Components/SocialLogin';
  
 const Login = () => {
@@ -25,7 +25,7 @@ const Login = () => {
 
                     <button className="btn bg-black text-white mt-4">Login</button>
                 </form >
-                <p>Don’t have any account? <span className="hover:text-[#f39c12] text-black underline"><Link state={location.state} to="/register">Retister</Link ></span></p>
+                <p>Don’t have any account? <span className="hover:text-primary text-black underline"><Link state={location.state} to="/register">Retister</Link ></span></p>
                 <p className="text-sm font-bold text-center">or</p>
                 <SocialLogin />
 

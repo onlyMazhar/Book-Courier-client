@@ -50,16 +50,16 @@ const Navbar = () => {
             {/* <div className="divider my-0 p-0 text-white"></div> */}
 
             {/* Nav Links */}
-            <div className="navbar  z-100 pt-0 shadow-sm bg-primary text-white">
+            <div className="navbar  z-100   shadow-sm bg-primary text-white">
                 {/* For Small Device */}
                 <div className="navbar-start">
-                    <div className="dropdown  ">
-                        <div tabIndex={0} role="button" className=" lg:hidden pl-0  hover:bg-gray-200">
+                    <div className="dropdown ">
+                        <div tabIndex={0} role="button" className=" lg:hidden pl-0  hover:bg-black/50 hover:rounded-sm">
                             <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"> <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h8m-8 6h16" /> </svg>
                         </div>
                         <ul
                             tabIndex="-1"
-                            className=" dropdown-content border bg-white rounded-box z-100 mt-3 w-52 p-2 shadow ">
+                            className=" dropdown-content border bg-primary rounded-box z-100 mt-3 w-52 p-2 shadow ">
                             {links}
                         </ul>
                     </div>
@@ -99,7 +99,7 @@ const Navbar = () => {
                             </div>
 
                             :
-                            <Link className='btn btn-primary text-black' to={'/login'}>Login</Link>
+                            <Link className='btn btn-primary border border-white' to={'/login'}>Login</Link>
 
                     }
                     {/* <Link className='btn mx-2 btn-primary text-accent' to={'/rider'} >Be A Rider</Link> */}
