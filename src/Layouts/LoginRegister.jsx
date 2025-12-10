@@ -2,6 +2,7 @@ import React from 'react';
 import Logo from '../Components/Logo';
 import { Navigate, Outlet } from 'react-router';
 import { useAuth } from '../Hooks/useAuth';
+// import layoutImg from '../assets/login_register.svg'
 
 const LoginRegister = () => {
     const { user, loading } = useAuth()
@@ -13,19 +14,15 @@ const LoginRegister = () => {
     }
     else return (
         <>
-            <div className='absolute mt-2 lg:mt-4   lg:ml-8 ml-[25%]  '>
+            <div className='absolute mt-2 lg:mt-4 md:ml-8 ml-[20%]  '>
                 <Logo />
             </div>
 
-            <div className='min-h-screen flex w-full'>
+            <div className='min-h-screen flex w-full  bg-[url("assets/login_register.svg")] bg-no-repeat bg-center bg-cover'>
                 {/* Left side form */}
-                <div className='flex-1  flex  items-center justify-center w-full'>
+                <div className='w-full  lg:w-[45%] bg-white/70 lg:bg-white/50 bg-blend-overlay flex  items-center justify-center md:rounded-r-4xl'>
                     <Outlet />
-                </div>
-                {/* Rignt side image */}
-                <div className='w-full flex-1 bg-[#f39c12] hidden mg:flex lg:flex'>
-                    <img src="" alt="" />
-                </div>
+                </div>                 
             </div>
         </>
     );

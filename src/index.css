@@ -3,6 +3,16 @@
 @import "tailwindcss";
 @plugin "daisyui";
 
+@plugin "daisyui/theme" {
+  name: "light";
+  default: true;
+  --color-primary: #F59E0B;     /* amber-500 */
+  --color-secondary: #0E73B6;
+  --color-star: #FACC15;        /* yellow-400 */
+  --color-text: #1F2937;        /* gray-800 */
+  --color-success: #10B981;     /* emerald-500 */
+  --color-error: #EF4444;       /* red-500 */
+}
 
 :root {
   --font-primary: 'Inter', sans-serif;

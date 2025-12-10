@@ -53,7 +53,7 @@ const Register = () => {
                     <button className="btn bg-black text-white mt-4">Register</button>
                 </form >
 
-                <p>Already have a account? <span className="hover:text-[#f39c12] text-black underline"><Link state={location.state} to="/login">Login</Link ></span></p>
+                <p>Already have a account? <span className="hover:text-primary text-black underline"><Link state={location.state} to="/login">Login</Link ></span></p>
                 <p className="text-sm font-bold text-center">or</p>
                 <SocialLogin />
 
