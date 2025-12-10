@@ -6,13 +6,19 @@
 @plugin "daisyui/theme" {
   name: "light";
   default: true;
-  --color-primary: #F59E0B;     /* amber-500 */
-  --color-secondary: #0E73B6;
-  --color-star: #FACC15;        /* yellow-400 */
-  --color-text: #1F2937;        /* gray-800 */
-  --color-success: #10B981;     /* emerald-500 */
-  --color-error: #EF4444;       /* red-500 */
+
+  --color-primary: #00453E;      /* Amazon dark green (navbar) */
+  --color-secondary: #005B52;    /* Slightly lighter green for hovers */
+  --color-accent: #C70F74;       /* Search button pink accent in screenshot */
+  --color-star: #FFB400;         /* Gold star rating */
+  --color-text: #0F1111;         /* Amazon black text */
+  --color-base-100: #FFFFFF;     /* Main white background */
+  --color-base-200: #F3F3F3;     /* Light gray panel background */
+  --color-border: #DDDDDD;       /* Borders */
+  --color-success: #067D62;      /* Amazon-style green messages */
+  --color-error: #CC0A00;        /* Amazon alert/error red */
 }
+
 
 :root {
   --font-primary: 'Inter', sans-serif;

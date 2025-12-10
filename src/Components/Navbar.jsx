@@ -15,10 +15,10 @@ const Navbar = () => {
 
     }
 
-    const linkClass = "block py-1 px-2 rounded-sm hover:bg-[#F59E0B]"
+    const linkClass = "block py-1 px-2 rounded-sm  border border-transparent hover:border-white transition-all"
 
     const activeLink = ({ isActive }) => {
-        return `${linkClass} ${isActive ? 'bg-primary font-semibold' : 'text-gray-700'}`
+        return `${linkClass} ${isActive ? 'border border-white font-semibold' : 'text-white'}`
     }
 
 
@@ -29,26 +29,28 @@ const Navbar = () => {
     </>
     return (
         <>
-            <Container>
-                <div className=' flex justify-between px-2 pt-2'>
-                    <div className='flex gap-4'>
-                        <RiFacebookCircleLine />
-                        <AiOutlineInstagram />
-                        <RiTwitterXFill />
-                        <RiBloggerLine />
+            <div className='bg-secondary text-white'>
+                <Container>
+                    <div className=' flex justify-between px-2 py-1 '>
+                        <div className='flex gap-4'>
+                            <RiFacebookCircleLine />
+                            <AiOutlineInstagram />
+                            <RiTwitterXFill />
+                            <RiBloggerLine />
+                        </div>
+                        <div className='[&>small]:flex [&>small]:items-center flex gap-4 [&>small]:gap-1'>
+                            <small><FiShoppingCart size={16} strokeWidth={2} />  Cart</small>
+                            <small><FiBookmark size={16} strokeWidth={2} /> Wishlist</small>
+                        </div>
                     </div>
-                    <div className='[&>small]:flex [&>small]:items-center flex gap-4 [&>small]:gap-1'>
-                        <small><FiShoppingCart size={16} strokeWidth={2} />  Cart</small>
-                        <small><FiBookmark size={16} strokeWidth={2} /> Wishlist</small>
-                    </div>
-                </div>
-            </Container>
+                </Container>
+            </div>
 
             {/* Divider */}
-            <div className="divider my-0"></div>
+            {/* <div className="divider my-0 p-0 text-white"></div> */}
 
             {/* Nav Links */}
-            <div className="navbar  z-100 pt-0 shadow-sm -mt-2">
+            <div className="navbar  z-100 pt-0 shadow-sm bg-primary text-white">
                 {/* For Small Device */}
                 <div className="navbar-start">
                     <div className="dropdown  ">
@@ -67,7 +69,7 @@ const Navbar = () => {
                 </div>
                 {/* For Large Device */}
                 <div className="navbar-center hidden lg:flex">
-                    <ul className="space-x-6 flex px-1">
+                    <ul className="space-x-8  flex px-1">
                         {links}
                     </ul>
                 </div>
@@ -79,22 +81,20 @@ const Navbar = () => {
                             <div className="dropdown dropdown-end">
                                 <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar">
                                     <div className=" rounded-full">
-                                        <FaUserCircle color='#F59E0B' size={36} />
+                                        <FaUserCircle  size={32} />
 
-                                        {/* <img
-                                                alt="Tailwind CSS Navbar component"
-                                                /> */}
+                                        
                                     </div>
                                 </div>
                                 <ul
                                     tabIndex="-1"
-                                    className="menu border menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow">
+                                    className="menu border menu-sm text-black dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow">
                                     <li><a >Profile</a></li>
                                     <div className='hover:bg-gray-200 rounded-sm py-1 flex justify-between px-2'>
                                         <p className='text-[.75rem]'>Toggle </p>
                                         <input type="checkbox" defaultChecked className="toggle toggle-xs " />
                                     </div>
-                                    <Link onClick={handleUserLogout} className=' btn-primary text-black  btn' >LogOut</Link>
+                                    <Link onClick={handleUserLogout} className=' btn-primary  btn' >LogOut</Link>
                                 </ul>
                             </div>
 
