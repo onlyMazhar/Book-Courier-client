@@ -2,7 +2,7 @@
 .loader {
   height: 30px;
   aspect-ratio: 3;
-  --c:no-repeat linear-gradient(#f39c12 0 0);
+  --c:no-repeat linear-gradient(green 0 0);
   background:
     var(--c) calc(0*100%/5) 50%,
     var(--c) calc(1*100%/5) 50%,

@@ -80,16 +80,14 @@ const Navbar = () => {
                             ?
                             <div className="dropdown dropdown-end">
                                 <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar">
-                                    <div className=" rounded-full">
-                                        <FaUserCircle  size={32} />
-
-                                        
+                                    <div title={user.displayName} className=" rounded-full">
+                                        {user ? <img src={user.photoURL} alt={`Photo of ${user.displayName}`} /> : <FaUserCircle size={32} />}
                                     </div>
                                 </div>
                                 <ul
                                     tabIndex="-1"
                                     className="menu border menu-sm text-black dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow">
-                                    <li><a >Profile</a></li>
+                                    <li><Link to={'/MyProfile'} >Profile</Link></li>
                                     <div className='hover:bg-gray-200 rounded-sm py-1 flex justify-between px-2'>
                                         <p className='text-[.75rem]'>Toggle </p>
                                         <input type="checkbox" defaultChecked className="toggle toggle-xs " />
