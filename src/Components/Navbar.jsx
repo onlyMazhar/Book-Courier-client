@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link, NavLink } from 'react-router';
 import Container from './Container';
 import Logo from './Logo';
@@ -7,10 +7,13 @@ import { RiBloggerLine, RiFacebookCircleLine, RiTwitterXFill } from 'react-icons
 import { FiBookmark, FiShoppingCart } from 'react-icons/fi';
 import { useAuth } from '../Hooks/useAuth';
 import { FaUserCircle } from 'react-icons/fa';
+import { Bell, LogOut, Settings, User } from 'lucide-react';
 
 const Navbar = () => {
+    const [userMenuOpen, setUserMenuOpen] = useState(false);
+
     const { userLogout, user } = useAuth()
-    const handleUserLogout = () => {
+     const handleUserLogout = () => {
         userLogout()
 
     }
@@ -74,26 +77,42 @@ const Navbar = () => {
                     </ul>
                 </div>
                 {/* Login/Register Options Based on user Login status */}
-                <div className='navbar-end'>
+                <div className='navbar-end relative'>
                     {
                         user
                             ?
-                            <div className="dropdown dropdown-end">
-                                <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar">
-                                    <div title={user.displayName} className=" rounded-full">
-                                        {user ? <img src={user.photoURL} alt={`Photo of ${user.displayName}`} /> : <FaUserCircle size={32} />}
+                            <div className="flex items-center gap-4">
+                                <div className="relative ">
+                                    <div onClick={() => setUserMenuOpen(!userMenuOpen)} className="  items-center gap-2 p-1 bg-gray-100 rounded-full">
+                                        <img className='w-9 h-9  rounded-full ' src={user?.photoURL} alt="" />
                                     </div>
+
+                                    {userMenuOpen && (
+                                        <div className="absolute bg-primary/80 top-12 right-0 w-64 border border-gray-200 rounded-lg shadow-lg">
+                                            <div className="p-4 border-b border-gray-100 flex items-center gap-3">
+                                                <div>
+                                                    <p className="font-semibold">{user?.displayName}</p>
+                                                    <p className="text-sm text-gray-300">{user?.email}</p>
+                                                </div>
+                                            </div>
+                                            <div className="p-2">
+                                                <Link  to={'/MyProfile'} className="flex items-center gap-3 p-2 rounded hover:bg-gray-400">
+                                                    <User size={18} />
+                                                    <span className="text-sm">Profile</span>
+                                                </Link>
+                                                <Link href="#" className="flex items-center gap-3 p-2 rounded hover:bg-gray-400">
+                                                    <Settings size={18} />
+                                                    <span className="text-sm">Account Settings</span>
+                                                </Link>
+                                                <hr className="my-2" />
+                                                <Link onClick={handleUserLogout} href="#" className="flex items-center gap-3 p-2 rounded bg-white hover:bg-red-50 text-red-600">
+                                                    <LogOut size={18} />
+                                                    <span className="text-sm">Sign Out</span>
+                                                </Link>
+                                            </div>
+                                        </div>
+                                    )}
                                 </div>
-                                <ul
-                                    tabIndex="-1"
-                                    className="menu border menu-sm text-black dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow">
-                                    <li><Link to={'/MyProfile'} >Profile</Link></li>
-                                    <div className='hover:bg-gray-200 rounded-sm py-1 flex justify-between px-2'>
-                                        <p className='text-[.75rem]'>Toggle </p>
-                                        <input type="checkbox" defaultChecked className="toggle toggle-xs " />
-                                    </div>
-                                    <Link onClick={handleUserLogout} className=' btn-primary  btn' >LogOut</Link>
-                                </ul>
                             </div>
 
                             :
