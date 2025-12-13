@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { Menu, User, LogOut, ChevronLeft, ChevronRight, Settings, Bell, Home, Briefcase, DollarSign } from 'lucide-react';
-import { Outlet } from 'react-router';
+import { Menu, User, LogOut, ChevronLeft, ChevronRight, Settings, Bell, Home, Briefcase, DollarSign, CircleUserRound } from 'lucide-react';
+import { Link, Outlet } from 'react-router';
 import { useAuth } from '../Hooks/useAuth';
 
 const DashboardLayout = () => {
@@ -30,7 +30,10 @@ const DashboardLayout = () => {
 
 
 
-                            <img className="w-8 h-8 bg-primary rounded-full" src={user?.photoURL} alt="" />
+                            {user.photoURL
+                                ? <img className='w-9 h-9  rounded-full ' eferrerpolicy="no-referrer" src={user?.photoURL} alt={`Photo of ${user?.displayName}`} />
+                                : <CircleUserRound size={32} />
+                            }
                             <div>
                                 <p className="font-semibold">{user?.displayName}</p>
 
@@ -40,17 +43,20 @@ const DashboardLayout = () => {
                         {userMenuOpen && (
                             <div className="absolute top-12 right-0 w-64 bg-white border border-gray-200 rounded-lg shadow-lg">
                                 <div className="p-4 border-b border-gray-100 flex items-center gap-3">
-                                    <img className="w-8 h-8 bg-primary rounded-full" src={user?.photoURL} alt="" />
+                                    {user.photoURL
+                                        ? <img className='w-9 h-9  rounded-full ' eferrerpolicy="no-referrer" src={user?.photoURL} alt={`Photo of ${user?.displayName}`} />
+                                        : <CircleUserRound size={32} />
+                                    }
                                     <div>
                                         <p className="font-semibold">{user?.displayName}</p>
-                                        <p className="text-sm text-gray-300">{user?.email}</p>
+                                        <p className="text-sm text-gray-400">{user?.email}</p>
                                     </div>
                                 </div>
                                 <div className="p-2">
-                                    <a href="/MyProfile" className="flex items-center gap-3 p-2 rounded hover:bg-gray-100">
+                                    <Link to="/MyProfile" className="flex items-center gap-3 p-2 rounded hover:bg-gray-100">
                                         <User size={18} />
                                         <span className="text-sm">Profile</span>
-                                    </a>
+                                    </Link>
                                     <a href="/MyProfile" className="flex items-center gap-3 p-2 rounded hover:bg-gray-100">
                                         <Settings size={18} />
                                         <span className="text-sm">Account Settings</span>

@@ -7,13 +7,13 @@ import { RiBloggerLine, RiFacebookCircleLine, RiTwitterXFill } from 'react-icons
 import { FiBookmark, FiShoppingCart } from 'react-icons/fi';
 import { useAuth } from '../Hooks/useAuth';
 import { FaUserCircle } from 'react-icons/fa';
-import { Bell, LogOut, Settings, User } from 'lucide-react';
+import { Bell, CircleUserRound, LogOut, Settings, User, User2 } from 'lucide-react';
 
 const Navbar = () => {
     const [userMenuOpen, setUserMenuOpen] = useState(false);
 
     const { userLogout, user } = useAuth()
-     const handleUserLogout = () => {
+    const handleUserLogout = () => {
         userLogout()
 
     }
@@ -23,6 +23,7 @@ const Navbar = () => {
     const activeLink = ({ isActive }) => {
         return `${linkClass} ${isActive ? 'border border-white font-semibold' : 'text-white'}`
     }
+    console.log(user?.photoURL)
 
 
     const links = <>
@@ -83,8 +84,14 @@ const Navbar = () => {
                             ?
                             <div className="flex items-center gap-4">
                                 <div className="relative ">
-                                    <div onClick={() => setUserMenuOpen(!userMenuOpen)} className="  items-center gap-2 p-1 bg-gray-100 rounded-full">
-                                        <img className='w-9 h-9  rounded-full ' src={user?.photoURL} alt="" />
+                                    <div onClick={() => setUserMenuOpen(!userMenuOpen)} className="  items-center gap-2  rounded-full">
+                                        {user.photoURL
+                                            ? <img className='w-9 h-9  rounded-full ' referrerPolicy="no-referrer"
+                                                onError={(e) => {
+                                                    e.target.src = "/default-avatar.png";
+                                                }} src={user?.photoURL} alt="profile" />
+                                            : <CircleUserRound size={32} />
+                                        }
                                     </div>
 
                                     {userMenuOpen && (
@@ -96,7 +103,7 @@ const Navbar = () => {
                                                 </div>
                                             </div>
                                             <div className="p-2">
-                                                <Link  to={'/MyProfile'} className="flex items-center gap-3 p-2 rounded hover:bg-gray-400">
+                                                <Link to={'/MyProfile'} className="flex items-center gap-3 p-2 rounded hover:bg-gray-400">
                                                     <User size={18} />
                                                     <span className="text-sm">Profile</span>
                                                 </Link>
