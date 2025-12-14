@@ -1,27 +1,53 @@
-import { Link } from 'react-router';
+import { Link, useNavigate } from 'react-router';
 import SocialLogin from '../../Components/SocialLogin';
 import { useForm } from 'react-hook-form';
- import { useAuth } from '../../Hooks/useAuth';
-import { Navigate } from 'react-router';
+import { useAuth } from '../../Hooks/useAuth';
+import { Bounce, toast } from 'react-toastify';
+import { uploadImage } from '../../utils';
 
 const Register = () => {
-    const { userRegister } = useAuth()
-    const { register,
-        handleSubmit } = useForm()
+    const { userRegister, updateUserProfile } = useAuth()
+    const {
+        register,
+        handleSubmit,
+        formState: { errors } } = useForm()
+    const navigate = useNavigate();
+
+    const emailRegex = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,}$/;
 
     const handleRegister = (data) => {
-        // console.log(data)
-        userRegister(data.email, data.password)
-            .then(result => {
-                console.log(result.user);
-            <Navigate to={'/'}/>
-               
+        const { name, email, password, image } = data;
+        const imageFile = image?.[0];
+
+        userRegister(email, password)
+            .then(() => {
+                return uploadImage(imageFile);
+            })
+            .then(imageUrl => {
+                return updateUserProfile(name, imageUrl);
+            })
+            .then(() => {
+                navigate('/');
+
+                toast.success('Login Successfull', {
+                    position: "top-center",
+                    autoClose: 2000,
+                    hideProgressBar: false,
+                    closeOnClick: false,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "light",
+                    transition: Bounce,
+                });
             })
             .catch(err => {
-                console.log(err)
+                console.log(err);
             });
+    };
 
-    }
+
 
     return (
         <div className="  w-full  mx-auto  max-w-sm shrink-0  ">
@@ -33,27 +59,73 @@ const Register = () => {
                     <p className="text-lg font-medium">Register with BookCourier</p>
                 </div>
                 <form onSubmit={handleSubmit(handleRegister)} className="fieldset">
-                    {/* Email feild */}
+
+                    {/* Name feild */}
                     <label className="label">Name</label>
-                    <input {...register("name")} type="text" className="input  w-full" placeholder="Your Name" />
+                    <input
+                        {...register("name", {
+                            required: "Name is required",
+                            maxLength: { value: 20, message: "Name too long" },
+                            minLength: { value: 6, message: "Name too short" }
+                        })}
+                        type="text"
+                        placeholder="Your Name"
+                        className="input  w-full"
+                    />
+                    {errors.name && (
+                        <p className="text-sm text-red-500">{errors.name.message}</p>
+                    )}
+
+                    {/* Email feild */}
+                    <label className="label">Image</label>
+                    <input
+                        {...register("image")}
+                        type="file"
+                        className="file-input w-full" />
 
                     {/* Email feild */}
                     <label className="label">Email</label>
-                    <input type="file" className="file-input w-full" />
-
-                    {/* Email feild */}
-                    <label className="label">Email</label>
-                    <input {...register("email")} type="email" className="input  w-full" placeholder="Email" />
+                    <input
+                        {...register("email",
+                            {
+                                required: "Email is required",
+                                pattern: {
+                                    value: emailRegex,
+                                    message: "Enter a valid email format."
+                                }
+                            })}
+                        type="email"
+                        placeholder="Email"
+                        className="input  w-full"
+                    />
+                    {errors.email && (
+                        <p className="text-sm text-red-500">{errors.email.message}</p>
+                    )}
 
                     {/* Password feild */}
                     <label className="label">Password</label>
-                    <input {...register("password")} type="password" className="input  w-full" placeholder="Password" />
+                    <input
+                        {...register("password",
+                            {
+                                required: "Password is required",
+                                pattern: {
+                                    value: passwordRegex,
+                                    message: "Password must be at least 6 characters long and contain at least one uppercase letter, one lowercase letter, one number, and one special character."
+                                }
+                            })}
+                        type="password"
+                        placeholder="Password"
+                        className="input  w-full"
+                    />
+                    {errors.password && (
+                        <p className="text-sm text-red-500">{errors.password.message}</p>
+                    )}
 
                     <div><a className="link link-hover">Forgot password?</a></div>
-                    <button className="btn bg-black text-white mt-4">Register</button>
+                    <button type="submit" className="btn bg-black text-white mt-4">Register</button>
                 </form >
 
-                <p>Already have a account? <span className="hover:text-primary text-black underline"><Link state={location.state} to="/login">Login</Link ></span></p>
+                <p>Already have a account? <span className="hover:text-primary text-black underline"><Link to="/login">Login</Link ></span></p>
                 <p className="text-sm font-bold text-center">or</p>
                 <SocialLogin />
 

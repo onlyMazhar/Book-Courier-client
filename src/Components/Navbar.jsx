@@ -23,7 +23,7 @@ const Navbar = () => {
     const activeLink = ({ isActive }) => {
         return `${linkClass} ${isActive ? 'border border-white font-semibold' : 'text-white'}`
     }
-    console.log(user?.photoURL)
+    // console.log(user?.photoURL)
 
 
     const links = <>
