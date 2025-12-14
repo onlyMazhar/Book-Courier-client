@@ -16,36 +16,32 @@ const Register = () => {
     const emailRegex = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,}$/;
 
-    const handleRegister = (data) => {
+    const handleRegister = async (data) => {
         const { name, email, password, image } = data;
         const imageFile = image?.[0];
 
-        userRegister(email, password)
-            .then(() => {
-                return uploadImage(imageFile);
-            })
-            .then(imageUrl => {
-                return updateUserProfile(name, imageUrl);
-            })
-            .then(() => {
-                navigate('/');
-
-                toast.success('Login Successfull', {
-                    position: "top-center",
-                    autoClose: 2000,
-                    hideProgressBar: false,
-                    closeOnClick: false,
-                    pauseOnHover: true,
-                    draggable: true,
-                    progress: undefined,
-                    theme: "light",
-                    transition: Bounce,
-                });
-            })
-            .catch(err => {
-                console.log(err);
+        try {
+            await userRegister(email, password);
+            const imageUrl = await uploadImage(imageFile);
+            await updateUserProfile(name, imageUrl);
+            navigate('/');
+            toast.success('Login Successfull', {
+                position: "top-center",
+                autoClose: 2000,
+                hideProgressBar: false,
+                closeOnClick: false,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+                transition: Bounce,
             });
+
+        } catch (err) {
+            console.log(err);
+        }
     };
+
 
 
 

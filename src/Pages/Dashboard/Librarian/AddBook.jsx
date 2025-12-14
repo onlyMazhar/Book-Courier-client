@@ -1,9 +1,11 @@
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router";
-import axios from "axios";
+// import axios from "axios";
 import { uploadImage } from "../../../utils";
+import { useAuth } from "../../../Hooks/useAuth";
 
 const AddBook = () => {
+    const { user } = useAuth()
     const navigate = useNavigate();
 
     const {
@@ -13,31 +15,38 @@ const AddBook = () => {
         reset
     } = useForm();
 
-    const handleAddBook = (data) => {
+    const handleAddBook = async (data) => {
         const { name, quantity, description, image } = data;
         const imageFile = image?.[0];
 
-        uploadImage(imageFile)
-            .then(imageUrl => {
-                const bookData = {
-                    name,
-                    quantity: Number(quantity),
-                    description,
-                    image: imageUrl,
-                    createdAt: new Date()
-                };
+        try {
+            const imageUrl = await uploadImage(imageFile);
 
-                // Replace with your API endpoint
-                return axios.post("http://localhost:5000/books", bookData);
-            })
-            .then(() => {
-                reset();
-                navigate("/books");
-            })
-            .catch(err => {
-                console.log(err);
-            });
+            const bookData = {
+                name,
+                quantity: Number(quantity),
+                description,
+                image: imageUrl,
+                createdAt: new Date(),
+                librarian: {
+                    name: user?.displayName,
+                    email: user?.email,
+                    photo: user?.photoURL
+                }
+            };
+
+            console.table(bookData);
+
+            // await axios.post("http://localhost:5000/books", bookData);
+
+            reset();
+            // navigate("/books");
+
+        } catch (err) {
+            console.log(err);
+        }
     };
+
 
     return (
         <div className="max-w-5xl mx-auto bg-base-100 shadow-md rounded-lg p-6">
@@ -55,11 +64,7 @@ const AddBook = () => {
                         className="file-input file-input-bordered w-full"
                     />
 
-                    {errors.image && (
-                        <p className="text-sm text-red-500 mt-2">
-                            {errors.image.message}
-                        </p>
-                    )}
+                    {errors.image && (<p className="text-sm text-red-500 mt-2">{errors.image.message}</p>)}
                 </div>
 
                 {/* RIGHT: Book Info */}
@@ -74,9 +79,9 @@ const AddBook = () => {
                             {...register("name", { required: "Book name is required" })}
                             className="input input-bordered w-full"
                         />
-                        {errors.name && (
-                            <p className="text-sm text-red-500">{errors.name.message}</p>
-                        )}
+
+                        {errors.name && (<p className="text-sm text-red-500">{errors.name.message}</p>)}
+
                     </div>
 
                     {/* Quantity */}
@@ -92,9 +97,9 @@ const AddBook = () => {
                             })}
                             className="input input-bordered w-full"
                         />
-                        {errors.quantity && (
-                            <p className="text-sm text-red-500">{errors.quantity.message}</p>
-                        )}
+
+                        {errors.quantity && (<p className="text-sm text-red-500">{errors.quantity.message}</p>)}
+
                     </div>
 
                     {/* Description */}
@@ -113,16 +118,12 @@ const AddBook = () => {
                             className="textarea textarea-bordered w-full"
                         ></textarea>
 
-                        {errors.description && (
-                            <p className="text-sm text-red-500">
-                                {errors.description.message}
-                            </p>
-                        )}
+                        {errors.description && (<p className="text-sm text-red-500">{errors.description.message}</p>)}
+
                     </div>
 
                     {/* Actions */}
                     <div className="flex justify-end gap-3 pt-4">
-                        
                         <button type="submit" className="btn btn-primary">
                             Upload Book
                         </button>
