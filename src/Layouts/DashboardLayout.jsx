@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Menu, User, LogOut, ChevronLeft, ChevronRight, Settings, Bell, Home, Briefcase, DollarSign, CircleUserRound } from 'lucide-react';
+import { Menu, User, LogOut, ChevronLeft, ChevronRight, Settings, Bell, Home, Briefcase, DollarSign, CircleUserRound, Plus } from 'lucide-react';
 import { Link, Outlet } from 'react-router';
 import { useAuth } from '../Hooks/useAuth';
 
@@ -31,7 +31,7 @@ const DashboardLayout = () => {
 
 
                             {user.photoURL
-                                ? <img className='w-9 h-9  rounded-full ' eferrerpolicy="no-referrer" src={user?.photoURL} alt={`Photo of ${user?.displayName}`} />
+                                ? <img className='w-9 h-9 border rounded-full ' eferrerpolicy="no-referrer" src={user?.photoURL} alt={`Photo of ${user?.displayName}`} />
                                 : <CircleUserRound size={32} />
                             }
                             <div>
@@ -44,7 +44,7 @@ const DashboardLayout = () => {
                             <div className="absolute top-12 right-0 w-64 bg-white border border-gray-200 rounded-lg shadow-lg">
                                 <div className="p-4 border-b border-gray-100 flex items-center gap-3">
                                     {user.photoURL
-                                        ? <img className='w-9 h-9  rounded-full ' eferrerpolicy="no-referrer" src={user?.photoURL} alt={`Photo of ${user?.displayName}`} />
+                                        ? <img className='w-9 h-9 border rounded-full ' eferrerpolicy="no-referrer" src={user?.photoURL} alt={`Photo of ${user?.displayName}`} />
                                         : <CircleUserRound size={32} />
                                     }
                                     <div>
@@ -76,22 +76,15 @@ const DashboardLayout = () => {
             {/* Sidebar */}
             <aside className={`fixed top-16 left-0 bottom-0 bg-gray-800 text-white transition-all duration-300 z-40 ${sidebarOpen ? 'w-64' : 'w-20'}`}>
                 <div className="p-4 space-y-2">
-                    <a href="#" className="flex items-center gap-4 p-3 bg-primary rounded-lg">
+                    <Link to={'/dashboard'} className="flex items-center gap-4 p-3 bg-primary rounded-lg">
                         <Home size={20} />
-                        {sidebarOpen && <span className="text-sm font-medium">Overview</span>}
-                    </a>
-                    <a href="#" className="flex items-center gap-4 p-3 rounded-lg hover:bg-gray-700">
-                        <Briefcase size={20} />
-                        {sidebarOpen && <span className="text-sm font-medium">Projects</span>}
-                    </a>
-                    <a href="#" className="flex items-center gap-4 p-3 rounded-lg hover:bg-gray-700">
-                        <DollarSign size={20} />
-                        {sidebarOpen && <span className="text-sm font-medium">Finances</span>}
-                    </a>
-                    <a href="#" className="flex items-center gap-4 p-3 rounded-lg hover:bg-gray-700">
-                        <Settings size={20} />
-                        {sidebarOpen && <span className="text-sm font-medium">System</span>}
-                    </a>
+                        {sidebarOpen && <span className="text-sm font-medium">Statistics </span>}
+                    </Link>
+                    <Link to={'/dashboard/add-book'} className="flex items-center gap-4 p-3 rounded-lg hover:bg-gray-700">
+                        <Plus size={20} />
+                        {sidebarOpen && <span className="text-sm font-medium">Add book</span>}
+                    </Link>
+
                 </div>
 
                 <div className="absolute bottom-0 left-0 right-0 p-4 border-t border-gray-700">
@@ -105,9 +98,9 @@ const DashboardLayout = () => {
             {/* Main Content */}
             <main className={`pt-16 p-6 transition-all duration-300 ${sidebarOpen ? 'ml-64' : 'ml-20'}`}>
                 <h2 className="text-3xl font-semibold text-gray-800 mb-4">Welcome to the Dashboard!</h2>
-                <div className="p-6 bg-white rounded-lg shadow">
-                    <Outlet />
-                </div>
+
+                <Outlet />
+
             </main>
         </div>
     );

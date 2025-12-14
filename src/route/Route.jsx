@@ -9,12 +9,12 @@ import DashboardLayout from "../Layouts/DashboardLayout";
 import PrivateRoute from "./PrivateRoute";
 import UserProfile from "../Pages/UserProfile/UserProfile";
 import Error from "../Pages/Error/Error"
+import AddBook from "../Pages/Dashboard/Librarian/AddBook";
 
 export const router = createBrowserRouter([
     {
         path: "/",
         element: <MainLayout />,
-        // hydrateFallbackElement:<div className="min-h-screen w-full flex justify-center items-center border"><div class="loader"></div></div>,
         hydrateFallbackElement: <div class="loader"></div>,
         errorElement: <Error/>,
         children: [
@@ -42,6 +42,12 @@ export const router = createBrowserRouter([
     },
     {
         path: '/dashboard',
-        element: <PrivateRoute><DashboardLayout /></PrivateRoute>
+        element: <PrivateRoute><DashboardLayout /></PrivateRoute>,
+        children:[
+            {
+                path:'/dashboard/add-book',
+                element:<AddBook/>
+            }
+        ]
     }
 ])
