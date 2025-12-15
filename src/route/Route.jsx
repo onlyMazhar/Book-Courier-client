@@ -10,19 +10,26 @@ import PrivateRoute from "./PrivateRoute";
 import UserProfile from "../Pages/UserProfile/UserProfile";
 import Error from "../Pages/Error/Error"
 import AddBook from "../Pages/Dashboard/Librarian/AddBook";
+import Books from "../Pages/Books/Books";
 
 export const router = createBrowserRouter([
     {
         path: "/",
         element: <MainLayout />,
         hydrateFallbackElement: <div class="loader"></div>,
-        errorElement: <Error/>,
+        errorElement: <Error />,
         children: [
             {
                 index: true,
                 element: <Home />
             },
-            { path: '/MyProfile', element: <UserProfile /> },
+            { path: '/MyProfile', 
+                element: <UserProfile />
+             },
+             {
+                path: 'Books',
+                element: <Books/>
+             }
 
         ]
     },
@@ -43,10 +50,10 @@ export const router = createBrowserRouter([
     {
         path: '/dashboard',
         element: <PrivateRoute><DashboardLayout /></PrivateRoute>,
-        children:[
+        children: [
             {
-                path:'/dashboard/add-book',
-                element:<AddBook/>
+                path: '/dashboard/add-book',
+                element: <AddBook />
             }
         ]
     }
