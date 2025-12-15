@@ -16,13 +16,14 @@ const AddBook = () => {
         formState: { errors },
         reset } = useForm();
 
-    const { mutateAsync } = useMutation({
+    const { mutateAsync,reset: mutationReset } = useMutation({
         mutationFn: async payload => {
             await axios.post(`${import.meta.env.VITE_API_URL}/books`, payload)
         },
         onSuccess: (data) => {
             console.log("onsuccess->>", data)
             toast.success("Book Added")
+            mutationReset()
         },
         onError: error => console.log(error),
         // onMutate: payload => console.log(payload)
