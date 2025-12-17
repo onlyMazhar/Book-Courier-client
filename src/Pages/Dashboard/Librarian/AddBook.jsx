@@ -16,7 +16,7 @@ const AddBook = () => {
         formState: { errors },
         reset } = useForm();
 
-    const { mutateAsync,reset: mutationReset } = useMutation({
+    const { mutateAsync, reset: mutationReset } = useMutation({
         mutationFn: async payload => {
             await axios.post(`${import.meta.env.VITE_API_URL}/books`, payload)
         },
@@ -34,7 +34,7 @@ const AddBook = () => {
     })
 
     const handleAddBook = async (data) => {
-        const { name, quantity, description, image } = data;
+        const { name, quantity, description, image, price, category, author } = data;
         const imageFile = image?.[0];
 
         try {
@@ -43,7 +43,10 @@ const AddBook = () => {
                 name,
                 quantity: Number(quantity),
                 description,
+                category,
+                author,
                 image: imageUrl,
+                price: Number(price),
                 createdAt: new Date(),
                 librarian: {
                     name: user?.displayName,
@@ -65,7 +68,7 @@ const AddBook = () => {
 
     return (
         <div className="min-w-full  min-h-[86vh] content-center">
-            <div className="max-w-5xl  mx-auto bg-base-100 shadow-md rounded-lg p-6 ">
+            <div className="max-w-5xl  mx-auto   rounded-lg  ">
                 <h2 className="text-xl font-semibold mb-6">Upload Book</h2>
 
                 <form onSubmit={handleSubmit(handleAddBook)} className="grid md:grid-cols-3 gap-6">
@@ -97,6 +100,64 @@ const AddBook = () => {
                             />
 
                             {errors.name && (<p className="text-sm text-red-500">{errors.name.message}</p>)}
+
+                        </div>
+                        {/* author */}
+                        <div>
+                            <label className="label">Author Name</label>
+                            <input
+                                type="text"
+                                placeholder="Enter book author name"
+                                {...register("author", { required: "Book author name is required" })}
+                                className="input input-bordered w-full"
+                            />
+
+                            {errors.author && (<p className="text-sm text-red-500">{errors.author.message}</p>)}
+
+                        </div>
+                        {/* Book category */}
+                        <div>
+                            <label className="label">
+                                <span className="label-text">Book Category</span>
+                            </label>
+
+                            <select
+                                defaultValue=""
+                                {...register("category", { required: "Book category is required" })}
+                                className="select select-bordered w-full"
+                            >
+                                <option value="" disabled>
+                                    Select book category
+                                </option>
+                                <option value="romantic">Romantic</option>
+                                <option value="horror">Horror</option>
+                                <option value="fiction">Fiction</option>
+                                <option value="drama">Drama</option>
+                                <option value="history">History</option>
+                            </select>
+
+                            {errors.category && (
+                                <p className="text-sm text-red-500 mt-1">
+                                    {errors.category.message}
+                                </p>
+                            )}
+                        </div>
+
+                        {/* Price */}
+                        <div>
+                            <label className="label">Price</label>
+                            <input
+                                type="number"
+                                min={1}
+                                placeholder="Book Price"
+                                {...register("price", {
+                                    required: "Price is required",
+                                    min: { value: 1, message: "Minimum quantity is 1" }
+                                })}
+                                className="input input-bordered w-full"
+                            />
+
+                            {errors.price && (<p className="text-sm text-red-500">{errors.price.message}</p>)}
 
                         </div>
 

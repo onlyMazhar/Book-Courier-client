@@ -2,12 +2,13 @@ import React from 'react';
 import Logo from '../Components/Logo';
 import { Navigate, Outlet } from 'react-router';
 import { useAuth } from '../Hooks/useAuth';
+import Loader from '../Components/Loader';
 // import layoutImg from '../assets/picture.svg'
 
 const LoginRegister = () => {
     const { user, loading } = useAuth()
     if (loading) {
-        return <div className="min-h-screen w-full flex justify-center items-center border"><div class="loader"></div></div>;
+        return <div className="min-h-screen w-full flex justify-center items-center border"><Loader /></div>;
     }
     if (user) {
         return <Navigate to={'/'} />

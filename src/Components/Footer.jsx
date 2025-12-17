@@ -14,12 +14,12 @@ const Footer = () => {
                 {/* Social Media Follow Section */}
                 <div className='bg-[#37475A]'>
                     <Container>
-                        <div className="footer sm:footer-horizontal   text-neutral-content items-center  ">
-                            <aside className="grid-flow-col   ">
+                        <div className=" md:justify-between  flex flex-col items-start md:flex-row text-neutral-content items-center  ">
+                            <aside className="py-2 grid-flow-col">
                                 <Logo />
-                                {/* <img className='h-9 md:h-10 lg:14  ' src={logo} alt="" /> */}
+                                 
                             </aside>
-                            <nav className="grid-flow-col gap-4 md:place-self-center md:justify-self-end items-center">
+                            <nav className=" grid grid-flow-col pl-4 gap-4 md:place-self-center md:justify-self-end items-center">
                                 <p>Follow Us</p>
                                 <a><RiFacebookFill /></a>
                                 <a><RiTwitterXFill /></a>

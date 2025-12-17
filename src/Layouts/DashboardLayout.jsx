@@ -95,7 +95,7 @@ const DashboardLayout = () => {
                                     </div>
                                 </div>
                                 <div className="p-2">
-                                    <NavLink to="/my-profile" className="flex items-center gap-3 p-2 rounded hover:bg-gray-100">
+                                    <NavLink to="/MyProfile" className="flex items-center gap-3 p-2 rounded hover:bg-gray-100">
                                         <User size={18} />
                                         Profile
                                     </NavLink>
