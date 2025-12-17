@@ -13,6 +13,7 @@ import AddBook from "../Pages/Dashboard/Librarian/AddBook";
 import Books from "../Pages/Books/Books";
 import Loader from "../Components/Loader";
 import BookDetails from "../Pages/Books/BookDetails";
+import Payment from "../Pages/Payment/Payment";
 
 export const router = createBrowserRouter([
     {
@@ -36,6 +37,11 @@ export const router = createBrowserRouter([
             {
                 path: 'Books/:id',
                 element: <BookDetails />
+
+            },
+            {
+                path: '/payment-success',
+                element: <Payment />
 
             }
 

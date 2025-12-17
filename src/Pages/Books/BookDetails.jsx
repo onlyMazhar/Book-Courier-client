@@ -3,8 +3,10 @@ import Loader from '../../Components/Loader';
 import { useParams } from 'react-router';
 import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
+import { useAuth } from '../../Hooks/useAuth';
 
 const BookDetails = () => {
+    const { user } = useAuth()
     const { id } = useParams();
     const { data: books = {}, isloading } = useQuery({
         queryKey: ['book', id],
@@ -14,7 +16,28 @@ const BookDetails = () => {
         }
     })
     console.log(books)
-    const { name, category, author, price, image, quantity, description, librarian } = books;
+    const { _id, name, category, author, price, image, quantity, description, librarian } = books;
+
+    const handlePayment = async () => {
+        const paymentInfo = {
+            plantID: _id,
+            name,
+            category,
+            price,
+            image,
+            quantity: 1,
+            customer: {
+                name: user?.displayName,
+                email: user?.email,
+                photo: user?.photoURL
+            }
+        }
+
+        const {data} = await axios.post(`${import.meta.env.VITE_API_URL}/create-checkout-seassion`, paymentInfo)
+        window.location.href = data.url
+        console.log(data.url)
+
+    }
 
     if (isloading) {
         return (
@@ -42,8 +65,9 @@ const BookDetails = () => {
                         className="w-full max-w-60 h-auto object-cover rounded"
                     />
 
-                    <button className="btn btn-outline btn-sm w-full">
+                    <button className="btn text-primary border-primary btn-sm w-full">
                         Read sample
+
                     </button>
                     <div className="flex items-center gap-3 pt-4  ">
                         <img
@@ -118,29 +142,49 @@ const BookDetails = () => {
                         </p>
                     </div>
 
-                    {/* Librarian Info */}
 
+                    {/* ----------------Modal ------------------- */}
+                    <button
+                        className="btn btn-primary"
+                        onClick={() => document.getElementById("pay_modal").showModal()}
+                    > Borrow / Pay <p>{price}<sup>tk</sup></p></button>
 
-                    {/* Action */}
-                    <div className=' border-t'>
-                        <button className="btn btn-primary mt-5 w-fit ">
-                            Borrow Book : <p>{price}<sup>tk</sup></p>
-                        </button>
-                    </div>
-
-
-
-
-                    {/* Mdal setup  */}
-                    <button className="btn" onClick={() => document.getElementById('my_modal_1').showModal()}>open modal</button>
-                    <dialog id="my_modal_1" className="modal">
+                    {/* Modal */}
+                    <dialog id="pay_modal" className="modal">
                         <div className="modal-box">
-                            <h3 className="font-bold text-lg">Hello!</h3>
-                            <p className="py-4">Press ESC key or click the button below to close</p>
-                            <div className="modal-action">
-                                <form method="dialog">
-                                    {/* if there is a button in form, it will close the modal */}
-                                    <button className="btn">Close</button>
+                            <h3 className="font-bold text-xl mb-4">Confirm Book Borrow</h3>
+
+                            {/* Book Info */}
+                            <div className="space-y-2">
+                                <p><span className="font-semibold">Book:</span>{name}</p>
+
+                                <p className="font-semibold">Price: {" "}<span className="font-normal" >{price}</span> tk </p>
+
+                                {/* Quantity */}
+                                <div className="flex items-center gap-3">
+                                    <p className="font-semibold">Quantity:</p>
+                                    <p>2</p>
+                                </div>
+
+                                {/* Total */}
+                                <p className="text-lg font-bold pt-2">
+                                    Total: 500
+                                </p>
+                            </div>
+
+                            {/* Actions */}
+                            <div className="modal-action pt-5 ">
+                                <form method="dialog" className="flex w-full justify-between   w gap-3">
+                                    <button className="btn btn-outline">
+                                        Cancel
+                                    </button>
+                                    <button
+                                        type="button"
+                                        className="btn btn-success text-white"
+                                        onClick={handlePayment}
+                                    >
+                                        Pay Now
+                                    </button>
                                 </form>
                             </div>
                         </div>
