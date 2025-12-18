@@ -3,9 +3,13 @@ import Loader from '../../Components/Loader';
 import { useParams } from 'react-router';
 import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
+import { useForm } from 'react-hook-form';
+import { toast } from 'react-toastify';
 import { useAuth } from '../../Hooks/useAuth';
 
-const BookDetails = () => {
+const BookDetails = ({ onClose }) => {
+    const { register, handleSubmit, reset } = useForm();
+
     const { user } = useAuth()
     const { id } = useParams();
     const { data: books = {}, isloading } = useQuery({
@@ -16,28 +20,48 @@ const BookDetails = () => {
         }
     })
     console.log(books)
-    const { _id, name, category, author, price, image, quantity, description, librarian } = books;
+    const {
+        _id,
+        name,
+        category,
+        author,
+        // price, 
+        image,
+        quantity,
+        description,
+        librarian } = books;
 
-    const handlePayment = async () => {
-        const paymentInfo = {
-            plantID: _id,
-            name,
-            category,
-            price,
-            image,
-            quantity: 1,
-            customer: {
-                name: user?.displayName,
-                email: user?.email,
-                photo: user?.photoURL
-            }
+
+
+    const handleOrder = async (data) => {
+        const orderData = {
+            customerName: user?.displayName,
+            customerEmail: user?.email,
+            phone: data.phone,
+            address: data.address,
+            bookId: books._id,
+            bookName: books.name,
+            price: books.price,
+            createdAt: new Date(),
+        };
+        console.log(orderData)
+
+        try {
+            await axios.post(
+                `${import.meta.env.VITE_API_URL}/orders`,
+                orderData
+            );
+
+            toast.success("Order placed successfully");
+            reset();
+            onClose(); // ✅ close modal
+        } catch (error) {
+            console.error(error);
+            toast.error("Failed to place order");
         }
+    };
 
-        const {data} = await axios.post(`${import.meta.env.VITE_API_URL}/create-checkout-seassion`, paymentInfo)
-        window.location.href = data.url
-        console.log(data.url)
 
-    }
 
     if (isloading) {
         return (
@@ -143,56 +167,52 @@ const BookDetails = () => {
                     </div>
 
 
-                    {/* ----------------Modal ------------------- */}
+
+                    {/* ----------------Add to cart Modal ------------------- */}
                     <button
                         className="btn btn-primary"
                         onClick={() => document.getElementById("pay_modal").showModal()}
-                    > Borrow / Pay <p>{price}<sup>tk</sup></p></button>
+                    >
+                        Order Now
+                    </button>
 
-                    {/* Modal */}
                     <dialog id="pay_modal" className="modal">
                         <div className="modal-box">
-                            <h3 className="font-bold text-xl mb-4">Confirm Book Borrow</h3>
+                            <h3 className="font-bold text-lg mb-4">Place Order</h3>
 
-                            {/* Book Info */}
-                            <div className="space-y-2">
-                                <p><span className="font-semibold">Book:</span>{name}</p>
+                            <form onSubmit={handleSubmit(handleOrder)} className="space-y-4">
+                                <label className='label'>Name</label>
+                                <input readOnly value={user?.displayName} className="input w-full" />
 
-                                <p className="font-semibold">Price: {" "}<span className="font-normal" >{price}</span> tk </p>
+                                <label className='label'>Email</label>
+                                <input readOnly value={user?.email} className="input w-full" />
 
-                                {/* Quantity */}
-                                <div className="flex items-center gap-3">
-                                    <p className="font-semibold">Quantity:</p>
-                                    <p>2</p>
-                                </div>
+                                <label className='label'>Phone Number</label>
+                                <input type='number' {...register("phone", { required: true })} className="input w-full" />
 
-                                {/* Total */}
-                                <p className="text-lg font-bold pt-2">
-                                    Total: 500
-                                </p>
-                            </div>
+                                <label className='label'>Address</label>
+                                <textarea {...register("address", { required: true })} className="textarea w-full" />
 
-                            {/* Actions */}
-                            <div className="modal-action pt-5 ">
-                                <form method="dialog" className="flex w-full justify-between   w gap-3">
-                                    <button className="btn btn-outline">
-                                        Cancel
-                                    </button>
+                                <div className="modal-action">
+                                    <button type="submit" className="btn btn-primary">Place Order</button>
                                     <button
                                         type="button"
-                                        className="btn btn-success text-white"
-                                        onClick={handlePayment}
+                                        className="btn"
+                                        onClick={() => document.getElementById("pay_modal").close()}
                                     >
-                                        Pay Now
+                                        Cancel
                                     </button>
-                                </form>
-                            </div>
+                                </div>
+                            </form>
                         </div>
                     </dialog>
 
+
+
+
                 </div>
             </div>
-        </div>
+        </div >
 
     );
 };
