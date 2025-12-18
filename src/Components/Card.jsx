@@ -12,7 +12,7 @@ const Card = ({ book }) => {
         category
 
     } = book;
-    console.log(book)
+    // console.log(book)
 
     return (
         <Link to={`/books/${_id}`}>

@@ -14,6 +14,7 @@ import Books from "../Pages/Books/Books";
 import Loader from "../Components/Loader";
 import BookDetails from "../Pages/Books/BookDetails";
 import Payment from "../Pages/Payment/Payment";
+import MyOrders from "../Pages/Dashboard/Librarian/MyOrders";
 
 export const router = createBrowserRouter([
     {
@@ -68,7 +69,12 @@ export const router = createBrowserRouter([
             {
                 path: '/dashboard/add-book',
                 element: <AddBook />
-            }
+            },
+            {
+                path: '/dashboard/my-orders',
+                element: <MyOrders />
+            },
+
         ]
     }
 ])

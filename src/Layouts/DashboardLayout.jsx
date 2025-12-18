@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import {
     Menu, User, LogOut, ChevronLeft, ChevronRight,
-    Settings, Bell, CircleUserRound
+    Settings, Bell, CircleUserRound,
+    ShoppingBag
 } from 'lucide-react';
 import { NavLink, Outlet, useLocation } from 'react-router';
 import { useAuth } from '../Hooks/useAuth';
@@ -103,6 +104,7 @@ const DashboardLayout = () => {
                                         <Settings size={18} />
                                         Settings
                                     </NavLink>
+                                   
                                     <hr className="my-2" />
                                     <button className="flex items-center gap-3 p-2 rounded hover:bg-red-50 text-red-600 w-full">
                                         <LogOut size={18} />

@@ -1,4 +1,4 @@
-import { Home, Plus } from "lucide-react";
+import { Home, Plus ,ShoppingBag } from "lucide-react";
 
 export const sidebarMenu = [
     {
@@ -10,5 +10,10 @@ export const sidebarMenu = [
         label: "Add Book",
         path: "/dashboard/add-book",
         icon: Plus,
+    },
+     {
+        label: "My Orders",
+        path: "/dashboard/my-orders",
+        icon: ShoppingBag ,
     },
 ];

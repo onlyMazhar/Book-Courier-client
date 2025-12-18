@@ -7,7 +7,7 @@ import { useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
 import { useAuth } from '../../Hooks/useAuth';
 
-const BookDetails = ({ onClose }) => {
+const BookDetails = ( ) => {
     const { register, handleSubmit, reset } = useForm();
 
     const { user } = useAuth()
@@ -31,7 +31,7 @@ const BookDetails = ({ onClose }) => {
         description,
         librarian } = books;
 
-
+ 
 
     const handleOrder = async (data) => {
         const orderData = {
@@ -42,9 +42,13 @@ const BookDetails = ({ onClose }) => {
             bookId: books._id,
             bookName: books.name,
             price: books.price,
-            createdAt: new Date(),
+            status: 'pending',
+            bookImg:image,
+            writtenBy:author,
+             
         };
-        console.log(orderData)
+        // console.log(orderData)
+
 
         try {
             await axios.post(
@@ -54,7 +58,8 @@ const BookDetails = ({ onClose }) => {
 
             toast.success("Order placed successfully");
             reset();
-            onClose(); // ✅ close modal
+            document.getElementById("pay_modal").close();
+
         } catch (error) {
             console.error(error);
             toast.error("Failed to place order");
