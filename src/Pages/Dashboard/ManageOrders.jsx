@@ -1,28 +1,24 @@
-import React, { useState } from 'react';
-import { useAuth } from '../../../Hooks/useAuth';
+import React from 'react';
+import PayModal from '../../Components/Modal/PayModal';
 import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
-import OrderTable from './OrderTable';
-import PayModal from '../../../Components/Modal/PayModal';
+import { useAuth } from '../../Hooks/useAuth';
+import OrderTable from './Librarian/OrderTable';
 
-const MyOrders = () => {
-    const [selectedOrder, setSelectedOrder] = useState(null);
-    const { user } = useAuth();
-
-    const { data: books = [] } = useQuery({
+const ManageOrders = () => {
+    const { user } = useAuth()
+    const { data: manageOrders = [] } = useQuery({
         queryKey: ['my-orders', user?.email],
         queryFn: async () => {
             const res = await axios.get(
-                `${import.meta.env.VITE_API_URL}/orders?email=${user.email}`
+                `${import.meta.env.VITE_API_URL}/manage-books?email=${user?.email}`
             );
             return res.data;
         },
         enabled: !!user?.email,
     });
 
-    // if (isLoading) return 
-    // console.log(books)
-
+    // console.log(manageOrders)
     return (
         <div className="overflow-x-auto">
             <table className="table">
@@ -38,25 +34,19 @@ const MyOrders = () => {
                 </thead>
 
                 <tbody>
-                    {books.map(order => (
+                    {manageOrders.map(order => (
                         <OrderTable
                             key={order._id}
                             order={order}
-                            setSelectedOrder={setSelectedOrder}
+                            
                         />
                     ))}
                 </tbody>
             </table>
 
-            {/* ✅ SINGLE MODAL */}
-            {selectedOrder && (
-                <PayModal
-                    order={selectedOrder}
-                    onClose={() => setSelectedOrder(null)}
-                />
-            )}
+
         </div>
     );
 };
 
-export default MyOrders;
+export default ManageOrders;

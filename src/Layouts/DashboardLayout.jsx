@@ -7,15 +7,7 @@ import {
 import { NavLink, Outlet, useLocation } from 'react-router';
 import { useAuth } from '../Hooks/useAuth';
 
-// *** NOTE: You need to ensure this utility file exists and is correctly structured ***
-// Example of sidebarMenu:
-// /*
-// const sidebarMenu = [
-//     { label: 'Home', path: '/', icon: Home },
-//     { label: 'Analytics', path: '/analytics', icon: BarChart },
-//     // ... more items
-// ];
-// */
+
 import { sidebarMenu } from '../utils/sidebarMenu';
 
 const DashboardLayout = () => {

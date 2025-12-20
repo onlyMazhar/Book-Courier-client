@@ -15,13 +15,15 @@ import Loader from "../Components/Loader";
 import BookDetails from "../Pages/Books/BookDetails";
 import Payment from "../Pages/Payment/Payment";
 import MyOrders from "../Pages/Dashboard/Librarian/MyOrders";
+import MyInventories from "../Pages/Dashboard/MyInventories";
+import ManageOrders from "../Pages/Dashboard/ManageOrders";
 
 export const router = createBrowserRouter([
     {
         path: "/",
         element: <MainLayout />,
         hydrateFallbackElement: <Loader />,
-        // errorElement: <Error />,
+        errorElement: <Error />,
         children: [
             {
                 index: true,
@@ -74,6 +76,14 @@ export const router = createBrowserRouter([
                 path: '/dashboard/my-orders',
                 element: <MyOrders />
             },
+            {
+                path: '/dashboard/my-inventories',
+                element: <MyInventories />
+            },
+            {
+                path: '/dashboard/manage-orders',
+                element: <ManageOrders />
+            }
 
         ]
     }

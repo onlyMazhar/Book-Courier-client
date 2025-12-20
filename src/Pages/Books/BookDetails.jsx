@@ -1,14 +1,15 @@
 import React from 'react';
 import Loader from '../../Components/Loader';
-import { useParams } from 'react-router';
+import { useNavigate, useParams } from 'react-router';
 import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
 import { useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
 import { useAuth } from '../../Hooks/useAuth';
 
-const BookDetails = ( ) => {
+const BookDetails = () => {
     const { register, handleSubmit, reset } = useForm();
+    const navigate = useNavigate()
 
     const { user } = useAuth()
     const { id } = useParams();
@@ -19,19 +20,21 @@ const BookDetails = ( ) => {
             return all.data.result;
         }
     })
-    console.log(books)
+   
     const {
         _id,
         name,
         category,
         author,
-        // price, 
+        price,
         image,
         quantity,
         description,
-        librarian } = books;
+        librarian } = books || {};
 
- 
+    // console.log('from book details page-----------------------------',books)
+
+
 
     const handleOrder = async (data) => {
         const orderData = {
@@ -39,13 +42,16 @@ const BookDetails = ( ) => {
             customerEmail: user?.email,
             phone: data.phone,
             address: data.address,
-            bookId: books._id,
-            bookName: books.name,
-            price: books.price,
+            bookId: _id,
+            bookName: name,
+            quantity: 1,
+            category,
+            price: price,
             status: 'pending',
-            bookImg:image,
-            writtenBy:author,
-             
+            bookImg: image,
+            writtenBy: author,
+            librarian: librarian.email
+
         };
         // console.log(orderData)
 
@@ -59,6 +65,7 @@ const BookDetails = ( ) => {
             toast.success("Order placed successfully");
             reset();
             document.getElementById("pay_modal").close();
+             navigate(`http://localhost:5173/dashboard/my-orders`)
 
         } catch (error) {
             console.error(error);
@@ -68,19 +75,9 @@ const BookDetails = ( ) => {
 
 
 
-    if (isloading) {
-        return (
-            <Loader />
-        );
-    }
+    if (isloading) { return (<Loader />); }
 
-    if (!books) {
-        return (
-            <div className="text-center min-h-[70vh] content-center text-3xl md:text-4xl lg:text-7xl font-bold text-gray-200 mt-20">
-                Book not found
-            </div>
-        );
-    }
+    if (!books) { return (<div className="text-center min-h-[70vh] content-center text-3xl md:text-4xl lg:text-7xl font-bold text-gray-200 mt-20"> Book not found </div>); }
 
     return (
         <div className="max-w-6xl mx-auto px-4 py-10">

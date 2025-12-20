@@ -1,12 +1,31 @@
+import axios from 'axios';
 import { CheckCircle } from 'lucide-react';
-import React from 'react';
-import { Link } from 'react-router';
+import { useEffect } from 'react';
+import { Link, useSearchParams } from 'react-router';
 
 
 const Payment = () => {
+    const [searchParams] = useSearchParams()
+    const sessionId = searchParams.get('session_id')
+    console.log(sessionId)
+
+    // useEffect(() => {
+    //     if (sessionId) {
+    //         axios.post(`${import.meta.env.VITE_API_URL}/payment-success`, { sessionId })
+    //     }
+    // }, [sessionId])
+
+    useEffect(() => {
+        if (sessionId) {
+            axios.post(`${import.meta.env.VITE_API_URL}/payment-success`, { sessionId })
+                .then(res => console.log('Payment saved:', res.data))
+                .catch(err => console.error('Payment API error:', err));
+        }
+    }, [sessionId]);
+
     return (
-        <div className="min-h-screen flex items-center justify-center bg-base-200 px-4">
-            <div className="card w-full max-w-md bg-base-100 shadow-xl text-center p-8">
+        <div className="min-h-[95vh] content-center  px-4">
+            <div className="card   max-w-md  border border-base-300 shadow-xl bg-base-100 text-center p-8 mx-auto">
 
                 {/* Icon */}
                 <div className="flex justify-center mb-4">

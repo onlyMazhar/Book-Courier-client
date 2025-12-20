@@ -14,7 +14,7 @@ const Footer = () => {
                 {/* Social Media Follow Section */}
                 <div className='bg-[#37475A]'>
                     <Container>
-                        <div className=" md:justify-between  flex flex-col items-start md:flex-row text-neutral-content items-center  ">
+                        <div className=" md:justify-between  flex flex-col  md:flex-row text-neutral-content items-center  ">
                             <aside className="py-2 grid-flow-col">
                                 <Logo />
                                  
