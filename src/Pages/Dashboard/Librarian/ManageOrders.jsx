@@ -24,7 +24,7 @@ const ManageOrders = () => {
                 <table className="table w-full">
                     <thead>
                         <tr>
-                            <th>Customer</th>
+                            <th>user</th>
                             <th>Book</th>
                             <th>Order Date</th>
                             <th>Status</th>

@@ -1,22 +1,32 @@
 import { createBrowserRouter } from "react-router";
 import MainLayout from "../Layouts/MainLayout";
-import Home from "../Pages/Home/Home"
+import Home from "../Pages/Home/Home";
 import Login from "../Pages/Login/Login";
 import Register from "../Pages/Register/Register";
 import LoginRegister from "../Layouts/LoginRegister";
 import DashboardLayout from "../Layouts/DashboardLayout";
 import PrivateRoute from "./PrivateRoute";
+
+
+
 import UserProfile from "../Pages/Dashboard/Customer/UserProfile";
-import Error from "../Pages/Error/Error"
-import AddBook from "../Pages/Dashboard/Librarian/AddBook";
-import Books from "../Pages/Books/Books";
-import Loader from "../Components/Loader";
-import BookDetails from "../Pages/Books/BookDetails";
-import Payment from "../Pages/Payment/Payment";
 import MyInvoices from "../Pages/Dashboard/Customer/MyInvoices";
 import MyOrders from "../Pages/Dashboard/Customer/MyOrders";
-import ManageOrders from "../Pages/Dashboard/Librarian/ManageOrders";
+
+import AddBook from "../Pages/Dashboard/Librarian/AddBook";
 import MyBooks from "../Pages/Dashboard/Librarian/MyBooks";
+import ManageOrders from "../Pages/Dashboard/Librarian/ManageOrders";
+import ManageUsers from "../Pages/Dashboard/Admin/ManageUsers";
+import ManageBooks from "../Pages/Dashboard/Admin/ManageBooks";
+
+import Books from "../Pages/Books/Books";
+import BookDetails from "../Pages/Books/BookDetails";
+import Payment from "../Pages/Payment/Payment";
+import Loader from "../Components/Loader";
+import Error from "../Pages/Error/Error";
+import AdminRoute from "../Pages/Dashboard/Admin/AdminRoute";
+import LibrarianRoute from "../Pages/Dashboard/Librarian/LibrarianRoute";
+import AdminStatistics from "../Pages/Dashboard/Admin/AdminStatistics";
 
 export const router = createBrowserRouter([
     {
@@ -25,78 +35,81 @@ export const router = createBrowserRouter([
         hydrateFallbackElement: <Loader />,
         errorElement: <Error />,
         children: [
-            {
-                index: true,
-                element: <Home />
-            },
-            {
-                path: '/Books',
-                element: <Books />
-            },
-            {
-                path: 'Books/:id',
-                element: <BookDetails />
-
-            },
-            {
-                path: '/payment-success',
-                element: <Payment />
-
-            }
-
+            { index: true, element: <Home /> },
+            { path: "books", element: <Books /> },
+            { path: "books/:id", element: <BookDetails /> },
+            { path: "payment-success", element: <Payment /> }
         ]
     },
     {
         path: "/",
         element: <LoginRegister />,
         children: [
-            {
-                path: '/login',
-                element: <Login />
-            },
-            {
-                path: 'register',
-                element: <Register />
-            }
+            { path: "login", element: <Login /> },
+            { path: "register", element: <Register /> }
         ]
     },
     {
-        path: '/dashboard',
-        element: <PrivateRoute><DashboardLayout /></PrivateRoute>,
+        path: "/dashboard",
+        element: (
+            <PrivateRoute>
+                <DashboardLayout />
+            </PrivateRoute>
+        ),
         children: [
-            // admin
-
-
-
-            // Librarian 
+            /* ================= ADMIN ================= */
             {
-                path: '/dashboard/add-book',
-                element: <AddBook />
-            },
-            {
-                path: '/dashboard/my-inventories',
-                element: <MyBooks />
-            },
-            {
-                path: '/dashboard/manage-orders',
-                element: <ManageOrders />
-            },
-
-
-            // Customers 
-            {
-                path: '/dashboard/my-orders',
-                element: <MyOrders />
-            },
-            {
-                path: '/dashboard/my-profile',
+                index: true,
                 element: <UserProfile />
             },
             {
-                path: '/dashboard/my-invoices',
-                element: <MyInvoices />
-            }
+                path: "manage-users",
+                element: (
+                    <AdminRoute>
+                        <ManageUsers />
+                    </AdminRoute>
+                )
+            },
+            {
+                path: "manage-books",
+                element: (
+                    <AdminRoute>
+                        <ManageBooks />
+                    </AdminRoute>
+                )
+            },
 
+
+            /* ================= LIBRARIAN ================= */
+            {
+                path: "add-book",
+                element: (
+                    <LibrarianRoute>
+                        <AddBook />
+                    </LibrarianRoute>
+                )
+            },
+            {
+                path: "my-inventories",
+                element: (
+                    <LibrarianRoute>
+                        <MyBooks />
+                    </LibrarianRoute>
+                )
+            },
+            {
+                path: "manage-orders",
+                element: (
+                    <LibrarianRoute>
+                        <ManageOrders />
+                    </LibrarianRoute>
+                )
+            },
+
+            /* ================= CUSTOMER ================= */
+            { path: "my-orders", element: <MyOrders /> },
+            { path: "my-profile", element: <UserProfile /> },
+            { path: "my-invoices", element: <MyInvoices /> }
         ]
     }
-])
+]);

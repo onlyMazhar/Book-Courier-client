@@ -3,6 +3,7 @@ import SocialLogin from '../../Components/SocialLogin';
 import { useAuth } from '../../Hooks/useAuth';
 import { useForm } from 'react-hook-form';
 import { Bounce, toast } from 'react-toastify';
+import { saveOrUpdateUser } from '../../utils';
 
 const Login = () => {
     const { userLogin } = useAuth();
@@ -20,26 +21,52 @@ const Login = () => {
     const passwordRegex =
         /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,}$/;
 
-    const handleLogin = (data) => {
+    // const handleLogin = (data) => {
+    //     const { email, password } = data;
+
+    //     userLogin(email, password)
+    //         .then(() => {
+    //             toast.success('Login Successfull', {
+    //                 position: "top-center",
+    //                 autoClose: 2000,
+    //                 hideProgressBar: false,
+    //                 closeOnClick: false,
+    //                 pauseOnHover: true,
+    //                 draggable: true,
+    //                 progress: undefined,
+    //                 theme: "light",
+    //                 transition: Bounce,
+    //             });
+    //         })
+    //         .catch(err => console.log(err));
+    // };
+
+    const handleLogin = async (data) => {
         const { email, password } = data;
 
-        userLogin(email, password)
-            .then(() => {
-                toast.success('Login Successfull', {
-                    position: "top-center",
-                    autoClose: 2000,
-                    hideProgressBar: false,
-                    closeOnClick: false,
-                    pauseOnHover: true,
-                    draggable: true,
-                    progress: undefined,
-                    theme: "light",
-                    transition: Bounce,
-                });
-            })
-            .catch(err => console.log(err));
-    };
+        try {
+            const result = await userLogin(email, password); // wait for login
+            const user = result.user;
 
+            // ✅ Save / update user in DB
+            await saveOrUpdateUser({
+                email: user.email,
+                name: user.displayName,
+                image: user.photoURL,
+
+            });
+
+            toast.success('Login Successful', {
+                position: "top-center",
+                autoClose: 2000,
+                transition: Bounce,
+            });
+
+        } catch (err) {
+            console.error(err);
+            toast.error('Invalid email or password');
+        }
+    };
     return (
         <div className="w-full mx-auto max-w-sm shrink-0">
             <title>Login</title>

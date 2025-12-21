@@ -1,11 +1,14 @@
 import React from "react";
 import { useAuth } from "../../../Hooks/useAuth";
 import { CircleUserRound, UserRoundPen } from "lucide-react";
+import useRole from "../../../Hooks/useRole";
 
 const Profile = () => {
     const { user, loading } = useAuth();
+    const [role, isRoleLoading] = useRole();
+    console.log(role, isRoleLoading)
 
-    if (loading) {
+    if (loading || isRoleLoading) {
         return (
             <div className="min-h-[87vh] flex items-center justify-center">
                 <div className="max-w-lg w-full p-4">
@@ -67,13 +70,17 @@ const Profile = () => {
                                         : <div className="flex items-center justify-center h-full "><CircleUserRound size={96} /></div>
                                     }
                                 </div>
+
                             </div>
+                            <p className="text-lg font-bold -mt-3 animate-pulse text-primary/60">
+                               {isRoleLoading ? 'Loading...' : role}
+                            </p>
 
                             <div className="text-center">
                                 <h2 className="text-2xl font-semibold text-text">
                                     {user?.displayName}
                                 </h2>
-                                <p className="text-sm text-neutral/70">{user?.role}</p>
+                                {/* <p className="text-sm text-neutral/70 capitalize"></p> */}
                                 <p className="text-sm text-neutral/80">
                                     <span className="font-medium">Email:</span> {user?.email}
                                 </p>
@@ -86,7 +93,7 @@ const Profile = () => {
                         {/* CTA */}
                         <div className="card-actions  justify-center pb-8">
                             <button className="btn btn-primary btn-sm">
-                               <UserRoundPen size={17} /> <span className="text-sm mt-1"> Edit Profile</span>
+                                <UserRoundPen size={17} /> <span className="text-sm mt-1"> Edit Profile</span>
                             </button>
                         </div>
                     </div>

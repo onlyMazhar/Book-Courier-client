@@ -106,10 +106,7 @@ const Navbar = () => {
                                                     <User size={18} />
                                                     <span className="text-sm">Profile</span>
                                                 </Link>
-                                                <Link href="#" className="flex items-center gap-3 p-2 rounded hover:bg-gray-400">
-                                                    <Settings size={18} />
-                                                    <span className="text-sm">Account Settings</span>
-                                                </Link>
+                                                 
                                                 <hr className="my-2" />
                                                 <Link onClick={handleUserLogout}   className="flex items-center gap-3 p-2 rounded bg-white hover:bg-red-50 text-red-600">
                                                     <LogOut size={18} />

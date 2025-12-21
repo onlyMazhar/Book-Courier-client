@@ -26,7 +26,7 @@ const Register = () => {
             await updateUserProfile(name, imageUrl);
             navigate('/');
             toast.success('Login Successfull', { transition: Bounce });
-            await saveOrUpdateUser({email, name, image: imageUrl})
+            await saveOrUpdateUser({ email, name, image: imageUrl })
 
         } catch (err) {
             console.log(err);
