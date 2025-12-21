@@ -1,24 +1,29 @@
-import React from 'react';
-import PayModal from '../../Components/Modal/PayModal';
+import React, { useState } from 'react';
+import { useAuth } from '../../../Hooks/useAuth';
 import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
-import { useAuth } from '../../Hooks/useAuth';
-import OrderTable from './Librarian/OrderTable';
+import PayModal from '../../../Components/Modal/PayModal';
+ 
+import MyOrderTable from './MyOrderTable';
 
-const ManageOrders = () => {
-    const { user } = useAuth()
-    const { data: manageOrders = [] } = useQuery({
+const MyOrders = () => {
+    const [selectedOrder, setSelectedOrder] = useState(null);
+    const { user } = useAuth();
+
+    const { data: books = [] } = useQuery({
         queryKey: ['my-orders', user?.email],
         queryFn: async () => {
             const res = await axios.get(
-                `${import.meta.env.VITE_API_URL}/manage-books?email=${user?.email}`
+                `${import.meta.env.VITE_API_URL}/orders?email=${user.email}`
             );
             return res.data;
         },
         enabled: !!user?.email,
     });
 
-    // console.log(manageOrders)
+    // if (isLoading) return 
+    // console.log(books)
+
     return (
         <div className="overflow-x-auto">
             <table className="table">
@@ -34,19 +39,25 @@ const ManageOrders = () => {
                 </thead>
 
                 <tbody>
-                    {manageOrders.map(order => (
-                        <OrderTable
+                    {books.map(order => (
+                        <MyOrderTable
                             key={order._id}
                             order={order}
-                            
+                            setSelectedOrder={setSelectedOrder}
                         />
                     ))}
                 </tbody>
             </table>
 
-
+            {/* ✅ SINGLE MODAL */}
+            {selectedOrder && (
+                <PayModal
+                    order={selectedOrder}
+                    onClose={() => setSelectedOrder(null)}
+                />
+            )}
         </div>
     );
 };
 
-export default ManageOrders;
+export default MyOrders;

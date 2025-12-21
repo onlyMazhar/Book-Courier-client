@@ -18,3 +18,8 @@ export const uploadImage = async (imageFile) => {
         throw error; // important: let caller handle failure
     }
 };
+
+export const saveOrUpdateUser = async (userData) => {
+    const { data } = axios.post(`${import.meta.env.VITE_API_URL}/user`, userData)
+    return data;
+}

@@ -1,13 +1,13 @@
 import React from "react";
-import { useAuth } from "../../Hooks/useAuth";
-import { CircleUserRound } from "lucide-react";
+import { useAuth } from "../../../Hooks/useAuth";
+import { CircleUserRound, UserRoundPen } from "lucide-react";
 
 const Profile = () => {
     const { user, loading } = useAuth();
 
     if (loading) {
         return (
-            <div className="min-h-[90vh] flex items-center justify-center">
+            <div className="min-h-[87vh] flex items-center justify-center">
                 <div className="max-w-lg w-full p-4">
                     <div className="card bg-base-100 shadow-xl border border-base-300 pt-8">
 
@@ -50,7 +50,7 @@ const Profile = () => {
     }
 
     return (
-        <div className="min-h-[90vh] content-center">
+        <div className="min-h-[87vh] content-center">
             <div className="max-w-lg mx-auto  p-4">
                 <div className="card bg-base-100 shadow-xl border border-base-300 pt-8">
 
@@ -86,7 +86,7 @@ const Profile = () => {
                         {/* CTA */}
                         <div className="card-actions  justify-center pb-8">
                             <button className="btn btn-primary btn-sm">
-                                Edit Profile
+                               <UserRoundPen size={17} /> <span className="text-sm mt-1"> Edit Profile</span>
                             </button>
                         </div>
                     </div>

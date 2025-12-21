@@ -3,7 +3,7 @@ import SocialLogin from '../../Components/SocialLogin';
 import { useForm } from 'react-hook-form';
 import { useAuth } from '../../Hooks/useAuth';
 import { Bounce, toast } from 'react-toastify';
-import { uploadImage } from '../../utils';
+import { saveOrUpdateUser, uploadImage } from '../../utils';
 
 const Register = () => {
     const { userRegister, updateUserProfile } = useAuth()
@@ -25,17 +25,8 @@ const Register = () => {
             const imageUrl = await uploadImage(imageFile);
             await updateUserProfile(name, imageUrl);
             navigate('/');
-            toast.success('Login Successfull', {
-                position: "top-center",
-                autoClose: 2000,
-                hideProgressBar: false,
-                closeOnClick: false,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-                theme: "light",
-                transition: Bounce,
-            });
+            toast.success('Login Successfull', { transition: Bounce });
+            await saveOrUpdateUser({email, name, image: imageUrl})
 
         } catch (err) {
             console.log(err);

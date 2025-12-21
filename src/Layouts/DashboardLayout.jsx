@@ -4,7 +4,7 @@ import {
     Settings, Bell, CircleUserRound,
     ShoppingBag
 } from 'lucide-react';
-import { NavLink, Outlet, useLocation } from 'react-router';
+import { Link, NavLink, Outlet, useLocation } from 'react-router';
 import { useAuth } from '../Hooks/useAuth';
 
 
@@ -14,7 +14,7 @@ const DashboardLayout = () => {
     // We will initialize sidebarOpen to true for a better desktop experience
     const [sidebarOpen, setSidebarOpen] = useState(true);
     const [userMenuOpen, setUserMenuOpen] = useState(false);
-    const { user } = useAuth();
+    const { user, userLogout } = useAuth();
     const location = useLocation();
 
     // Toggle function
@@ -29,9 +29,9 @@ const DashboardLayout = () => {
         // setSidebarOpen(false); 
     }, [location.pathname]);
 
-    // Optional: Set initial state based on screen size (e.g., always open on MD+)
-    // You could use a library or window.innerWidth check here if needed,
-    // but the current CSS handles the mobile/desktop view transition effectively.
+    const handleUserLogout = () => {
+        userLogout()
+    }
 
 
     return (
@@ -88,20 +88,17 @@ const DashboardLayout = () => {
                                     </div>
                                 </div>
                                 <div className="p-2">
-                                    <NavLink to="/MyProfile" className="flex items-center gap-3 p-2 rounded hover:bg-gray-100">
+                                    <NavLink to="/dashboard/my-profile" className="flex items-center gap-3 p-2 rounded hover:bg-gray-100">
                                         <User size={18} />
                                         Profile
                                     </NavLink>
-                                    <NavLink to="/settings" className="flex items-center gap-3 p-2 rounded hover:bg-gray-100">
-                                        <Settings size={18} />
-                                        Settings
-                                    </NavLink>
-                                   
+
+
                                     <hr className="my-2" />
-                                    <button className="flex items-center gap-3 p-2 rounded hover:bg-red-50 text-red-600 w-full">
+                                    <Link onClick={handleUserLogout} className="flex items-center gap-3 p-2 rounded bg-white hover:bg-red-50 text-red-600">
                                         <LogOut size={18} />
-                                        Sign Out
-                                    </button>
+                                        <span className="text-sm">Sign Out</span>
+                                    </Link>
                                 </div>
                             </div>
                         )}
@@ -112,7 +109,7 @@ const DashboardLayout = () => {
             {/* Sidebar */}
             <aside
                 className={`
-                    fixed top-16 left-0 bottom-0 bg-gray-800 text-white z-40
+                    fixed top-16 left-0 bottom-0 bg-gray-800 text-white  z-40
                     transition-all duration-300
                     w-64
                     ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'}

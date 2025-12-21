@@ -15,7 +15,6 @@ const Navbar = () => {
     const { userLogout, user } = useAuth()
     const handleUserLogout = () => {
         userLogout()
-
     }
 
     const linkClass = "block py-1 px-2 rounded-sm  border border-transparent hover:border-white transition-all"
@@ -103,7 +102,7 @@ const Navbar = () => {
                                                 </div>
                                             </div>
                                             <div className="p-2">
-                                                <Link to={'/MyProfile'} className="flex items-center gap-3 p-2 rounded hover:bg-gray-400">
+                                                <Link to={'/dashboard/my-profile'} className="flex items-center gap-3 p-2 rounded hover:bg-gray-400">
                                                     <User size={18} />
                                                     <span className="text-sm">Profile</span>
                                                 </Link>
@@ -112,7 +111,7 @@ const Navbar = () => {
                                                     <span className="text-sm">Account Settings</span>
                                                 </Link>
                                                 <hr className="my-2" />
-                                                <Link onClick={handleUserLogout} href="#" className="flex items-center gap-3 p-2 rounded bg-white hover:bg-red-50 text-red-600">
+                                                <Link onClick={handleUserLogout}   className="flex items-center gap-3 p-2 rounded bg-white hover:bg-red-50 text-red-600">
                                                     <LogOut size={18} />
                                                     <span className="text-sm">Sign Out</span>
                                                 </Link>
