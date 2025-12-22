@@ -19,6 +19,7 @@ const useAxiosSecure = () => {
             const requestInterceptor = axiosInstance.interceptors.request.use(
                 config => {
                     config.headers.Authorization = `Bearer ${user.accessToken}`
+                    config.headers.email = user.email  // from chatgpt 
                     return config
                 }
             )

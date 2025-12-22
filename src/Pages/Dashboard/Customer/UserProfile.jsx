@@ -1,109 +1,111 @@
-import React from "react";
+import React, { useState } from "react";
+import { useForm } from "react-hook-form";
 import { useAuth } from "../../../Hooks/useAuth";
-import { CircleUserRound, UserRoundPen } from "lucide-react";
+import { CircleUserRound, UserRoundPen, Save, X, Loader2 } from "lucide-react";
 import useRole from "../../../Hooks/useRole";
+import { uploadImage } from "../../../utils";
+import { toast } from "react-toastify";
 
 const Profile = () => {
-    const { user, loading } = useAuth();
+    const { user, loading, updateUserProfile } = useAuth();
     const [role, isRoleLoading] = useRole();
-    console.log(role, isRoleLoading)
+    const [isEditing, setIsEditing] = useState(false);
 
-    if (loading || isRoleLoading) {
-        return (
-            <div className="min-h-[87vh] flex items-center justify-center">
-                <div className="max-w-lg w-full p-4">
-                    <div className="card bg-base-100 shadow-xl border border-base-300 pt-8">
+    const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm({
+        defaultValues: {
+            name: user?.displayName || ""
+        }
+    });
 
-                        <div className="card-body space-y-6">
+    const onSubmit = async (data) => {
+        try {
+            const name = data.name;
+            const imageFile = data.image?.[0];
+            let imageUrl = user?.photoURL; // Default to existing photo
 
-                            {/* Avatar */}
-                            <div className="flex flex-col items-center gap-4">
-                                <div className="skeleton w-32 h-32 rounded-lg"></div>
+            // 1. If a new image is selected, upload it
+            if (imageFile) {
+                imageUrl = await uploadImage(imageFile);
+            }
 
-                                {/* Name */}
-                                <div className="skeleton h-6 w-40"></div>
+            // 2. Update Firebase Profile
+            await updateUserProfile(name, imageUrl);
 
-                                {/* Role */}
-                                <div className="skeleton h-4 w-24"></div>
+            // 3. Optional: If you sync users to your own DB
+            // await saveOrUpdateUser({ email: user.email, name, image: imageUrl });
 
-                                {/* Email */}
-                                <div className="skeleton h-4 w-56"></div>
-                            </div>
+            toast.success("Profile updated successfully!");
+            setIsEditing(false);
+        } catch (error) {
+            toast.error("Failed to update profile");
+            console.error(error);
+        }
+    };
 
-                            {/* Button */}
-                            <div className="flex justify-center pb-8">
-                                <div className="skeleton h-9 w-28 rounded-md"></div>
-                            </div>
-                        </div>
-
-                        {/* Footer */}
-                        <div className="p-4 bg-base-200 border-t border-base-300 flex justify-center gap-2">
-                            <div className="skeleton h-4 w-20"></div>
-                            <div className="skeleton h-4 w-32"></div>
-                        </div>
-
-                    </div>
-                </div>
-            </div>
-        );
-    }
-
-    if (!user) {
-        return null; // or redirect if needed
-    }
+    if (loading || isRoleLoading) return <div className="skeleton h-96 w-full max-w-lg mx-auto mt-10"></div>;
 
     return (
-        <div className="min-h-[87vh] content-center">
-            <div className="max-w-lg mx-auto  p-4">
-                <div className="card bg-base-100 shadow-xl border border-base-300 pt-8">
+        <div className="min-h-[87vh] content-center p-4">
+            <div className="max-w-lg mx-auto card bg-base-100 shadow-xl border border-base-300">
 
-                    {/* Header */}
-                    <div className="card-body space-y-6">
-
-                        {/* Avatar + Basic Info */}
-                        <div className="flex flex-col items-center gap-4 justify-center">
-                            <div className="avatar">
-                                <div className="w-42 rounded-lg ring ring-primary ring-offset-base-100 ring-offset-2">
-                                    {user.photoURL
-                                        ? <img referrerPolicy="no-referrer"
-                                            src={user?.photoURL} alt="profile" />
-                                        : <div className="flex items-center justify-center h-full "><CircleUserRound size={96} /></div>
-                                    }
-                                </div>
-
+                {!isEditing ? (
+                    /* VIEW CARD */
+                    <div className="card-body items-center text-center pt-8">
+                        <div className="avatar mb-4">
+                            <div className="w-32 h-32 rounded-lg ring ring-primary ring-offset-2">
+                                {user?.photoURL ? (
+                                    <img src={user.photoURL} alt="profile" className="rounded-lg object-cover" />
+                                ) : (
+                                    <div className="flex items-center justify-center h-full bg-base-200"><CircleUserRound size={64} /></div>
+                                )}
                             </div>
-                            <p className="text-lg font-bold -mt-3 animate-pulse text-primary/60">
-                               {isRoleLoading ? 'Loading...' : role}
-                            </p>
+                        </div>
+                        
+                        <h2 className="text-2xl font-bold">{user?.displayName}</h2>
+                        <p className="text-neutral/60">{user?.email}</p>
+                        <button onClick={() => setIsEditing(true)} className="btn btn-primary btn-sm mt-6">
+                            <UserRoundPen size={16} /> Edit Profile
+                        </button>
+                    </div>
+                ) : (
+                    /* EDIT FORM CARD */
+                    <form onSubmit={handleSubmit(onSubmit)} className="card-body space-y-4 pt-8">
+                        <h2 className="text-xl font-bold text-center">Update Profile</h2>
 
-                            <div className="text-center">
-                                <h2 className="text-2xl font-semibold text-text">
-                                    {user?.displayName}
-                                </h2>
-                                {/* <p className="text-sm text-neutral/70 capitalize"></p> */}
-                                <p className="text-sm text-neutral/80">
-                                    <span className="font-medium">Email:</span> {user?.email}
-                                </p>
-                            </div>
-
+                        <div className="form-control">
+                            <label className="label-text font-semibold mb-1">Display Name</label>
+                            <input
+                                {...register("name", { required: "Name is required" })}
+                                type="text"
+                                className={`input input-bordered w-full ${errors.name ? 'input-error' : ''}`}
+                            />
                         </div>
 
+                        <div className="form-control">
+                            <label className="label-text font-semibold mb-1">New Profile Picture</label>
+                            <input
+                                {...register("image")}
+                                type="file"
+                                accept="image/*"
+                                className="file-input file-input-bordered file-input-primary w-full"
+                            />
+                            <p className="text-[10px] mt-1 text-neutral/50">Current photo remains if no file is chosen.</p>
+                        </div>
 
-
-                        {/* CTA */}
-                        <div className="card-actions  justify-center pb-8">
-                            <button className="btn btn-primary btn-sm">
-                                <UserRoundPen size={17} /> <span className="text-sm mt-1"> Edit Profile</span>
+                        <div className="flex gap-3 pt-4">
+                            <button type="submit" disabled={isSubmitting} className="btn btn-primary flex-1">
+                                {isSubmitting ? <Loader2 className="animate-spin" size={18} /> : <Save size={18} />}
+                                Save Changes
+                            </button>
+                            <button type="button" onClick={() => setIsEditing(false)} className="btn btn-ghost border-base-300">
+                                <X size={18} /> Cancel
                             </button>
                         </div>
-                    </div>
-
-                    {/* Footer */}
-                    <div className="p-4 bg-base-200 border-t border-base-300 text-center">
-                        <span className="font-medium text-text">Avg. Rating:</span>{" "}
-                        <span className="text-star text-xl">★★★★★</span>
-                        <span className="text-sm text-neutral/70"> (12 reviews)</span>
-                    </div>
+                    </form>
+                )}
+                <div className="p-4 bg-base-200 border-t border-base-300 text-center rounded-b-xl">
+                    <span className="font-medium text-sm">Status:</span>{" "}
+                    <span className="text-primary text-xs animate-pulse font-bold uppercase  tracking-widest">{role}</span>
                 </div>
             </div>
         </div>
