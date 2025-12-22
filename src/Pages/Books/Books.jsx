@@ -21,7 +21,7 @@ const Books = () => {
     return (
 
         <Container>
-            <div className='px-4'>
+            <div className='px-4 py-20'>
                 {
                     books && books.length > 0
                         ? (

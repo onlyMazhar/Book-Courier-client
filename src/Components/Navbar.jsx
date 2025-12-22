@@ -1,137 +1,149 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, NavLink } from 'react-router';
 import Container from './Container';
 import Logo from './Logo';
 import { AiOutlineInstagram } from 'react-icons/ai';
 import { RiBloggerLine, RiFacebookCircleLine, RiTwitterXFill } from 'react-icons/ri';
-import { FiBookmark, FiShoppingCart } from 'react-icons/fi';
+import { FiBookmark, FiShoppingCart, FiSearch, FiMenu } from 'react-icons/fi';
 import { useAuth } from '../Hooks/useAuth';
-import { FaUserCircle } from 'react-icons/fa';
-import { Bell, CircleUserRound, LogOut, Settings, User, User2 } from 'lucide-react';
+import { CircleUserRound, LogOut, User, LayoutDashboard, ChevronDown } from 'lucide-react';
 
 const Navbar = () => {
     const [userMenuOpen, setUserMenuOpen] = useState(false);
+    const [scrolled, setScrolled] = useState(false);
+    const { userLogout, user } = useAuth();
 
-    const { userLogout, user } = useAuth()
+    // Change background on scroll
+    useEffect(() => {
+        const handleScroll = () => setScrolled(window.scrollY > 20);
+        window.addEventListener('scroll', handleScroll);
+        return () => window.removeEventListener('scroll', handleScroll);
+    }, []);
+
     const handleUserLogout = () => {
-        userLogout()
-    }
+        userLogout();
+        setUserMenuOpen(false);
+    };
 
-    const linkClass = "block py-1 px-2 rounded-sm  border border-transparent hover:border-white transition-all"
+    const linkClass = "relative py-2 px-1 font-medium transition-all duration-300 before:content-[''] before:absolute before:bottom-0 before:left-0 before:w-0 before:h-0.5 before:bg-white before:transition-all hover:before:w-full";
 
-    const activeLink = ({ isActive }) => {
-        return `${linkClass} ${isActive ? 'border border-white font-semibold' : 'text-white'}`
-    }
-    // console.log(user?.photoURL)
+    const activeLink = ({ isActive }) =>
+        `${linkClass} ${isActive ? 'text-white before:w-full' : 'text-white/80 hover:text-white'}`;
 
-
-    const links = <>
-        <li><NavLink to={'/'} className={activeLink} end>Home</NavLink></li>
-        <li><NavLink to={'/books'} className={activeLink}>Books</NavLink></li>
-        <li><NavLink to={'/dashboard'} className={activeLink}>DashBoard</NavLink></li>
-    </>
-    return (
+    const navLinks = (
         <>
-            <div className='bg-secondary text-white'>
+            <li><NavLink to={'/'} className={activeLink} end>Home</NavLink></li>
+            <li><NavLink to={'/books'} className={activeLink}>Books</NavLink></li>
+            <li><NavLink to={'/dashboard'} className={activeLink}>Dashboard</NavLink></li>
+        </>
+    );
+
+    return (
+        <header className="fixed top-0 w-full z-50 transition-all duration-300">
+            {/* 1. TOP BAR - Socials & Quick Links */}
+            <div className={`bg-emerald-700 text-white/70 py-1.5 transition-all ${scrolled ? 'hidden' : 'block'}`}>
                 <Container>
-                    <div className=' flex justify-between px-2 py-1 '>
-                        <div className='flex gap-4'>
-                            <RiFacebookCircleLine />
-                            <AiOutlineInstagram />
-                            <RiTwitterXFill />
-                            <RiBloggerLine />
+                    <div className="flex justify-between items-center px-4 text-xs font-medium">
+                        <div className="flex gap-4 items-center">
+                            <a href="#" className="hover:text-white transition-colors"><RiFacebookCircleLine size={16} /></a>
+                            <a href="#" className="hover:text-white transition-colors"><AiOutlineInstagram size={16} /></a>
+                            <a href="#" className="hover:text-white transition-colors"><RiTwitterXFill size={14} /></a>
                         </div>
-                        <div className='[&>small]:flex [&>small]:items-center flex gap-4 [&>small]:gap-1'>
-                            <small><FiShoppingCart size={16} strokeWidth={2} />  Cart</small>
-                            <small><FiBookmark size={16} strokeWidth={2} /> Wishlist</small>
+                        <div className="flex gap-6 items-center">
+                            <Link to="/wishlist" className="flex items-center gap-1.5 hover:text-white"><FiBookmark /> Wishlist</Link>
+                            <Link to="/cart" className="flex items-center gap-1.5 hover:text-white"><FiShoppingCart /> Cart</Link>
                         </div>
                     </div>
                 </Container>
             </div>
 
-            {/* Divider */}
-            {/* <div className="divider my-0 p-0 text-white"></div> */}
-
-            {/* Nav Links */}
-            <div className="navbar  z-100   shadow-sm bg-primary text-white">
-                {/* For Small Device */}
-                <div className="navbar-start">
-                    <div className="dropdown ">
-                        <div tabIndex={0} role="button" className=" lg:hidden pl-0  hover:bg-black/50 hover:rounded-sm">
-                            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"> <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h8m-8 6h16" /> </svg>
+            {/* 2. MAIN NAVBAR */}
+            <nav className={`transition-all duration-300 ${scrolled ? 'bg-primary/95 backdrop-blur-md shadow-lg py-2' : 'bg-primary py-4'}`}>
+                <Container>
+                    <div className="navbar p-0 min-h-fit">
+                        {/* Mobile Menu */}
+                        <div className="navbar-start lg:w-1/4">
+                            <div className="dropdown lg:hidden">
+                                <div tabIndex={0} role="button" className="btn btn-ghost btn-circle text-white">
+                                    <FiMenu size={24} />
+                                </div>
+                                <ul tabIndex={0} className="dropdown-content mt-3 z-1 p-4 shadow-2xl bg-primary border border-white/10 rounded-2xl w-64 space-y-2">
+                                    {navLinks}
+                                </ul>
+                            </div>
+                            <div className="ml-2 lg:ml-0">
+                                <Logo color="white" />
+                            </div>
                         </div>
-                        <ul
-                            tabIndex="-1"
-                            className=" dropdown-content border bg-primary rounded-box z-100 mt-3 w-52 p-2 shadow ">
-                            {links}
-                        </ul>
-                    </div>
 
-                    <Logo />
+                        {/* Desktop Links */}
+                        <div className="navbar-center hidden lg:flex">
+                            <ul className="flex gap-8 list-none">
+                                {navLinks}
+                            </ul>
+                        </div>
 
-                </div>
-                {/* For Large Device */}
-                <div className="navbar-center hidden lg:flex">
-                    <ul className="space-x-8  flex px-1">
-                        {links}
-                    </ul>
-                </div>
-                {/* Login/Register Options Based on user Login status */}
-                <div className='navbar-end relative'>
-                    {
-                        user
-                            ?
-                            <div className="flex items-center gap-4">
-                                <div className="relative ">
-                                    <div onClick={() => setUserMenuOpen(!userMenuOpen)} className="  items-center gap-2  rounded-full">
-                                        {user.photoURL
-                                            ? <img className='w-9 h-9  rounded-full ' referrerPolicy="no-referrer"
-                                                onError={(e) => {
-                                                    e.target.src = "/default-avatar.png";
-                                                }} src={user?.photoURL} alt="profile" />
-                                            : <CircleUserRound size={32} />
-                                        }
-                                    </div>
+                        {/* Actions / User Profile */}
+                        <div className="navbar-end gap-3">
+                            <button className="btn btn-ghost btn-circle text-white hidden sm:flex">
+                                <FiSearch size={20} />
+                            </button>
 
+                            {user ? (
+                                <div className="relative">
+                                    <button
+                                        onClick={() => setUserMenuOpen(!userMenuOpen)}
+                                        className="flex items-center gap-2 p-1 pr-3 rounded-full hover:bg-white/10 transition-colors border border-white/20"
+                                    >
+                                        <img
+                                            className="w-8 h-8 rounded-full border border-white/50 object-cover"
+                                            src={user?.photoURL || "/default-avatar.png"}
+                                            alt="profile"
+                                        />
+                                        <ChevronDown size={14} className={`text-white transition-transform ${userMenuOpen ? 'rotate-180' : ''}`} />
+                                    </button>
+
+                                    {/* USER DROPDOWN MENU */}
                                     {userMenuOpen && (
-                                        <div className="absolute bg-primary/80 top-12 right-0 w-64 border border-gray-200 rounded-lg shadow-lg">
-                                            <div className="p-4 border-b border-gray-100 flex items-center gap-3">
-                                                <div>
-                                                    <p className="font-semibold">{user?.displayName}</p>
-                                                    <p className="text-sm text-gray-300">{user?.email}</p>
-                                                </div>
+                                        <div className="absolute top-12 right-0 w-64 bg-white rounded-2xl shadow-2xl border border-gray-100 overflow-hidden text-neutral animate-in fade-in zoom-in duration-200">
+                                            <div className="p-5 bg-gray-50 border-b border-gray-100">
+                                                <p className="font-bold text-neutral-800 truncate">{user?.displayName}</p>
+                                                <p className="text-xs text-neutral-500 truncate">{user?.email}</p>
                                             </div>
                                             <div className="p-2">
-                                                <Link to={'/dashboard/my-profile'} className="flex items-center gap-3 p-2 rounded hover:bg-gray-400">
-                                                    <User size={18} />
-                                                    <span className="text-sm">Profile</span>
+                                                <Link to="/dashboard/my-profile" className="flex items-center gap-3 p-3 rounded-xl hover:bg-primary/5 transition-colors group">
+                                                    <User size={18} className="text-neutral-400 group-hover:text-primary" />
+                                                    <span className="text-sm font-medium">My Profile</span>
                                                 </Link>
-                                                 
-                                                <hr className="my-2" />
-                                                <Link onClick={handleUserLogout}   className="flex items-center gap-3 p-2 rounded bg-white hover:bg-red-50 text-red-600">
+                                                <Link to="/dashboard" className="flex items-center gap-3 p-3 rounded-xl hover:bg-primary/5 transition-colors group">
+                                                    <LayoutDashboard size={18} className="text-neutral-400 group-hover:text-primary" />
+                                                    <span className="text-sm font-medium">Dashboard</span>
+                                                </Link>
+                                                <div className="divider my-1 opacity-50"></div>
+                                                <button
+                                                    onClick={handleUserLogout}
+                                                    className="flex w-full items-center gap-3 p-3 rounded-xl hover:bg-red-50 text-red-600 transition-colors group"
+                                                >
                                                     <LogOut size={18} />
-                                                    <span className="text-sm">Sign Out</span>
-                                                </Link>
+                                                    <span className="text-sm font-bold">Sign Out</span>
+                                                </button>
                                             </div>
                                         </div>
                                     )}
                                 </div>
-                            </div>
-
-                            :
-                            <Link className='btn btn-primary border border-white' to={'/login'}>Login</Link>
-
-                    }
-                    {/* <Link className='btn mx-2 btn-primary text-accent' to={'/rider'} >Be A Rider</Link> */}
-                    {/* <Link onClick={handleUserLogout} className='   btn' >Logout</Link>
-                        <Link className='btn' to={'/login'}>Login</Link> */}
-                </div>
-
-
-
-            </div>
-
-        </>
+                            ) : (
+                                <Link
+                                    to="/login"
+                                    className="btn btn-sm md:btn-md bg-white text-primary hover:bg-gray-100 border-none px-6 rounded-full font-bold shadow-lg"
+                                >
+                                    Login
+                                </Link>
+                            )}
+                        </div>
+                    </div>
+                </Container>
+            </nav>
+        </header>
     );
 };
 

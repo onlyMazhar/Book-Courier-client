@@ -7,7 +7,7 @@ const Logo = () => {
         <Link to={'/'} className="  text-3xl font-bold font-title">
             <div className='flex   items-center'>
                 <img className='w-12 mx-auto' src={logo} alt="Book Curier Logo" />
-                <div>Book<span className='font-thin'>Courier</span></div>
+                <div className='text-white'>Book<span className='font-thin'>Courier</span></div>
             </div>
         </Link>
 

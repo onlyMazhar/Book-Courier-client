@@ -1,40 +1,28 @@
 import React from 'react';
 import Loader from '../../Components/Loader';
-import { useNavigate, useParams } from 'react-router';
 import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
 import { useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
 import { useAuth } from '../../Hooks/useAuth';
+import { BookOpen, MapPin, Phone, User, Info, CheckCircle } from 'lucide-react';
+import { useParams } from 'react-router';
 
 const BookDetails = () => {
     const { register, handleSubmit, reset } = useForm();
-    const navigate = useNavigate()
-
-    const { user } = useAuth()
+     
+    const { user } = useAuth();
     const { id } = useParams();
-    const { data: books = {}, isloading } = useQuery({
+
+    const { data: book = {}, isLoading } = useQuery({
         queryKey: ['book', id],
         queryFn: async () => {
-            const all = await axios(`${import.meta.env.VITE_API_URL}/books/${id}`)
-            return all.data.result;
+            const res = await axios(`${import.meta.env.VITE_API_URL}/books/${id}`);
+            return res.data.result;
         }
-    })
-   
-    const {
-        _id,
-        name,
-        category,
-        author,
-        price,
-        image,
-        quantity,
-        description,
-        librarian } = books || {};
+    });
 
-    // console.log('from book details page-----------------------------',books)
-
-
+    const { _id, name, category, author, price, image, quantity, description, librarian } = book;
 
     const handleOrder = async (data) => {
         const orderData = {
@@ -50,172 +38,153 @@ const BookDetails = () => {
             status: 'pending',
             bookImg: image,
             writtenBy: author,
-            librarian: librarian.email
-
+            librarian: librarian?.email
         };
-        // console.log(orderData)
-
 
         try {
-            await axios.post(
-                `${import.meta.env.VITE_API_URL}/orders`,
-                orderData
-            );
-
+            await axios.post(`${import.meta.env.VITE_API_URL}/orders`, orderData);
             toast.success("Order placed successfully");
             reset();
             document.getElementById("pay_modal").close();
-             navigate(`http://localhost:5173/dashboard/my-orders`)
-
-        } catch (error) {
-            console.error(error);
+            
+        } catch {
             toast.error("Failed to place order");
         }
     };
 
-
-
-    if (isloading) { return (<Loader />); }
-
-    if (!books) { return (<div className="text-center min-h-[70vh] content-center text-3xl md:text-4xl lg:text-7xl font-bold text-gray-200 mt-20"> Book not found </div>); }
+    if (isLoading) return <Loader />;
+    if (!book?._id) return <div className="text-center py-20 text-2xl font-bold opacity-20">Book not found</div>;
 
     return (
-        <div className="max-w-6xl mx-auto px-4 py-10">
-            <div className="grid md:grid-cols-[260px_1fr] gap-8 bg-base-100 p-6">
+        <div className="max-w-7xl mx-auto px-4 py-8 lg:py-12">
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
 
-                {/* LEFT: Book Image */}
-                <div className="flex flex-col i-center items-center gap-4">
-                    <img
-                        src={image}
-                        alt={name}
-                        className="w-full max-w-60 h-auto object-cover rounded"
-                    />
+                {/* LEFT: Book Cover Column (3/12) */}
+                <div className="lg:col-span-3 space-y-6">
+                    <div className="sticky top-24">
+                        <div className="bg-base-200 p-2 rounded-xl shadow-inner group">
+                            <img
+                                src={image}
+                                alt={name}
+                                className="w-full aspect-3/4 object-cover rounded-lg shadow-2xl transition-transform duration-500 group-hover:scale-[1.02]"
+                            />
+                        </div>
+                        <button className="btn btn-outline btn-primary w-full mt-6 gap-2">
+                            <BookOpen size={18} /> Read Sample
+                        </button>
+                    </div>
+                </div>
 
-                    <button className="btn text-primary border-primary btn-sm w-full">
-                        Read sample
+                {/* MIDDLE: Info Column (6/12) */}
+                <div className="lg:col-span-6 space-y-6">
+                    <div>
+                        <div className="flex items-center gap-2 mb-2">
+                            <span className="badge badge-primary badge-outline px-3 py-3 uppercase text-[10px] font-bold tracking-widest">{category}</span>
+                        </div>
+                        <h1 className="text-3xl md:text-4xl font-black text-base-content leading-tight">{name}</h1>
+                        <p className="text-xl text-neutral/70 mt-2 font-medium italic">by {author}</p>
+                    </div>
 
-                    </button>
-                    <div className="flex items-center gap-3 pt-4  ">
-                        <img
-                            src={librarian?.photo}
-                            alt={librarian?.name}
-                            className="w-10 h-10 rounded-full border"
-                        />
-                        <div>
-                            <p className="text-sm font-semibold">
-                                {librarian?.name}
-                            </p>
-                            <p className="text-xs text-gray-400">
-                                {librarian?.email}
-                            </p>
+                    <div className="flex items-center gap-4 py-4 border-y border-base-200">
+                        <div className="flex text-warning">
+                            {[...Array(5)].map((_, i) => <span key={i} className="text-xl">★</span>)}
+                        </div>
+                        <span className="text-sm font-semibold opacity-60 underline cursor-pointer">482 Verified Reviews</span>
+                    </div>
+
+                    <div className="prose prose-sm max-w-none text-neutral/80">
+                        <h3 className="text-lg font-bold flex items-center gap-2"><Info size={20} /> Description</h3>
+                        <p className="leading-relaxed">{description}</p>
+                    </div>
+
+                    <div className="grid grid-cols-2 gap-4 pt-4">
+                        <div className="p-4 bg-base-200 rounded-lg">
+                            <p className="text-xs uppercase opacity-50 font-bold">Availability</p>
+                            <p className="text-lg font-bold">{quantity} Copies Left</p>
+                        </div>
+                        <div className="p-4 bg-base-200 rounded-lg">
+                            <p className="text-xs uppercase opacity-50 font-bold">Condition</p>
+                            <p className="text-lg font-bold">New (Paperback)</p>
                         </div>
                     </div>
                 </div>
 
-                {/* RIGHT: Book Info */}
-                <div className="space-y-3">
+                {/* RIGHT: Order Card (3/12) */}
+                <div className="lg:col-span-3">
+                    <div className="card bg-base-100 border border-base-300 shadow-xl sticky top-24">
+                        <div className="card-body p-6">
+                            <p className="text-xs font-bold text-success uppercase flex items-center gap-1 mb-2">
+                                <CheckCircle size={14} /> In Stock & Ready to Ship
+                            </p>
+                            <div className="flex items-baseline gap-1">
+                                <span className="text-3xl font-black text-primary">{price}</span>
+                                <span className="text-lg font-bold opacity-70">TK</span>
+                            </div>
 
-                    {/* Title */}
-                    <h1 className="text-2xl font-bold leading-snug">
-                        {name}
-                    </h1>
+                            <div className="divider my-2"></div>
 
-                    {/* Author */}
-                    <p className="text-sm text-gray-600">
-                        by <span className="text-blue-600 hover:underline cursor-pointer">
-                            {author}
-                        </span>{" "}
-                        <span className="text-gray-400">(Author)</span>
-                    </p>
+                            <button
+                                onClick={() => document.getElementById("pay_modal").showModal()}
+                                className="btn btn-primary btn-block btn-lg"
+                            >
+                                Order Now
+                            </button>
 
-                    {/* Meta Info */}
-                    <p className="text-sm text-gray-500">
-                        Paperback — <span className="font-medium">
-                            {new Date().toLocaleDateString()}
-                        </span>
-                    </p>
-
-                    {/* Rating (static placeholder) */}
-                    <div className="flex items-center gap-2 text-sm">
-                        <span className="text-orange-500">★★★★☆</span>
-                        <span className="text-blue-600 hover:underline cursor-pointer">
-                            137 ratings
-                        </span>
-                    </div>
-
-                    {/* Description */}
-                    <p className="text-gray-700 leading-relaxed pt-2">
-                        {description}
-                    </p>
-
-                    {/* Bullet Points */}
-                    <ul className="list-disc list-inside text-sm text-gray-700 space-y-1 pt-2">
-                        <li>Engaging and informative content</li>
-                        <li>Easy to read and understand</li>
-                        <li>Perfect for casual learning</li>
-                        <li>Ideal for all age groups</li>
-                    </ul>
-
-                    {/* Category & Quantity */}
-                    <div className="pt-3 text-sm text-gray-600 space-y-1">
-                        <p>
-                            <span className="font-medium">Category:</span>{" "}
-                            {Array.isArray(category) ? category.join(", ") : category}
-                        </p>
-                        <p>
-                            <span className="font-medium">Available:</span>{" "}
-                            {quantity} copies
-                        </p>
-                    </div>
-
-
-
-                    {/* ----------------Add to cart Modal ------------------- */}
-                    <button
-                        className="btn btn-primary"
-                        onClick={() => document.getElementById("pay_modal").showModal()}
-                    >
-                        Order Now
-                    </button>
-
-                    <dialog id="pay_modal" className="modal">
-                        <div className="modal-box">
-                            <h3 className="font-bold text-lg mb-4">Place Order</h3>
-
-                            <form onSubmit={handleSubmit(handleOrder)} className="space-y-4">
-                                <label className='label'>Name</label>
-                                <input readOnly value={user?.displayName} className="input w-full" />
-
-                                <label className='label'>Email</label>
-                                <input readOnly value={user?.email} className="input w-full" />
-
-                                <label className='label'>Phone Number</label>
-                                <input type='number' {...register("phone", { required: true })} className="input w-full" />
-
-                                <label className='label'>Address</label>
-                                <textarea {...register("address", { required: true })} className="textarea w-full" />
-
-                                <div className="modal-action">
-                                    <button type="submit" className="btn btn-primary">Place Order</button>
-                                    <button
-                                        type="button"
-                                        className="btn"
-                                        onClick={() => document.getElementById("pay_modal").close()}
-                                    >
-                                        Cancel
-                                    </button>
+                            <div className="mt-6 flex items-center gap-3 bg-base-200 p-3 rounded-lg">
+                                <img src={librarian?.photo} className="w-10 h-10 rounded-full object-cover ring-2 ring-primary" alt="" />
+                                <div>
+                                    <p className="text-[10px] uppercase font-bold opacity-50">Librarian</p>
+                                    <p className="text-xs font-bold truncate w-32">{librarian?.name}</p>
                                 </div>
-                            </form>
+                            </div>
                         </div>
-                    </dialog>
-
-
-
-
+                    </div>
                 </div>
             </div>
-        </div >
 
+            {/* ORDER MODAL */}
+            <dialog id="pay_modal" className="modal modal-bottom sm:modal-middle">
+                <div className="modal-box max-w-md">
+                    <h3 className="text-2xl font-black mb-6">Confirm Your Order</h3>
+                    <form onSubmit={handleSubmit(handleOrder)} className="space-y-4">
+                        <div className="form-control">
+                            <label className="label-text font-bold mb-2 flex items-center gap-2">
+                                <User size={16} /> Customer Name
+                            </label>
+                            <input readOnly value={user?.displayName} className=" w-full input input-bordered bg-base-200 font-medium" />
+                        </div>
+
+                        <div className="form-control">
+                            <label className="label-text font-bold mb-2 flex items-center gap-2">
+                                <Phone size={16} /> Contact Phone
+                            </label>
+                            <input
+                                type='number'
+                                {...register("phone", { required: true })}
+                                placeholder="017XXXXXXXX"
+                                className="input w-full input-bordered focus:input-primary"
+                            />
+                        </div>
+
+                        <div className="form-control">
+                            <label className="label-text font-bold mb-2 flex items-center gap-2">
+                                <MapPin size={16} /> Delivery Address
+                            </label>
+                            <textarea
+                                {...register("address", { required: true })}
+                                className=" w-full textarea textarea-bordered h-24 focus:textarea-primary"
+                                placeholder="Full street address, City, Area"
+                            />
+                        </div>
+
+                        <div className="modal-action grid grid-cols-2 gap-3">
+                            <button type="button" onClick={() => document.getElementById("pay_modal").close()} className="btn btn-ghost border-base-300">Cancel</button>
+                            <button type="submit" className="btn btn-primary">Confirm & Order</button>
+                        </div>
+                    </form>
+                </div>
+            </dialog>
+        </div>
     );
 };
 
