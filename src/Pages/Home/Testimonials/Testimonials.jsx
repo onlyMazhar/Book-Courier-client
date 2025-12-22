@@ -19,14 +19,14 @@ const Testimonials = () => {
 
   return (
     <div className="py-24 bg-slate-50">
-      <div className="max-w-7xl mx-auto px-4">
+      <div className="  mx-auto px-4">
         {/* Header  */}
         <div className="flex flex-col md:flex-row justify-between items-end mb-12 gap-6">
           <div className="max-w-xl">
             <h2 className="text-4xl font-black text-slate-900 mb-4">What Our Community Says</h2>
             <p className="text-slate-500">Trusted by thousands of book lovers across the city.</p>
           </div>
-          
+
           {/* Custom Navigation Buttons */}
           <div className="flex gap-2">
             <button className="prev-btn btn btn-circle btn-outline btn-sm">←</button>
@@ -55,15 +55,15 @@ const Testimonials = () => {
         >
           {reviews.map((rev, i) => (
             <SwiperSlide key={i}>
-              <div className="bg-white p-8 h-full rounded-4xl shadow-sm hover:shadow-xl transition-all duration-300 border border-slate-100 flex flex-col">
+              <div className="bg-white p-8 my-5 mx-2 h-full rounded-4xl shadow-sm hover:shadow-xl transition-all duration-300 border border-slate-100 flex flex-col">
                 <div className="flex gap-1 text-orange-400 mb-4">
                   {[...Array(5)].map((_, starIdx) => (
                     <span key={starIdx}>★</span>
                   ))}
                 </div>
-                
+
                 <p className="text-slate-600 italic mb-8 grow">"{rev.text}"</p>
-                
+
                 <div className="flex items-center gap-4">
                   <img src={rev.img} className="w-12 h-12 rounded-full object-cover border-2 border-primary/10" alt={rev.name} />
                   <div>

@@ -96,8 +96,8 @@ const CoverageMap = () => {
     const dhakaCenter = [23.8103, 90.4125];
 
     return (
-        <Container  >
-            <div className="max-w-7xl mx-auto px-4 py-15">
+        <div  >
+            <div className=" mx-auto px-4 py-15">
 
                 {/* Section Header */}
                 <div className="text-center mb-12 py-5">
@@ -150,14 +150,14 @@ const CoverageMap = () => {
                         { label: "Riders", val: "100+" },
                         { label: "Satisfaction", val: "99%" },
                     ].map((stat, i) => (
-                        <div key={i} className="bg-gray-100 p-6 rounded-2xl text-center shadow-lg">
+                        <div key={i} className=" bg-base-100 p-6 rounded-2xl text-center shadow-lg">
                             <p className="text-3xl font-black text-primary">{stat.val}</p>
                             <p className="text-xs uppercase font-bold opacity-50 tracking-tighter">{stat.label}</p>
                         </div>
                     ))}
                 </div>
             </div>
-        </Container>
+        </div>
     );
 };
 

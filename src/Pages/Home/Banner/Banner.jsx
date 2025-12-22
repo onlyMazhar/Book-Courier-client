@@ -7,7 +7,7 @@ import { Link } from 'react-router';
 const Banner = () => {
     return (
         <div className=" mx-auto pt-24 pb-10">
-            <div className="  overflow-hidden shadow-2xl border border-base-200 bg-base-100">
+            <div className="  overflow-hidden shadow-sm border border-base-200 bg-base-100">
                 <Carousel 
                     infiniteLoop={true} 
                     showThumbs={false} 

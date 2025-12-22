@@ -31,13 +31,13 @@ const MyInvoices = () => {
 
     return (
         <div className=" py-3  min-h-screen">
-            <div className="max-w-7xl mx-auto">
-                <header className="mb-8">
+            <div className="  mx-auto">
+                <div className="mb-8">
                     <h2 className="text-3xl font-bold text-gray-900 tracking-tight">Invoices</h2>
                     <p className="text-gray-500 mt-1">Manage and track your recent transactions.</p>
-                </header>
+                </div>
 
-                <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+                <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
                     {invoices.map((invoice) => (
                         <div
                             key={invoice._id}

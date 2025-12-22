@@ -1,7 +1,8 @@
 import {
     Home, ListPlus, Package, CircleDollarSign, Menu,
     User, LogOut, ChevronLeft, Settings, Bell,
-    CircleUserRound, ShoppingBag
+    CircleUserRound, ShoppingBag,
+    Heart
 } from 'lucide-react';
 import { Link, NavLink, Outlet } from 'react-router';
 import { useAuth } from '../Hooks/useAuth';
@@ -10,14 +11,15 @@ import React, { useState } from 'react';
 
 const roleBasedMenu = {
     user: [
-        
+
         { label: "My Orders", path: "/dashboard/my-orders", icon: ShoppingBag },
         { label: "My Invoices", path: "/dashboard/my-invoices", icon: CircleDollarSign },
-        { label: "My Profile", path: "/dashboard/my-profile", icon: CircleUserRound },
+        { label: "My Profile", path: "/dashboard/my-profile", icon: CircleUserRound }, 
+        { label: "My Wishlist", path: "/dashboard/wishlist", icon: Heart }
     ],
 
     librarian: [
-       
+
         { label: "Add Book", path: "/dashboard/add-book", icon: ListPlus },
         { label: "My Books", path: "/dashboard/my-inventories", icon: Package },
         { label: "Manage Orders", path: "/dashboard/manage-orders", icon: Settings },
@@ -26,7 +28,7 @@ const roleBasedMenu = {
     ],
 
     admin: [
-       
+
         { label: "Manage Users", path: "/dashboard/manage-users", icon: User },
         { label: "Manage Books", path: "/dashboard/manage-books", icon: Package },
         { label: "My Profile", path: "/dashboard/my-profile", icon: CircleUserRound },
@@ -43,7 +45,7 @@ const DashboardLayout = () => {
     // const location = useLocation();
     const [role, isRoleLoading] = useRole();
 
-     
+
     if (isRoleLoading) {
         return (
             <div className="h-screen flex items-center justify-center">
@@ -52,7 +54,7 @@ const DashboardLayout = () => {
         );
     }
 
-    
+
     const sidebarMenu = roleBasedMenu[role] || [];
 
     const toggleSidebar = () => setSidebarOpen(prev => !prev);
@@ -94,7 +96,7 @@ const DashboardLayout = () => {
                         </button>
 
                         {userMenuOpen && (
-                            <div className="absolute top-12 right-0 w-64 bg-white border rounded-lg shadow-lg z-50">
+                            <div className="absolute top-12 right-0 w-64 bg-white border rounded-lg shadow-lg z-80">
                                 <div className="p-4 border-b">
                                     <p className="font-semibold">{user?.displayName}</p>
                                     <p className="text-sm text-gray-400">{user?.email}</p>
@@ -127,7 +129,7 @@ const DashboardLayout = () => {
             </header>
 
             {/* Sidebar */}
-            <aside className={`fixed top-16 left-0 bottom-0 bg-gray-800 text-white w-64 transition-transform duration-300 ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'}`}>
+            <aside className={`fixed z-100 top-16 left-0 bottom-0 bg-gray-800 text-white w-64 transition-transform duration-300 ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'}`}>
                 <div className="p-4 space-y-2">
                     {sidebarMenu.map(({ label, path, icon }) => (
                         <NavLink

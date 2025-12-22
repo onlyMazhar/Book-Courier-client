@@ -27,6 +27,8 @@ import Error from "../Pages/Error/Error";
 import AdminRoute from "../Pages/Dashboard/Admin/AdminRoute";
 import LibrarianRoute from "../Pages/Dashboard/Librarian/LibrarianRoute";
 import AdminStatistics from "../Pages/Dashboard/Admin/AdminStatistics";
+import EditBook from "../Pages/Dashboard/Librarian/EditBook";
+import Wishlist from "../Pages/Dashboard/Customer/Wishlist";
 
 export const router = createBrowserRouter([
     {
@@ -90,6 +92,14 @@ export const router = createBrowserRouter([
                 )
             },
             {
+                path: '/dashboard/edit-book/:id',
+                element: (
+                    <LibrarianRoute>
+                        < EditBook />
+                    </LibrarianRoute>
+                )
+            },
+            {
                 path: "my-inventories",
                 element: (
                     <LibrarianRoute>
@@ -109,7 +119,9 @@ export const router = createBrowserRouter([
             /* ================= CUSTOMER ================= */
             { path: "my-orders", element: <MyOrders /> },
             { path: "my-profile", element: <UserProfile /> },
-            { path: "my-invoices", element: <MyInvoices /> }
+            { path: "my-invoices", element: <MyInvoices /> },
+            { path: "wishlist", element: <Wishlist/> }
+
         ]
     }
 ]);
