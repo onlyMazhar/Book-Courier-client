@@ -74,6 +74,7 @@ const Navbar = () => {
                             <div className="ml-2 lg:ml-0">
                                 <Logo color="white" />
                             </div>
+
                         </div>
 
                         {/* Desktop Links */}
@@ -139,6 +140,7 @@ const Navbar = () => {
                                     Login
                                 </Link>
                             )}
+
                         </div>
                     </div>
                 </Container>
