@@ -42,10 +42,10 @@ const WhyChooseUs = () => {
     ];
 
     return (
-        <section className="py-20 bg-base-100">
-            <div className="max-w-7xl mx-auto px-4">
+        <div className="py-20">
+            <div className="  mx-auto px-4">
 
-                {/* Header Section */}
+                {/* Header  */}
                 <div className="text-center max-w-3xl mx-auto mb-16">
                     <h2 className="text-blue-600 font-bold uppercase tracking-widest text-sm mb-3">
                         Experience the Best
@@ -88,7 +88,7 @@ const WhyChooseUs = () => {
                 </div>
 
             </div>
-        </section>
+        </div>
     );
 };
 

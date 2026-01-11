@@ -1,16 +1,16 @@
 import React from 'react';
 import Loader from '../../Components/Loader';
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useMutation } from '@tanstack/react-query'; // Added useMutation
 import axios from 'axios';
 import { useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
 import { useAuth } from '../../Hooks/useAuth';
-import { BookOpen, MapPin, Phone, User, Info, CheckCircle } from 'lucide-react';
+import { BookOpen, MapPin, Phone, User, Info, CheckCircle, Heart } from 'lucide-react'; // Added Heart
 import { useParams } from 'react-router';
+import Container from '../../Components/Container';
 
 const BookDetails = () => {
     const { register, handleSubmit, reset } = useForm();
-     
     const { user } = useAuth();
     const { id } = useParams();
 
@@ -21,6 +21,37 @@ const BookDetails = () => {
             return res.data.result;
         }
     });
+
+    // --- WISHLIST LOGIC ---
+    const { mutateAsync: addToWishlist } = useMutation({
+        mutationFn: async (wishlistItem) => {
+            const { data } = await axios.post(`${import.meta.env.VITE_API_URL}/wishlist`, wishlistItem);
+            return data;
+        },
+        onSuccess: () => {
+            toast.success("Added to Wishlist!");
+        },
+        onError: (err) => {
+            toast.error(err.response?.data?.message || "Failed to add to wishlist");
+        }
+    });
+
+    const handleWishlist = async () => {
+        if (!user) return toast.warning("Please login to add to wishlist");
+        
+        const wishlistItem = {
+            bookId: _id,
+            name,
+            image,
+            price,
+            author,
+            category,
+            userEmail: user?.email
+        };
+
+        await addToWishlist(wishlistItem);
+    };
+    // ----------------------
 
     const { _id, name, category, author, price, image, quantity, description, librarian } = book;
 
@@ -46,7 +77,6 @@ const BookDetails = () => {
             toast.success("Order placed successfully");
             reset();
             document.getElementById("pay_modal").close();
-            
         } catch {
             toast.error("Failed to place order");
         }
@@ -56,10 +86,10 @@ const BookDetails = () => {
     if (!book?._id) return <div className="text-center py-20 text-2xl font-bold opacity-20">Book not found</div>;
 
     return (
-        <div className="max-w-7xl mx-auto px-4 py-8 lg:py-12">
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
+        <Container>
+            <div className="grid pt-34 p-4 grid-cols-1 lg:grid-cols-12 gap-10 items-start">
 
-                {/* LEFT: Book Cover Column (3/12) */}
+                {/* LEFT: Book Cover Column */}
                 <div className="lg:col-span-3 space-y-6">
                     <div className="sticky top-24">
                         <div className="bg-base-200 p-2 rounded-xl shadow-inner group">
@@ -75,7 +105,7 @@ const BookDetails = () => {
                     </div>
                 </div>
 
-                {/* MIDDLE: Info Column (6/12) */}
+                {/* MIDDLE: Info Column */}
                 <div className="lg:col-span-6 space-y-6">
                     <div>
                         <div className="flex items-center gap-2 mb-2">
@@ -109,7 +139,7 @@ const BookDetails = () => {
                     </div>
                 </div>
 
-                {/* RIGHT: Order Card (3/12) */}
+                {/* RIGHT: Order Card */}
                 <div className="lg:col-span-3">
                     <div className="card bg-base-100 border border-base-300 shadow-xl sticky top-24">
                         <div className="card-body p-6">
@@ -123,12 +153,22 @@ const BookDetails = () => {
 
                             <div className="divider my-2"></div>
 
-                            <button
-                                onClick={() => document.getElementById("pay_modal").showModal()}
-                                className="btn btn-primary btn-block btn-lg"
-                            >
-                                Order Now
-                            </button>
+                            <div className="flex flex-col gap-3">
+                                <button
+                                    onClick={() => document.getElementById("pay_modal").showModal()}
+                                    className="btn btn-primary btn-block"
+                                >
+                                    Order Now
+                                </button>
+                                
+                                {/* Wishlist Button Added Here */}
+                                <button 
+                                    onClick={handleWishlist}
+                                    className="btn btn-outline btn-secondary btn-block gap-2"
+                                >
+                                    <Heart size={18} /> Wishlist
+                                </button>
+                            </div>
 
                             <div className="mt-6 flex items-center gap-3 bg-base-200 p-3 rounded-lg">
                                 <img src={librarian?.photo} className="w-10 h-10 rounded-full object-cover ring-2 ring-primary" alt="" />
@@ -151,7 +191,7 @@ const BookDetails = () => {
                             <label className="label-text font-bold mb-2 flex items-center gap-2">
                                 <User size={16} /> Customer Name
                             </label>
-                            <input readOnly value={user?.displayName} className=" w-full input input-bordered bg-base-200 font-medium" />
+                            <input readOnly defaultValue={user?.displayName} className=" w-full input input-bordered bg-base-200 font-medium" />
                         </div>
 
                         <div className="form-control">
@@ -184,7 +224,7 @@ const BookDetails = () => {
                     </form>
                 </div>
             </dialog>
-        </div>
+        </Container>
     );
 };
 

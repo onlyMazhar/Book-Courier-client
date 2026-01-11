@@ -7,7 +7,7 @@ import BooksTabel from './BooksTabel';
 
 const MyBooks = () => {
     const { user } = useAuth()
-    const { data: myBooks = [] } = useQuery({
+    const { data: myBooks = [], refetch } = useQuery({
         queryKey: ['my-books', user?.email],
         queryFn: async () => {
             const res = await axios.get(
@@ -17,6 +17,7 @@ const MyBooks = () => {
         },
         enabled: !!user?.email,
     });
+    
 
     // console.log('From my-books?email API====================', myBooks)
 
@@ -26,7 +27,7 @@ const MyBooks = () => {
             <table className="table">
                 <thead>
                     <tr>
-                        <th >Name</th> 
+                        <th >Name</th>
                         <th>Action</th>
                     </tr>
                 </thead>
@@ -36,6 +37,7 @@ const MyBooks = () => {
                         <BooksTabel
                             key={Book._id}
                             Book={Book}
+                            refetch={refetch}
                         />
                     ))}
 

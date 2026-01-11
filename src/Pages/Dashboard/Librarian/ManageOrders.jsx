@@ -6,7 +6,7 @@ import OrderTable from './OrderTable';
 const ManageOrders = () => {
     const { user } = useAuth();
 
-    const { data: manageOrders = []} = useQuery({
+    const { data: manageOrders = [], refetch } = useQuery({
         queryKey: ['manage-orders', user?.email],
         queryFn: async () => {
             const res = await axios.get(
@@ -19,7 +19,6 @@ const ManageOrders = () => {
 
     return (
         <div className="w-full">
-            {/* Desktop / Tablet */}
             <div className="hidden md:block overflow-x-auto">
                 <table className="table w-full">
                     <thead>
@@ -34,18 +33,21 @@ const ManageOrders = () => {
 
                     <tbody>
                         {manageOrders.map(order => (
-                            <OrderTable key={order._id} order={order} />
+                            <OrderTable
+                                key={order._id}
+                                order={order}
+                                refetchOrders={refetch} // ✅ pass refetch here
+                            />
                         ))}
                     </tbody>
                 </table>
             </div>
 
-            {/* Mobile */}
             <div className="md:hidden space-y-4">
                 {manageOrders.map(order => (
                     <table key={order._id} className="table w-full">
                         <tbody>
-                            <OrderTable order={order} />
+                            <OrderTable order={order} refetchOrders={refetch} />
                         </tbody>
                     </table>
                 ))}

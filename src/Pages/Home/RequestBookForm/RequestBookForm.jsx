@@ -15,8 +15,8 @@ const RequestBookForm = () => {
     };
 
     return (
-        <div className="py-20 bg-slate-50 min-h-screen flex items-center">
-            <div className="max-w-5xl mx-auto px-4 w-full">
+        <div className="pb-26 bg-slate-50  flex items-center">
+            <div className="  mx-auto px-4 w-full">
                 <div className="bg-base-100 rounded-[2.5rem] shadow-2xl overflow-hidden flex flex-col lg:flex-row border border-base-300">
                     
                     {/* LEFT SIDE: Information */}

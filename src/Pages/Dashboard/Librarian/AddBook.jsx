@@ -34,7 +34,7 @@ const AddBook = () => {
     })
 
     const handleAddBook = async (data) => {
-        const { name, quantity, description, image, price, category, author } = data;
+        const { name, quantity, description, image, price, category, author, status } = data;
         const imageFile = image?.[0];
 
         try {
@@ -45,6 +45,7 @@ const AddBook = () => {
                 description,
                 category,
                 author,
+                status ,
                 image: imageUrl,
                 price: Number(price),
                 createdAt: new Date(),
@@ -139,6 +140,27 @@ const AddBook = () => {
                             {errors.category && (
                                 <p className="text-sm text-red-500 mt-1">
                                     {errors.category.message}
+                                </p>
+                            )}
+                        </div>
+                        {/* Status */}
+                        <div>
+                            <label className="label">
+                                <span className="label-text">Status</span>
+                            </label>
+
+                            <select
+                                defaultValue="published"
+                                {...register("status", { required: "Status is required" })}
+                                className="select select-bordered w-full"
+                            >
+                                <option value="published">Published</option>
+                                <option value="unpublished">Unpublished</option>
+                            </select>
+
+                            {errors.status && (
+                                <p className="text-sm text-red-500 mt-1">
+                                    {errors.status.message}
                                 </p>
                             )}
                         </div>

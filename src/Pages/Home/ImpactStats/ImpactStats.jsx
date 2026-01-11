@@ -1,6 +1,6 @@
 const ImpactStats = () => {
     return (
-        <div className="py-20 m bg-primary relative overflow-hidden">
+        <div className="py-16 rounded-4xl bg-primary relative overflow-hidden">
             {/* Background pattern */}
             <div className="absolute inset-0 opacity-10 pointer-events-none">
                 <div className="absolute top-0 left-0 w-64 h-64 bg-white rounded-full blur-3xl -translate-x-1/2 -translate-y-1/2"></div>

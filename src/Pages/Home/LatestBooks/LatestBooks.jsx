@@ -32,10 +32,10 @@ const LatestBooks = () => {
     }
 
     return (
-        <Container className="py-16 bg-base-100">
-            <div className="max-w-7xl mx-auto px-4">
+        <div className="py-16  ">
+            <div className=" mx-auto px-4">
 
-                {/* Header Container  */}
+                {/* Header div  */}
                 <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-10">
                     <div>
                         <div className="flex items-center gap-2 text-primary font-bold text-sm uppercase tracking-widest mb-2">
@@ -69,7 +69,7 @@ const LatestBooks = () => {
                     </div>
                 )}
             </div>
-        </Container >
+        </div >
     );
 };
 

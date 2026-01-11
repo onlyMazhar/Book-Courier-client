@@ -10,8 +10,8 @@ const HowItWorks = () => {
     ];
 
     return (
-        <section className="py-24 bg-white overflow-hidden">
-            <div className="max-w-7xl mx-auto px-4">
+        <div className="py-24 overflow-hidden">
+            <div className="mx-auto px-4">
                 <div className="text-center mb-16">
                     <h2 className="text-4xl font-black text-slate-900 mb-4">How It Works</h2>
                     <p className="text-slate-500">Getting your favorite books has never been this simple.</p>
@@ -20,7 +20,7 @@ const HowItWorks = () => {
                 <div className="relative flex flex-col md:flex-row justify-between items-start gap-8">
                     {/* Animated Connector Line (Desktop) */}
                     <div className="hidden md:block absolute top-12 left-0 w-full h-0.5 bg-slate-100 z-0">
-                        <div className="h-full bg-primary w-1/2 animate-pulse"></div>
+                        <div className="h-full bg-primary w-full animate-pulse"></div>
                     </div>
 
                     {steps.map((step) => (
@@ -37,7 +37,7 @@ const HowItWorks = () => {
                     ))}
                 </div>
             </div>
-        </section>
+        </div>
     );
 };
 
