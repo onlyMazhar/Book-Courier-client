@@ -1,12 +1,13 @@
 import React from 'react';
 import { useQuery } from "@tanstack/react-query";
 import useAxiosSecure from "../../../Hooks/useAxiosSecure";
-import { toast } from 'react-toastify'; 
+import { toast } from 'react-toastify';
 import { ShieldCheck, BookOpen, User as UserIcon } from 'lucide-react';
+import { useAuth } from '../../../Hooks/useAuth';
 
 const ManageUsers = () => {
     const axiosSecure = useAxiosSecure();
-     
+    const { user: authUser } = useAuth();
 
     const { data: users = [], refetch, isLoading } = useQuery({
         queryKey: ['admin-users'],
@@ -21,7 +22,7 @@ const ManageUsers = () => {
             await axiosSecure.patch(`/admin/user/role/${id}`, { role });
             toast.success(`Role updated to ${role}`);
             refetch();
-        } catch  {
+        } catch {
             toast.error("Failed to update role");
         }
     };
@@ -35,6 +36,8 @@ const ManageUsers = () => {
             <p className="font-medium animate-pulse text-slate-500">Loading user directory...</p>
         </div>
     );
+
+
 
     return (
         <div className="p-4 md:p-8   mx-auto">
@@ -70,10 +73,9 @@ const ManageUsers = () => {
                                 </td>
                                 <td className="font-medium text-slate-500">{user.email}</td>
                                 <td>
-                                    <div className={`badge badge-md gap-2 font-bold px-4 py-3 ${
-                                        user.role === 'admin' ? 'badge-primary' : 
+                                    <div className={`badge badge-md gap-2 font-bold px-4 py-3 ${user.role === 'admin' ? 'badge-primary' :
                                         user.role === 'librarian' ? 'badge-secondary' : 'badge-ghost'
-                                    }`}>
+                                        }`}>
                                         {user.role}
                                     </div>
                                 </td>
@@ -87,7 +89,7 @@ const ManageUsers = () => {
                                             <ShieldCheck size={14} /> Make Admin
                                         </button>
                                         <button
-                                            disabled={user.role === 'librarian'}
+                                            disabled={user.role === 'librarian' ||  authUser.email == user.email }
                                             onClick={() => updateRole(user._id, 'librarian')}
                                             className="btn btn-sm btn-secondary rounded-lg gap-2 normal-case"
                                         >
@@ -117,22 +119,21 @@ const ManageUsers = () => {
                                     <p className="text-xs opacity-60 mt-1">{user.email}</p>
                                 </div>
                             </div>
-                            
                             <div className="flex items-center justify-between bg-base-200/50 p-3 rounded-xl mb-4">
                                 <span className="text-xs font-black uppercase opacity-40">Current Role</span>
                                 <div className={`badge badge-sm font-bold ${user.role === 'admin' ? 'badge-primary' : 'badge-secondary'}`}>
                                     {user.role}
                                 </div>
                             </div>
-                            
+
                             <div className="flex flex-col gap-2">
-                                <button 
-                                    disabled={user.role === 'admin'}
+                                <button
+                                    disabled={user.role === 'admin' }
                                     onClick={() => updateRole(user._id, 'admin')}
                                     className="btn btn-sm btn-primary w-full rounded-lg"
                                 >Set as Admin</button>
-                                <button 
-                                    disabled={user.role === 'librarian'}
+                                <button
+                                    disabled={user.role === 'librarian'|| authUser.email == user.email }
                                     onClick={() => updateRole(user._id, 'librarian')}
                                     className="btn btn-sm btn-secondary w-full rounded-lg"
                                 >Set as Librarian</button>
@@ -141,6 +142,7 @@ const ManageUsers = () => {
                     </div>
                 ))}
             </div>
+            
 
             {/* Footer Stat */}
             <div className="mt-8 text-center text-xs opacity-40 uppercase tracking-widest font-bold">
