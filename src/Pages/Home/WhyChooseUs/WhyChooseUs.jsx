@@ -69,7 +69,7 @@ const WhyChooseUs = () => {
                             <h4 className="text-xl font-bold mb-3 group-hover:text-primary transition-colors">
                                 {feature.title}
                             </h4>
-                            <p className="text-neutral/60 leading-relaxed text-sm">
+                            <p className="text-base-content/60 leading-relaxed text-sm">
                                 {feature.description}
                             </p>
                         </div>

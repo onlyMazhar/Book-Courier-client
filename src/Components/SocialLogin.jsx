@@ -1,51 +1,23 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { FcGoogle } from 'react-icons/fc';
 import { useAuth } from '../Hooks/useAuth';
-import { Bounce, toast } from 'react-toastify';
-import { useNavigate } from 'react-router';
+import { toast } from 'react-toastify';
+import { useNavigate, useLocation } from 'react-router';
 import { saveOrUpdateUser } from '../utils';
+import { Loader2 } from 'lucide-react';
 
 const SocialLogin = () => {
-    const { googleLogin } = useAuth()
+    const { googleLogin } = useAuth();
     const navigate = useNavigate();
-
-
-    // const handleGoogleLogin = () => {
-    //     const { user } = googleLogin()
-    //         .then(() => {
-    //             // console.log(result.user)
-    //             navigate('/');
-    //             toast.success('Login Successfull', {
-    //                 position: "top-center",
-    //                 autoClose: 2000,
-    //                 hideProgressBar: false,
-    //                 closeOnClick: false,
-    //                 pauseOnHover: true,
-    //                 draggable: true,
-    //                 progress: undefined,
-    //                 theme: "light",
-    //                 transition: Bounce,
-    //             });
-
-    //         })
-    //         .catch(err => {
-    //             console.log(err)
-    //         })
-    //     saveOrUpdateUser({
-    //         email: user?.email,
-    //         name: user?.displayName,
-    //         image: user?.photoURL
-    //     })
-
-
-
-    // }
+    const location = useLocation();
+    const [isGoogleLoading, setIsGoogleLoading] = useState(false);
 
     const handleGoogleLogin = async () => {
+        setIsGoogleLoading(true);
+        
         try {
             const result = await googleLogin();
             const user = result.user;
-
 
             await saveOrUpdateUser({
                 email: user.email,
@@ -54,27 +26,55 @@ const SocialLogin = () => {
                 createdAt: new Date(),
             });
 
-            toast.success('Login Successful', {
-                position: "top-right",
-                autoClose: 1000,
-                transition: Bounce,
-            });
-
-            navigate('/');
+            toast.success('Welcome! Login successful');
+            navigate(location.state?.from || '/');
+            
         } catch (err) {
             console.error(err);
-            toast.error('Login failed');
+            let errorMessage = 'Google login failed. Please try again.';
+            
+            if (err.code === 'auth/popup-closed-by-user') {
+                errorMessage = 'Login cancelled. Please try again.';
+            } else if (err.code === 'auth/popup-blocked') {
+                errorMessage = 'Popup blocked. Please allow popups and try again.';
+            }
+            
+            toast.error(errorMessage);
+        } finally {
+            setIsGoogleLoading(false);
         }
     };
 
-
     return (
-
-        <button onClick={handleGoogleLogin} className="btn  bg-white text-black border-[#e5e5e5]">
-            <FcGoogle size={14} className='mb-1' />
-            Login with Google
-        </button>
-
+        <div className="space-y-3">
+            <button 
+                onClick={handleGoogleLogin}
+                disabled={isGoogleLoading}
+                className="w-full bg-white hover:bg-slate-50 text-slate-700 border border-slate-300 py-3 px-4 rounded-xl font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-3"
+            >
+                {isGoogleLoading ? (
+                    <>
+                        <Loader2 size={18} className="animate-spin" />
+                        Connecting...
+                    </>
+                ) : (
+                    <>
+                        <FcGoogle size={20} />
+                        Continue with Google
+                    </>
+                )}
+            </button>
+            
+            {/* Future: Add Facebook login */}
+            {/* <button 
+                className="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 px-4 rounded-xl font-medium transition-colors flex items-center justify-center gap-3"
+                disabled
+            >
+                <FaFacebook size={20} />
+                Continue with Facebook
+                <span className="text-xs opacity-75">(Coming Soon)</span>
+            </button> */}
+        </div>
     );
 };
 

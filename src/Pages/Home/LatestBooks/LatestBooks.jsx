@@ -3,8 +3,8 @@ import axios from 'axios';
 import { ArrowRight, Sparkles } from 'lucide-react';
 import React from 'react';
 import Card from '../../../Components/Card';
+import { CardSkeletonGrid } from '../../../Components/CardSkeleton';
 import { Link } from 'react-router';
-import Container from '../../../Components/Container';
 
 const LatestBooks = () => {
     const { data: books = [], isLoading } = useQuery({
@@ -15,27 +15,10 @@ const LatestBooks = () => {
         },
     });
 
-    if (isLoading) {
-        return (
-            <div className="max-w-7xl mx-auto px-4 py-12">
-                <div className="flex justify-between items-end mb-8 animate-pulse">
-                    <div className="h-10 w-48 bg-base-300 rounded"></div>
-                    <div className="h-6 w-24 bg-base-300 rounded"></div>
-                </div>
-                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-6">
-                    {[...Array(6)].map((_, i) => (
-                        <div key={i} className="h-80 bg-base-200 rounded-xl animate-pulse"></div>
-                    ))}
-                </div>
-            </div>
-        );
-    }
-
     return (
-        <div className="py-16  ">
-            <div className=" mx-auto px-4">
-
-                {/* Header div  */}
+        <div className="py-16">
+            <div className="mx-auto px-4">
+                {/* Header */}
                 <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-10">
                     <div>
                         <div className="flex items-center gap-2 text-primary font-bold text-sm uppercase tracking-widest mb-2">
@@ -45,6 +28,9 @@ const LatestBooks = () => {
                         <h2 className="text-3xl md:text-4xl font-black text-base-content">
                             Latest Arrivals
                         </h2>
+                        <p className="text-base-content/60 mt-2">
+                            Discover the newest additions to our collection
+                        </p>
                     </div>
 
                     <Link
@@ -56,20 +42,40 @@ const LatestBooks = () => {
                     </Link>
                 </div>
 
-                {/* Books Grid */}
-                {books.length > 0 ? (
-                    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-6">
-                        {books.map((book) => (
+                {/* Loading State */}
+                {isLoading && (
+                    <CardSkeletonGrid count={8} />
+                )}
+
+                {/* Books Grid - 4 columns on desktop */}
+                {!isLoading && books.length > 0 && (
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                        {books.slice(0, 8).map((book) => (
                             <Card key={book._id} book={book} />
                         ))}
                     </div>
-                ) : (
-                    <div className="text-center py-20 bg-base-200 rounded-3xl border-2 border-dashed border-base-300">
-                        <p className="text-neutral/50 font-medium">No new books available at the moment.</p>
+                )}
+
+                {/* No Books Available */}
+                {!isLoading && books.length === 0 && (
+                    <div className="text-center py-20 bg-slate-50 rounded-3xl border-2 border-dashed border-slate-300">
+                        <div className="max-w-md mx-auto">
+                            <div className="w-24 h-24 bg-slate-200 rounded-full flex items-center justify-center mx-auto mb-6">
+                                <Sparkles size={32} className="text-slate-400" />
+                            </div>
+                            <h3 className="text-xl font-bold text-slate-900 mb-2">No New Books Yet</h3>
+                            <p className="text-slate-600 mb-6">
+                                We're constantly adding new books to our collection. 
+                                Check back soon for the latest arrivals!
+                            </p>
+                            <Link to="/books" className="btn btn-primary px-8 rounded-full">
+                                Browse All Books
+                            </Link>
+                        </div>
                     </div>
                 )}
             </div>
-        </div >
+        </div>
     );
 };
 

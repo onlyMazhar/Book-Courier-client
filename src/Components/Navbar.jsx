@@ -1,97 +1,184 @@
 import React, { useState, useEffect } from 'react';
-import { Link, NavLink } from 'react-router';
+import { Link, NavLink, useLocation } from 'react-router';
 import Container from './Container';
 import Logo from './Logo';
-import { AiOutlineInstagram } from 'react-icons/ai';
-import { RiBloggerLine, RiFacebookCircleLine, RiTwitterXFill } from 'react-icons/ri';
-import { FiBookmark, FiShoppingCart, FiSearch, FiMenu } from 'react-icons/fi';
+import ThemeToggle from './ThemeToggle';
 import { useAuth } from '../Hooks/useAuth';
-import { CircleUserRound, LogOut, User, LayoutDashboard, ChevronDown } from 'lucide-react';
+import useRole from '../Hooks/useRole';
+import { 
+    Menu, 
+    X, 
+    Search, 
+    ShoppingCart, 
+    Heart, 
+    User, 
+    Settings, 
+    LogOut, 
+    LayoutDashboard,
+    BookOpen,
+    Users,
+    Package,
+    BarChart3,
+    FileText,
+    ChevronDown
+} from 'lucide-react';
 
 const Navbar = () => {
+    const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
     const [userMenuOpen, setUserMenuOpen] = useState(false);
     const [scrolled, setScrolled] = useState(false);
-    const { userLogout, user } = useAuth();
+    const { user, userLogout } = useAuth();
+    const [role, isRoleLoading] = useRole();
+    const location = useLocation();
 
-    // Change background on scroll
+    // Handle scroll effect
     useEffect(() => {
         const handleScroll = () => setScrolled(window.scrollY > 20);
         window.addEventListener('scroll', handleScroll);
         return () => window.removeEventListener('scroll', handleScroll);
     }, []);
 
-    const handleUserLogout = () => {
+    // Close mobile menu on route change
+    useEffect(() => {
+        setMobileMenuOpen(false);
+        setUserMenuOpen(false);
+    }, [location]);
+
+    const handleLogout = () => {
         userLogout();
         setUserMenuOpen(false);
     };
 
-    const linkClass = "relative py-2 px-1 font-medium transition-all duration-300 before:content-[''] before:absolute before:bottom-0 before:left-0 before:w-0 before:h-0.5 before:bg-white before:transition-all hover:before:w-full";
+    // Navigation links based on authentication status
+    const loggedOutLinks = [
+        { to: '/', label: 'Home', end: true },
+        { to: '/books', label: 'Books' },
+        { to: '/about', label: 'About' }
+    ];
 
-    const activeLink = ({ isActive }) =>
-        `${linkClass} ${isActive ? 'text-white before:w-full' : 'text-white/80 hover:text-white'}`;
+    // Navigation links based on authentication status and role
+    const getLoggedInLinks = () => {
+        const baseLinks = [
+            { to: '/', label: 'Home', end: true },
+            { to: '/books', label: 'Books' },
+            { to: '/dashboard', label: 'Dashboard' }
+        ];
 
-    const navLinks = (
-        <>
-            <li><NavLink to={'/'} className={activeLink} end>Home</NavLink></li>
-            <li><NavLink to={'/books'} className={activeLink}>Books</NavLink></li>
-            <li><NavLink to={'/dashboard'} className={activeLink}>Dashboard</NavLink></li>
-          
+        // Only show My Orders and Wishlist for customers (user role)
+        if (role === 'user') {
+            baseLinks.push(
+                { to: '/orders', label: 'My Orders' },
+                { to: '/wishlist', label: 'Wishlist' }
+            );
+        }
 
-        </>
-    );
+        return baseLinks;
+    };
+
+    const currentLinks = user ? getLoggedInLinks() : loggedOutLinks;
+
+    // Role-based profile dropdown links
+    const getProfileLinks = () => {
+        const baseLinks = [
+            { to: '/dashboard/user-profile', label: 'My Profile', icon: <User size={18} /> }
+        ];
+
+        // Only add My Orders and Wishlist for customers (user role)
+        if (role === 'user') {
+            baseLinks.push(
+                { to: '/dashboard/my-orders', label: 'My Orders', icon: <Package size={18} /> },
+                { to: '/dashboard/wishlist', label: 'Wishlist', icon: <Heart size={18} /> }
+            );
+        }
+
+        if (role === 'admin') {
+            return [
+                ...baseLinks,
+                { divider: true },
+                { to: '/dashboard/admin-statistics', label: 'Admin Dashboard', icon: <BarChart3 size={18} /> },
+                { to: '/dashboard/manage-users', label: 'Manage Users', icon: <Users size={18} /> },
+                { to: '/dashboard/manage-books', label: 'Manage Books', icon: <BookOpen size={18} /> }
+            ];
+        } else if (role === 'librarian') {
+            return [
+                ...baseLinks,
+                { divider: true },
+                { to: '/dashboard/my-books', label: 'My Books', icon: <BookOpen size={18} /> },
+                { to: '/dashboard/add-book', label: 'Add Book', icon: <Package size={18} /> },
+                { to: '/dashboard/manage-orders', label: 'Manage Orders', icon: <FileText size={18} /> }
+            ];
+        }
+
+        return baseLinks;
+    };
+
+    const linkClass = ({ isActive }) =>
+        `relative py-2 px-4 font-medium transition-all duration-300 rounded-lg hover:bg-white/10 ${
+            isActive 
+                ? 'text-white bg-white/20' 
+                : 'text-white/80 hover:text-white'
+        }`;
 
     return (
-        <header className="fixed top-0 w-full z-50 transition-all duration-300">
-            {/* 1. TOP BAR - Socials & Quick Links */}
-            <div className={`bg-emerald-700 text-white/70 py-1.5 transition-all ${scrolled ? 'hidden' : 'block'}`}>
+        <header className="fixed top-0 w-full z-50">
+            <nav className={`transition-all duration-300 ${
+                scrolled 
+                    ? 'bg-primary/95 backdrop-blur-md shadow-xl py-3' 
+                    : 'bg-primary py-4'
+            }`}>
                 <Container>
-                    <div className="flex justify-between items-center px-4 text-xs font-medium">
-                        <div className="flex gap-4 items-center">
-                            <a href="#" className="hover:text-white transition-colors"><RiFacebookCircleLine size={16} /></a>
-                            <a href="#" className="hover:text-white transition-colors"><AiOutlineInstagram size={16} /></a>
-                            <a href="#" className="hover:text-white transition-colors"><RiTwitterXFill size={14} /></a>
-                        </div>
-                        <div className="flex gap-6 items-center">
-                            <Link to="/wishlist" className="flex items-center gap-1.5 hover:text-white"><FiBookmark /> Wishlist</Link>
-                            <Link to="/cart" className="flex items-center gap-1.5 hover:text-white"><FiShoppingCart /> Cart</Link>
-                        </div>
-                    </div>
-                </Container>
-            </div>
-
-            {/* 2. MAIN NAVBAR */}
-            <nav className={`transition-all duration-300 ${scrolled ? 'bg-primary/95 backdrop-blur-md shadow-lg py-2' : 'bg-primary py-4'}`}>
-                <Container>
-                    <div className="navbar p-0 min-h-fit">
-                        {/* Mobile Menu */}
-                        <div className="navbar-start lg:w-1/4">
-                            <div className="dropdown lg:hidden">
-                                <div tabIndex={0} role="button" className="btn btn-ghost btn-circle text-white">
-                                    <FiMenu size={24} />
-                                </div>
-                                <ul tabIndex={0} className="dropdown-content mt-3 z-1 p-4 shadow-2xl bg-primary border border-white/10 rounded-2xl w-64 space-y-2">
-                                    {navLinks}
-                                </ul>
-                            </div>
-                            <div className="ml-2 lg:ml-0">
-                                <Logo color="white" />
-                            </div>
-
+                    <div className="flex items-center justify-between">
+                        {/* Logo */}
+                        <div className="flex items-center">
+                            <Logo color="white" />
                         </div>
 
-                        {/* Desktop Links */}
-                        <div className="navbar-center hidden lg:flex">
-                            <ul className="flex gap-8 list-none">
-                                {navLinks}
-                            </ul>
+                        {/* Desktop Navigation */}
+                        <div className="hidden lg:flex items-center space-x-2">
+                            {currentLinks.map((link) => (
+                                <NavLink
+                                    key={link.to}
+                                    to={link.to}
+                                    end={link.end}
+                                    className={linkClass}
+                                >
+                                    {link.label}
+                                </NavLink>
+                            ))}
                         </div>
 
-                        {/* Actions / User Profile */}
-                        <div className="navbar-end gap-3">
-                            <button className="btn btn-ghost btn-circle text-white hidden sm:flex">
-                                <FiSearch size={20} />
+                        {/* Right Side Actions */}
+                        <div className="flex items-center gap-3">
+                            {/* Theme Toggle */}
+                            <ThemeToggle variant="navbar" />
+
+                            {/* Search Button */}
+                            <button className="btn btn-ghost btn-circle text-white hover:bg-white/10 hidden sm:flex">
+                                <Search size={20} />
                             </button>
 
+                            {/* Cart & Wishlist (only for customers) */}
+                            {user && role === 'user' && (
+                                <>
+                                    <Link 
+                                        to="/wishlist" 
+                                        className="btn btn-ghost btn-circle text-white hover:bg-white/10 hidden sm:flex"
+                                    >
+                                        <Heart size={20} />
+                                    </Link>
+                                    <Link 
+                                        to="/cart" 
+                                        className="btn btn-ghost btn-circle text-white hover:bg-white/10 hidden sm:flex relative"
+                                    >
+                                        <ShoppingCart size={20} />
+                                        <span className="absolute -top-1 -right-1 bg-secondary text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
+                                            0
+                                        </span>
+                                    </Link>
+                                </>
+                            )}
+
+                            {/* User Profile or Login */}
                             {user ? (
                                 <div className="relative">
                                     <button
@@ -100,31 +187,64 @@ const Navbar = () => {
                                     >
                                         <img
                                             className="w-8 h-8 rounded-full border border-white/50 object-cover"
-                                            src={user?.photoURL || "/default-avatar.png"}
-                                            alt="profile"
+                                            src={user?.photoURL || `https://ui-avatars.com/api/?name=${user?.displayName || 'User'}&background=random`}
+                                            alt="Profile"
                                         />
-                                        <ChevronDown size={14} className={`text-white transition-transform ${userMenuOpen ? 'rotate-180' : ''}`} />
+                                        <span className="text-white text-sm font-medium hidden md:block">
+                                            {user?.displayName?.split(' ')[0] || 'User'}
+                                        </span>
+                                        <ChevronDown 
+                                            size={16} 
+                                            className={`text-white transition-transform ${userMenuOpen ? 'rotate-180' : ''}`} 
+                                        />
                                     </button>
 
-                                    {/* USER DROPDOWN MENU */}
+                                    {/* Profile Dropdown */}
                                     {userMenuOpen && (
-                                        <div className="absolute top-12 right-0 w-64 bg-white rounded-2xl shadow-2xl border border-gray-100 overflow-hidden text-neutral animate-in fade-in zoom-in duration-200">
-                                            <div className="p-5 bg-gray-50 border-b border-gray-100">
-                                                <p className="font-bold text-neutral-800 truncate">{user?.displayName}</p>
-                                                <p className="text-xs text-neutral-500 truncate">{user?.email}</p>
+                                        <div className="absolute top-12 right-0 w-72 bg-white rounded-2xl shadow-2xl border border-gray-100 overflow-hidden animate-in fade-in zoom-in duration-200">
+                                            {/* User Info Header */}
+                                            <div className="p-4 bg-gradient-to-r from-primary to-primary-focus text-white">
+                                                <div className="flex items-center gap-3">
+                                                    <img
+                                                        className="w-12 h-12 rounded-full border-2 border-white/50 object-cover"
+                                                        src={user?.photoURL || `https://ui-avatars.com/api/?name=${user?.displayName || 'User'}&background=random`}
+                                                        alt="Profile"
+                                                    />
+                                                    <div>
+                                                        <p className="font-bold truncate">{user?.displayName || 'User'}</p>
+                                                        <p className="text-xs opacity-80 truncate">{user?.email}</p>
+                                                        {!isRoleLoading && (
+                                                            <span className="inline-block mt-1 px-2 py-0.5 bg-white/20 rounded-full text-xs font-medium capitalize">
+                                                                {role}
+                                                            </span>
+                                                        )}
+                                                    </div>
+                                                </div>
                                             </div>
+
+                                            {/* Menu Items */}
                                             <div className="p-2">
-                                                <Link to="/dashboard/my-profile" className="flex items-center gap-3 p-3 rounded-xl hover:bg-primary/5 transition-colors group">
-                                                    <User size={18} className="text-neutral-400 group-hover:text-primary" />
-                                                    <span className="text-sm font-medium">My Profile</span>
-                                                </Link>
-                                                <Link to="/dashboard" className="flex items-center gap-3 p-3 rounded-xl hover:bg-primary/5 transition-colors group">
-                                                    <LayoutDashboard size={18} className="text-neutral-400 group-hover:text-primary" />
-                                                    <span className="text-sm font-medium">Dashboard</span>
-                                                </Link>
-                                                <div className="divider my-1 opacity-50"></div>
+                                                {getProfileLinks().map((link, index) => (
+                                                    link.divider ? (
+                                                        <div key={index} className="divider my-2 opacity-30"></div>
+                                                    ) : (
+                                                        <Link
+                                                            key={link.to}
+                                                            to={link.to}
+                                                            className="flex items-center gap-3 p-3 rounded-xl hover:bg-primary/5 transition-colors group"
+                                                        >
+                                                            <span className="text-neutral-400 group-hover:text-primary">
+                                                                {link.icon}
+                                                            </span>
+                                                            <span className="text-sm font-medium">{link.label}</span>
+                                                        </Link>
+                                                    )
+                                                ))}
+                                                
+                                                <div className="divider my-2 opacity-30"></div>
+                                                
                                                 <button
-                                                    onClick={handleUserLogout}
+                                                    onClick={handleLogout}
                                                     className="flex w-full items-center gap-3 p-3 rounded-xl hover:bg-red-50 text-red-600 transition-colors group"
                                                 >
                                                     <LogOut size={18} />
@@ -135,16 +255,83 @@ const Navbar = () => {
                                     )}
                                 </div>
                             ) : (
-                                <Link
-                                    to="/login"
-                                    className="btn btn-sm md:btn-md bg-white text-primary hover:bg-gray-100 border-none px-6 rounded-full font-bold shadow-lg"
-                                >
-                                    Login
-                                </Link>
+                                <div className="flex items-center gap-2">
+                                    <Link
+                                        to="/login"
+                                        className="btn btn-ghost text-white hover:bg-white/10 hidden sm:flex"
+                                    >
+                                        Login
+                                    </Link>
+                                    <Link
+                                        to="/register"
+                                        className="btn btn-secondary btn-sm px-6 rounded-full font-bold shadow-lg"
+                                    >
+                                        Sign Up
+                                    </Link>
+                                </div>
                             )}
 
+                            {/* Mobile Menu Button */}
+                            <button
+                                onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+                                className="btn btn-ghost btn-circle text-white lg:hidden"
+                            >
+                                {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+                            </button>
                         </div>
                     </div>
+
+                    {/* Mobile Menu */}
+                    {mobileMenuOpen && (
+                        <div className="lg:hidden mt-4 pb-4 border-t border-white/20">
+                            <div className="flex flex-col space-y-2 mt-4">
+                                {currentLinks.map((link) => (
+                                    <NavLink
+                                        key={link.to}
+                                        to={link.to}
+                                        end={link.end}
+                                        className={({ isActive }) =>
+                                            `block py-3 px-4 rounded-lg font-medium transition-colors ${
+                                                isActive 
+                                                    ? 'text-white bg-white/20' 
+                                                    : 'text-white/80 hover:text-white hover:bg-white/10'
+                                            }`
+                                        }
+                                    >
+                                        {link.label}
+                                    </NavLink>
+                                ))}
+                                
+                                {/* Mobile-only links (only for customers) */}
+                                {user && role === 'user' && (
+                                    <>
+                                        <div className="divider opacity-30"></div>
+                                        <Link
+                                            to="/wishlist"
+                                            className="block py-3 px-4 rounded-lg font-medium text-white/80 hover:text-white hover:bg-white/10 transition-colors"
+                                        >
+                                            Wishlist
+                                        </Link>
+                                        <Link
+                                            to="/cart"
+                                            className="block py-3 px-4 rounded-lg font-medium text-white/80 hover:text-white hover:bg-white/10 transition-colors"
+                                        >
+                                            Cart
+                                        </Link>
+                                    </>
+                                )}
+                                
+                                {!user && (
+                                    <Link
+                                        to="/login"
+                                        className="block py-3 px-4 rounded-lg font-medium text-white/80 hover:text-white hover:bg-white/10 transition-colors"
+                                    >
+                                        Login
+                                    </Link>
+                                )}
+                            </div>
+                        </div>
+                    )}
                 </Container>
             </nav>
         </header>

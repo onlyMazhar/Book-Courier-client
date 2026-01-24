@@ -1,121 +1,392 @@
+import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router';
 import SocialLogin from '../../Components/SocialLogin';
 import { useForm } from 'react-hook-form';
 import { useAuth } from '../../Hooks/useAuth';
-import { Bounce, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import { saveOrUpdateUser, uploadImage } from '../../utils';
+import { 
+    Mail, 
+    Lock, 
+    Eye, 
+    EyeOff, 
+    AlertCircle, 
+    Loader2,
+    UserPlus,
+    Upload,
+    User,
+    CheckCircle
+} from 'lucide-react';
 
 const Register = () => {
-    const { userRegister, updateUserProfile } = useAuth()
+    const { userRegister, updateUserProfile } = useAuth();
+    const navigate = useNavigate();
+    const [showPassword, setShowPassword] = useState(false);
+    const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
+    const [imagePreview, setImagePreview] = useState(null);
+
     const {
         register,
         handleSubmit,
-        formState: { errors } } = useForm()
-    const navigate = useNavigate();
+        watch,
+        formState: { errors, isSubmitting }
+    } = useForm();
 
-    const emailRegex = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,}$/;
+    
+    const password = watch('password');
+
+    const handleImageChange = (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            if (file.size > 5 * 1024 * 1024) { // 5MB limit
+                toast.error('Image size should be less than 5MB');
+                return;
+            }
+            const reader = new FileReader();
+            reader.onloadend = () => {
+                setImagePreview(reader.result);
+            };
+            reader.readAsDataURL(file);
+        }
+    };
 
     const handleRegister = async (data) => {
         const { name, email, password, image } = data;
         const imageFile = image?.[0];
+        setIsLoading(true);
 
         try {
+            // Create user account
             await userRegister(email, password);
-            const imageUrl = await uploadImage(imageFile);
+            
+            // Upload image if provided
+            let imageUrl = null;
+            if (imageFile) {
+                imageUrl = await uploadImage(imageFile);
+            }
+            
+            // Update user profile
             await updateUserProfile(name, imageUrl);
+            
+            // Save user to database
+            await saveOrUpdateUser({ 
+                email, 
+                name, 
+                image: imageUrl,
+                createdAt: new Date()
+            });
+
+            toast.success('Account created successfully! Welcome to BookCourier');
             navigate('/');
-            toast.success('Login Successfull', { transition: Bounce });
-            await saveOrUpdateUser({ email, name, image: imageUrl })
 
         } catch (err) {
-            console.log(err);
+            console.error(err);
+            let errorMessage = 'Registration failed. Please try again.';
+            
+            if (err.code === 'auth/email-already-in-use') {
+                errorMessage = 'An account with this email already exists.';
+            } else if (err.code === 'auth/weak-password') {
+                errorMessage = 'Password is too weak. Please choose a stronger password.';
+            } else if (err.code === 'auth/invalid-email') {
+                errorMessage = 'Invalid email address format.';
+            }
+            
+            toast.error(errorMessage);
+        } finally {
+            setIsLoading(false);
         }
     };
 
-
-
-
     return (
-        <div className="  w-full  mx-auto  max-w-sm shrink-0  ">
-            <title>Register</title>
-
-            <div className="card-body">
-                <div className="space-y-3">
-                    <h2 className="text-4xl font-bold">Create an Account</h2>
-                    <p className="text-lg font-medium">Register with BookCourier</p>
+        <div className="w-full mx-auto max-w-md px-6">
+            <div className="space-y-8">
+                {/* Header */}
+                <div className="text-center space-y-3">
+                    <div className="w-16 h-16 bg-primary/10 rounded-2xl flex items-center justify-center mx-auto mb-4">
+                        <UserPlus size={32} className="text-primary" />
+                    </div>
+                    <h1 className="text-3xl font-black text-slate-900">Create Account</h1>
+                    <p className="text-slate-600">
+                        Join BookCourier and start your reading journey
+                    </p>
                 </div>
-                <form onSubmit={handleSubmit(handleRegister)} className="fieldset">
 
-                    {/* Name feild */}
-                    <label className="label">Name</label>
-                    <input
-                        {...register("name", {
-                            required: "Name is required",
-                            maxLength: { value: 20, message: "Name too long" },
-                            minLength: { value: 6, message: "Name too short" }
-                        })}
-                        type="text"
-                        placeholder="Your Name"
-                        className="input  w-full"
-                    />
-                    {errors.name && (
-                        <p className="text-sm text-red-500">{errors.name.message}</p>
-                    )}
+                {/* Registration Form */}
+                <form onSubmit={handleSubmit(handleRegister)} className="space-y-6">
+                    {/* Name Field */}
+                    <div className="space-y-2">
+                        <label className="block text-sm font-bold text-slate-700">
+                            Full Name
+                        </label>
+                        <div className="relative">
+                            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                <User size={18} className="text-slate-400" />
+                            </div>
+                            <input
+                                {...register("name", {
+                                    required: "Full name is required",
+                                    minLength: {
+                                        value: 2,
+                                        message: "Name must be at least 2 characters"
+                                    },
+                                    maxLength: {
+                                        value: 50,
+                                        message: "Name must be less than 50 characters"
+                                    }
+                                })}
+                                type="text"
+                                placeholder="Enter your full name"
+                                className={`w-full pl-10 pr-4 py-3 border rounded-xl focus:ring-2 focus:ring-primary focus:border-primary transition-colors ${
+                                    errors.name ? 'border-red-300 bg-red-50' : 'border-slate-300'
+                                }`}
+                                disabled={isLoading}
+                            />
+                        </div>
+                        {errors.name && (
+                            <div className="flex items-center gap-2 text-red-600 text-sm">
+                                <AlertCircle size={16} />
+                                {errors.name.message}
+                            </div>
+                        )}
+                    </div>
 
-                    {/* Email feild */}
-                    <label className="label">Image</label>
-                    <input
-                        {...register("image")}
-                        type="file"
-                        className="file-input w-full" />
+                    {/* Profile Image Field */}
+                    <div className="space-y-2">
+                        <label className="block text-sm font-bold text-slate-700">
+                            Profile Picture (Optional)
+                        </label>
+                        <div className="flex items-center gap-4">
+                            {imagePreview ? (
+                                <img 
+                                    src={imagePreview} 
+                                    alt="Preview" 
+                                    className="w-16 h-16 rounded-full object-cover border-2 border-slate-200"
+                                />
+                            ) : (
+                                <div className="w-16 h-16 bg-slate-100 rounded-full flex items-center justify-center">
+                                    <User size={24} className="text-slate-400" />
+                                </div>
+                            )}
+                            <div className="flex-1">
+                                <input
+                                    {...register("image")}
+                                    type="file"
+                                    accept="image/*"
+                                    onChange={handleImageChange}
+                                    className="hidden"
+                                    id="image-upload"
+                                    disabled={isLoading}
+                                />
+                                <label
+                                    htmlFor="image-upload"
+                                    className="cursor-pointer inline-flex items-center gap-2 px-4 py-2 border border-slate-300 rounded-lg text-sm font-medium text-slate-700 hover:bg-slate-50 transition-colors"
+                                >
+                                    <Upload size={16} />
+                                    Choose Image
+                                </label>
+                                <p className="text-xs text-slate-500 mt-1">Max 5MB, JPG/PNG</p>
+                            </div>
+                        </div>
+                    </div>
 
-                    {/* Email feild */}
-                    <label className="label">Email</label>
-                    <input
-                        {...register("email",
-                            {
-                                required: "Email is required",
-                                pattern: {
-                                    value: emailRegex,
-                                    message: "Enter a valid email format."
-                                }
-                            })}
-                        type="email"
-                        placeholder="Email"
-                        className="input  w-full"
-                    />
-                    {errors.email && (
-                        <p className="text-sm text-red-500">{errors.email.message}</p>
-                    )}
+                    {/* Email Field */}
+                    <div className="space-y-2">
+                        <label className="block text-sm font-bold text-slate-700">
+                            Email Address
+                        </label>
+                        <div className="relative">
+                            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                <Mail size={18} className="text-slate-400" />
+                            </div>
+                            <input
+                                {...register("email", {
+                                    required: "Email is required",
+                                    pattern: {
+                                        value: emailRegex,
+                                        message: "Please enter a valid email address"
+                                    }
+                                })}
+                                type="email"
+                                placeholder="Enter your email"
+                                className={`w-full pl-10 pr-4 py-3 border rounded-xl focus:ring-2 focus:ring-primary focus:border-primary transition-colors ${
+                                    errors.email ? 'border-red-300 bg-red-50' : 'border-slate-300'
+                                }`}
+                                disabled={isLoading}
+                            />
+                        </div>
+                        {errors.email && (
+                            <div className="flex items-center gap-2 text-red-600 text-sm">
+                                <AlertCircle size={16} />
+                                {errors.email.message}
+                            </div>
+                        )}
+                    </div>
 
-                    {/* Password feild */}
-                    <label className="label">Password</label>
-                    <input
-                        {...register("password",
-                            {
-                                required: "Password is required",
-                                pattern: {
-                                    value: passwordRegex,
-                                    message: "Password must be at least 6 characters long and contain at least one uppercase letter, one lowercase letter, one number, and one special character."
-                                }
-                            })}
-                        type="password"
-                        placeholder="Password"
-                        className="input  w-full"
-                    />
-                    {errors.password && (
-                        <p className="text-sm text-red-500">{errors.password.message}</p>
-                    )}
+                    {/* Password Field */}
+                    <div className="space-y-2">
+                        <label className="block text-sm font-bold text-slate-700">
+                            Password
+                        </label>
+                        <div className="relative">
+                            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                <Lock size={18} className="text-slate-400" />
+                            </div>
+                            <input
+                                {...register("password", {
+                                    required: "Password is required",
+                                    pattern: {
+                                        value: passwordRegex,
+                                        message: "Password must contain at least 6 characters, including uppercase, lowercase, number, and special character"
+                                    }
+                                })}
+                                type={showPassword ? "text" : "password"}
+                                placeholder="Create a strong password"
+                                className={`w-full pl-10 pr-12 py-3 border rounded-xl focus:ring-2 focus:ring-primary focus:border-primary transition-colors ${
+                                    errors.password ? 'border-red-300 bg-red-50' : 'border-slate-300'
+                                }`}
+                                disabled={isLoading}
+                            />
+                            <button
+                                type="button"
+                                onClick={() => setShowPassword(!showPassword)}
+                                className="absolute inset-y-0 right-0 pr-3 flex items-center"
+                                disabled={isLoading}
+                            >
+                                {showPassword ? (
+                                    <EyeOff size={18} className="text-slate-400 hover:text-slate-600" />
+                                ) : (
+                                    <Eye size={18} className="text-slate-400 hover:text-slate-600" />
+                                )}
+                            </button>
+                        </div>
+                        {errors.password && (
+                            <div className="flex items-center gap-2 text-red-600 text-sm">
+                                <AlertCircle size={16} />
+                                {errors.password.message}
+                            </div>
+                        )}
+                    </div>
 
-                    <div><a className="link link-hover">Forgot password?</a></div>
-                    <button type="submit" className="btn bg-black text-white mt-4">Register</button>
-                </form >
+                    {/* Confirm Password Field */}
+                    <div className="space-y-2">
+                        <label className="block text-sm font-bold text-slate-700">
+                            Confirm Password
+                        </label>
+                        <div className="relative">
+                            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                <Lock size={18} className="text-slate-400" />
+                            </div>
+                            <input
+                                {...register("confirmPassword", {
+                                    required: "Please confirm your password",
+                                    validate: value => value === password || "Passwords do not match"
+                                })}
+                                type={showConfirmPassword ? "text" : "password"}
+                                placeholder="Confirm your password"
+                                className={`w-full pl-10 pr-12 py-3 border rounded-xl focus:ring-2 focus:ring-primary focus:border-primary transition-colors ${
+                                    errors.confirmPassword ? 'border-red-300 bg-red-50' : 'border-slate-300'
+                                }`}
+                                disabled={isLoading}
+                            />
+                            <button
+                                type="button"
+                                onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                                className="absolute inset-y-0 right-0 pr-3 flex items-center"
+                                disabled={isLoading}
+                            >
+                                {showConfirmPassword ? (
+                                    <EyeOff size={18} className="text-slate-400 hover:text-slate-600" />
+                                ) : (
+                                    <Eye size={18} className="text-slate-400 hover:text-slate-600" />
+                                )}
+                            </button>
+                        </div>
+                        {errors.confirmPassword && (
+                            <div className="flex items-center gap-2 text-red-600 text-sm">
+                                <AlertCircle size={16} />
+                                {errors.confirmPassword.message}
+                            </div>
+                        )}
+                    </div>
 
-                <p>Already have a account? <span className="hover:text-primary text-black underline"><Link to="/login">Login</Link ></span></p>
-                <p className="text-sm font-bold text-center">or</p>
+                    {/* Terms and Conditions */}
+                    <div className="space-y-2">
+                        <label className="flex items-start gap-3">
+                            <input
+                                {...register("terms", {
+                                    required: "You must accept the terms and conditions"
+                                })}
+                                type="checkbox"
+                                className="mt-1 w-4 h-4 text-primary border-slate-300 rounded focus:ring-primary"
+                                disabled={isLoading}
+                            />
+                            <span className="text-sm text-slate-600">
+                                I agree to the{' '}
+                                <Link to="/terms-of-service" className="text-primary hover:text-primary/80 font-medium">
+                                    Terms of Service
+                                </Link>
+                                {' '}and{' '}
+                                <Link to="/privacy-policy" className="text-primary hover:text-primary/80 font-medium">
+                                    Privacy Policy
+                                </Link>
+                            </span>
+                        </label>
+                        {errors.terms && (
+                            <div className="flex items-center gap-2 text-red-600 text-sm">
+                                <AlertCircle size={16} />
+                                {errors.terms.message}
+                            </div>
+                        )}
+                    </div>
+
+                    {/* Register Button */}
+                    <button
+                        type="submit"
+                        disabled={isLoading || isSubmitting}
+                        className="w-full bg-primary hover:bg-primary/90 text-white py-3 px-4 rounded-xl font-bold transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                    >
+                        {isLoading ? (
+                            <>
+                                <Loader2 size={18} className="animate-spin" />
+                                Creating account...
+                            </>
+                        ) : (
+                            <>
+                                <CheckCircle size={18} />
+                                Create Account
+                            </>
+                        )}
+                    </button>
+                </form>
+
+                {/* Divider */}
+                <div className="relative">
+                    <div className="absolute inset-0 flex items-center">
+                        <div className="w-full border-t border-slate-200"></div>
+                    </div>
+                    <div className="relative flex justify-center text-sm">
+                        <span className="px-4 bg-white text-slate-500 font-medium">Or continue with</span>
+                    </div>
+                </div>
+
+                {/* Social Login */}
                 <SocialLogin />
 
+                {/* Login Link */}
+                <div className="text-center">
+                    <p className="text-slate-600">
+                        Already have an account?{' '}
+                        <Link 
+                            to="/login"
+                            className="text-primary hover:text-primary/80 font-bold"
+                        >
+                            Sign in
+                        </Link>
+                    </p>
+                </div>
             </div>
         </div>
     );

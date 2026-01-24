@@ -6,19 +6,29 @@
 @plugin "daisyui/theme" {
   name: "light";
   default: true;
-
-  --color-primary: #00453E;      /* Amazon dark green (navbar) */
-  --color-secondary: #005B52;    /* Slightly lighter green for hovers */
-  --color-accent: #C70F74;       /* Search button pink accent in screenshot */
-  --color-star: #FFB400;         /* Gold star rating */
-  --color-text: #0F1111;         /* Amazon black text */
-  --color-base-100: #FFFFFF;     /* Main white background */
-  --color-base-200: #F3F3F3;     /* Light gray panel background */
-  --color-border: #DDDDDD;       /* Borders */
-  --color-success: #067D62;      /* Amazon-style green messages */
-  --color-error: #CC0A00;        /* Amazon alert/error red */
+  --color-primary: #0F766E;
+  --color-secondary: #115E59;
+  --color-accent: #C026D3;
+  --color-base-100: #FFFFFF;
+  --color-base-200: #F1F5F9;
+  --color-base-300: #E2E8F0;
+  --color-base-content: #0F172A;
+  --color-neutral: #64748B;
+  --color-neutral-content: #FFFFFF;
 }
 
+@plugin "daisyui/theme" {
+  name: "dark";
+  --color-primary: #14B8A6;
+  --color-secondary: #0F766E;
+  --color-accent: #E879F9;
+  --color-base-100: #020617;
+  --color-base-200: #0F172A;
+  --color-base-300: #1E293B;
+  --color-base-content: #E5E7EB;
+  --color-neutral: #64748B;
+  --color-neutral-content: #E5E7EB;
+}
 
 :root {
   --font-primary: 'Inter', sans-serif;
@@ -27,7 +37,17 @@
 
 body {
   font-family: var(--font-primary);
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+[data-theme="light"] body {
   background-color: #F8FAFC;
+  color: #0F172A;
+}
+
+[data-theme="dark"] body {
+  background-color: #020617;
+  color: #E5E7EB;
 }
 
 .font-title {
@@ -36,4 +56,41 @@ body {
 
 .sidebar-transition {
   transition: width 300ms ease-in-out, margin 300ms ease-in-out;
+}
+
+/* Theme transition for smooth switching */
+* {
+  transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+}
+
+/* Shimmer animation for skeleton loaders */
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+/* Custom scrollbar for dark theme */
+[data-theme="dark"] ::-webkit-scrollbar {
+  width: 8px;
+}
+
+[data-theme="dark"] ::-webkit-scrollbar-track {
+  background: #0F172A;
+}
+
+[data-theme="dark"] ::-webkit-scrollbar-thumb {
+  background: #1E293B;
+  border-radius: 4px;
+}
+
+[data-theme="dark"] ::-webkit-scrollbar-thumb:hover {
+  background: #334155;
+}
+
+.animate-shimmer {
+  animation: shimmer 2s infinite linear;
 }

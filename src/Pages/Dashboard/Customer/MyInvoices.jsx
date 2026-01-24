@@ -41,7 +41,7 @@ const MyInvoices = () => {
                     {invoices.map((invoice) => (
                         <div
                             key={invoice._id}
-                            className="group relative bg-white border border-gray-200 rounded-xl p-6 shadow-sm hover:shadow-md transition-shadow duration-200"
+                            className="group relative bg-base-200 backdrop-blur-sm rounded-3xl border border-base-300 hover:bg-base-300 p-6 shadow-sm hover:shadow-md transition-all duration-300"
                         >
                             {/* Header Section */}
                             <div className="flex justify-between items-start mb-4">

@@ -7,7 +7,7 @@ import { toast } from 'react-toastify';
 const RequestBookForm = () => {
     const { register, handleSubmit, reset,  } = useForm();
 
-    const onSubmit = (data) => {
+    const onSubmit = (data) => { 
         console.log("Requested Book Data:", data);
         // Here you would typically send an axios.post to your '/requested-books' endpoint
         toast.success("Request submitted! We'll notify you if we find it.");
@@ -15,9 +15,9 @@ const RequestBookForm = () => {
     };
 
     return (
-        <div className="pb-26 bg-slate-50  flex items-center">
+        <div className="pb-26 bg-base-10 flex items-center">
             <div className="  mx-auto px-4 w-full">
-                <div className="bg-base-100 rounded-[2.5rem] shadow-2xl overflow-hidden flex flex-col lg:flex-row border border-base-300">
+                <div className="bg-base-200 backdrop-blur-sm rounded-3xl border border-base-300 hover:bg-base-300 shadow-2xl overflow-hidden flex flex-col lg:flex-row transition-all duration-300">
                     
                     {/* LEFT SIDE: Information */}
                     <div className="lg:w-2/5 bg-primary p-10 md:p-16 text-white flex flex-col justify-center">

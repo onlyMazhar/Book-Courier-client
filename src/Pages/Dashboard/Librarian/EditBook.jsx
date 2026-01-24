@@ -34,7 +34,7 @@ const EditBook = () => {
     return (
         <form
             onSubmit={handleSubmit(onSubmit)}
-            className="max-w-5xl mx-auto bg-white p-6 rounded-lg my-20 shadow space-y-5"
+            className="max-w-5xl mx-auto bg-base-200 backdrop-blur-sm rounded-3xl border border-base-300 hover:bg-base-300 p-6 my-20 shadow transition-all duration-300 space-y-5"
         >
             <h2 className="text-xl font-semibold border-b pb-2">
                 Edit Book

@@ -13,7 +13,7 @@ const HowItWorks = () => {
         <div className="py-24 overflow-hidden">
             <div className="mx-auto px-4">
                 <div className="text-center mb-16">
-                    <h2 className="text-4xl font-black text-slate-900 mb-4">How It Works</h2>
+                    <h2 className="text-4xl font-black text-base-content mb-4">How It Works</h2>
                     <p className="text-slate-500">Getting your favorite books has never been this simple.</p>
                 </div>
 

@@ -150,7 +150,7 @@ const CoverageMap = () => {
                         { label: "Riders", val: "100+" },
                         { label: "Satisfaction", val: "99%" },
                     ].map((stat, i) => (
-                        <div key={i} className=" bg-base-100 p-6 rounded-2xl text-center shadow-lg">
+                        <div key={i} className="bg-base-200 backdrop-blur-sm rounded-3xl border border-base-300 hover:bg-base-300 p-6 text-center shadow-lg transition-all duration-300">
                             <p className="text-3xl font-black text-primary">{stat.val}</p>
                             <p className="text-xs uppercase font-bold opacity-50 tracking-tighter">{stat.label}</p>
                         </div>

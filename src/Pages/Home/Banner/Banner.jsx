@@ -1,32 +1,32 @@
 import React from 'react';
-import "react-responsive-carousel/lib/styles/carousel.min.css"; 
+import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { Carousel } from 'react-responsive-carousel';
 import { Tag, Truck, Info, ArrowRight, ShoppingBag } from 'lucide-react';
 import { Link } from 'react-router';
+import ScrollIndicator from '../ScrollIndicator/ScrollIndicator';
 
 const Banner = () => {
     return (
-        <div className=" mx-auto pt-24 pb-10">
-            <div className="  overflow-hidden shadow-sm border border-base-200 bg-base-100">
-                <Carousel 
-                    infiniteLoop={true} 
-                    showThumbs={false} 
-                    autoPlay={true} 
+        <div className="h-full w-full mt-20 ">
+            <div className=" shadow-smbg-base-100">
+                <Carousel
+                    infiniteLoop={true}
+                    showThumbs={false}
+                    autoPlay={true}
                     showStatus={false}
-                    interval={5000}
-                    className="overflow-hidden"
+                    interval={5000} 
                 >
                     {/* SLIDE 1: OFFERS */}
-                    <div className="min-h-[70vh] flex flex-col md:flex-row items-stretch">
-                        <div className="w-full md:w-1/2 p-10 md:p-20 text-left flex flex-col justify-center space-y-8 bg-linear-to-br from-base-100 to-base-200">
+                    <div className="h-[70vh]  flex flex-col md:flex-row items-stretch">
+                        <div className="w-full md:w-1/2 p-8 md:p-16 text-left flex flex-col justify-center space-y-6 bg-linear-to-br from-base-100 to-base-200">
                             <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-orange-100 text-orange-600 font-bold text-xs uppercase tracking-widest w-fit">
                                 <Tag size={16} /> Exclusive Discounts
                             </div>
-                            <h2 className="text-5xl md:text-7xl font-black text-base-content leading-[1.1]">
-                                Winter Book <br/> 
+                            <h2 className="text-4xl md:text-6xl font-black text-base-content leading-[1.1]">
+                                Winter Book <br />
                                 <span className="text-primary italic">Fest 2025</span>
                             </h2>
-                            <p className="text-neutral/60 text-xl max-w-md leading-relaxed">
+                            <p className="text-neutral/60 text-lg max-w-md leading-relaxed">
                                 Dive into our collection with up to <span className="font-bold text-primary">60% OFF</span>. Your next adventure is just a click away.
                             </p>
                             <div className="pt-4">
@@ -35,26 +35,26 @@ const Banner = () => {
                                 </Link>
                             </div>
                         </div>
-                        <div className="w-full md:w-1/2 min-h-[300px] md:min-h-full relative">
-                            <img 
-                                src="https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?auto=format&fit=crop&q=80&w=1200" 
-                                className="absolute inset-0 h-full w-full object-cover" 
-                                alt="Offers" 
+                        <div className="w-full md:w-1/2 h-full relative">
+                            <img
+                                src="https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?auto=format&fit=crop&q=80&w=1200"
+                                className="absolute inset-0 h-full w-full object-cover"
+                                alt="Offers"
                             />
                         </div>
                     </div>
 
                     {/* SLIDE 2: DELIVERY EXTRA */}
-                    <div className="min-h-[70vh] flex flex-col md:flex-row-reverse items-stretch">
-                        <div className="w-full md:w-1/2 p-10 md:p-20 text-left flex flex-col justify-center space-y-8 bg-linear-to-bl from-blue-50 to-white">
+                    <div className="h-[70vh] flex flex-col md:flex-row-reverse items-stretch">
+                        <div className="w-full md:w-1/2 p-8 md:p-16 text-left flex flex-col justify-center space-y-6 bg-linear-to-bl from-blue-50 to-white">
                             <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-100 text-blue-600 font-bold text-xs uppercase tracking-widest w-fit">
                                 <Truck size={16} /> Express Shipping
                             </div>
-                            <h2 className="text-5xl md:text-7xl font-black text-base-content leading-[1.1]">
-                                Same Day <br/> 
+                            <h2 className="text-4xl md:text-6xl font-black text-base-content leading-[1.1]">
+                                Same Day <br />
                                 <span className="text-blue-600">Delivery</span>
                             </h2>
-                            <p className="text-neutral/60 text-xl max-w-md leading-relaxed">
+                            <p className="text-neutral/60 text-lg max-w-md leading-relaxed">
                                 We value your time. Delivering books across Dhaka in <span className="text-blue-600 font-bold">under 24 hours</span>. Fast, safe, and reliable.
                             </p>
                             <div className="pt-4">
@@ -63,26 +63,26 @@ const Banner = () => {
                                 </Link>
                             </div>
                         </div>
-                        <div className="w-full md:w-1/2 min-h-[300px] md:min-h-full relative">
-                            <img 
-                                src="https://images.unsplash.com/photo-1532012197267-da84d127e765?auto=format&fit=crop&q=80&w=1200" 
-                                className="absolute inset-0 h-full w-full object-cover" 
-                                alt="Delivery" 
+                        <div className="w-full md:w-1/2 h-full relative">
+                            <img
+                                src="https://images.unsplash.com/photo-1532012197267-da84d127e765?auto=format&fit=crop&q=80&w=1200"
+                                className="absolute inset-0 h-full w-full object-cover"
+                                alt="Delivery"
                             />
                         </div>
                     </div>
 
                     {/* SLIDE 3: DETAILS / LIBRARIAN */}
-                    <div className="min-h-[70vh] flex flex-col md:flex-row items-stretch">
-                        <div className="w-full md:w-1/2 p-10 md:p-20 text-left flex flex-col justify-center space-y-8 bg-linear-to-br from-purple-50 to-white">
+                    <div className="h-[70vh] flex flex-col md:flex-row items-stretch">
+                        <div className="w-full md:w-1/2 p-8 md:p-16 text-left flex flex-col justify-center space-y-6 bg-linear-to-br from-purple-50 to-white">
                             <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-purple-100 text-purple-600 font-bold text-xs uppercase tracking-widest w-fit">
                                 <Info size={16} /> Join the Network
                             </div>
-                            <h2 className="text-5xl md:text-7xl font-black text-base-content leading-[1.1]">
-                                Share Your <br/> 
+                            <h2 className="text-4xl md:text-6xl font-black text-base-content leading-[1.1]">
+                                Share Your <br />
                                 <span className="text-purple-600">Collection</span>
                             </h2>
-                            <p className="text-neutral/60 text-xl max-w-md leading-relaxed">
+                            <p className="text-neutral/60 text-lg max-w-md leading-relaxed">
                                 List your books as a local librarian and help us build the city's largest decentralized library network.
                             </p>
                             <div className="pt-4">
@@ -91,16 +91,18 @@ const Banner = () => {
                                 </button>
                             </div>
                         </div>
-                        <div className="w-full md:w-1/2 min-h-[300px] md:min-h-full relative">
-                            <img 
-                                src="https://images.unsplash.com/photo-1481627834876-b7833e8f5570?auto=format&fit=crop&q=80&w=1200" 
-                                className="absolute inset-0 h-full w-full object-cover" 
-                                alt="Details" 
+                        <div className="w-full md:w-1/2 h-full relative">
+                            <img
+                                src="https://images.unsplash.com/photo-1481627834876-b7833e8f5570?auto=format&fit=crop&q=80&w=1200"
+                                className="absolute inset-0 h-full w-full object-cover"
+                                alt="Details"
                             />
                         </div>
                     </div>
                 </Carousel>
             </div>
+            {/* <ScrollIndicator /> */}
+
         </div>
     );
 };

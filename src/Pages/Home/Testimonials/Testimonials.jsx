@@ -18,12 +18,12 @@ const Testimonials = () => {
   ];
 
   return (
-    <div className="py-24 bg-slate-50">
+    <div className="py-24 bg-base-10">
       <div className="  mx-auto px-4">
         {/* Header  */}
         <div className="flex flex-col md:flex-row justify-between items-end mb-12 gap-6">
           <div className="max-w-xl">
-            <h2 className="text-4xl font-black text-slate-900 mb-4">What Our Community Says</h2>
+            <h2 className="text-4xl font-black text-base-content mb-4">What Our Community Says</h2>
             <p className="text-slate-500">Trusted by thousands of book lovers across the city.</p>
           </div>
 
@@ -55,7 +55,7 @@ const Testimonials = () => {
         >
           {reviews.map((rev, i) => (
             <SwiperSlide key={i}>
-              <div className="bg-white p-8 my-5 mx-2 h-full rounded-4xl shadow-sm hover:shadow-xl transition-all duration-300 border border-slate-100 flex flex-col">
+              <div className="bg-base-200 backdrop-blur-sm rounded-3xl border border-base-300 hover:bg-base-300 p-8 my-5 mx-2 h-full shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col">
                 <div className="flex gap-1 text-orange-400 mb-4">
                   {[...Array(5)].map((_, starIdx) => (
                     <span key={starIdx}>★</span>
