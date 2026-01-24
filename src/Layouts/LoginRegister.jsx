@@ -10,7 +10,7 @@ const LoginRegister = () => {
     
     if (loading) {
         return (
-            <div className="min-h-screen w-full flex justify-center items-center bg-slate-50">
+            <div className="min-h-screen w-full flex justify-center items-center bg-base-200">
                 <Loader />
             </div>
         );
@@ -21,7 +21,7 @@ const LoginRegister = () => {
     }
     
     return (
-        <div className="min-h-screen bg-slate-50">
+        <div className="min-h-screen bg-base-200">
             {/* Header with Logo and Theme Toggle */}
             <div className="absolute top-6 left-6 right-6 z-10 flex justify-between items-center">
                 <Logo />
@@ -30,14 +30,14 @@ const LoginRegister = () => {
 
             <div className="min-h-screen flex">
                 {/* Left side - Form */}
-                <div className="w-full lg:w-1/2 bg-white flex items-center justify-center p-6 lg:p-12">
+                <div className="w-full lg:w-1/2 bg-base-100 flex items-center justify-center p-6 lg:p-12">
                     <div className="w-full max-w-md">
                         <Outlet />
                     </div>
                 </div>
                 
                 {/* Right side - Background Image */}
-                <div className="hidden lg:block lg:w-1/2 relative">
+                <div className="hidden lg:block lg:w-1/2 relative bg-primary">
                     <div className="absolute inset-0 bg-gradient-to-br from-primary/20 to-primary/40"></div>
                     <div 
                         className="w-full h-full bg-cover bg-center bg-no-repeat"

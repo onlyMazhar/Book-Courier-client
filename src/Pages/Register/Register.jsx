@@ -108,8 +108,8 @@ const Register = () => {
                     <div className="w-16 h-16 bg-primary/10 rounded-2xl flex items-center justify-center mx-auto mb-4">
                         <UserPlus size={32} className="text-primary" />
                     </div>
-                    <h1 className="text-3xl font-black text-slate-900">Create Account</h1>
-                    <p className="text-slate-600">
+                    <h1 className="text-3xl font-black text-base-content">Create Account</h1>
+                    <p className="text-base-content/70">
                         Join BookCourier and start your reading journey
                     </p>
                 </div>
@@ -118,12 +118,12 @@ const Register = () => {
                 <form onSubmit={handleSubmit(handleRegister)} className="space-y-6">
                     {/* Name Field */}
                     <div className="space-y-2">
-                        <label className="block text-sm font-bold text-slate-700">
+                        <label className="block text-sm font-bold text-base-content">
                             Full Name
                         </label>
                         <div className="relative">
                             <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                <User size={18} className="text-slate-400" />
+                                <User size={18} className="text-base-content/40" />
                             </div>
                             <input
                                 {...register("name", {
@@ -139,8 +139,8 @@ const Register = () => {
                                 })}
                                 type="text"
                                 placeholder="Enter your full name"
-                                className={`w-full pl-10 pr-4 py-3 border rounded-xl focus:ring-2 focus:ring-primary focus:border-primary transition-all duration-300 ${
-                                    errors.name ? 'border-red-300 bg-red-50' : 'border-slate-300'
+                                className={`w-full pl-10 pr-4 py-3 border rounded-xl bg-base-100 text-base-content focus:ring-2 focus:ring-primary focus:border-primary transition-all duration-300 ${
+                                    errors.name ? 'border-red-300 bg-red-50' : 'border-base-300'
                                 }`}
                                 disabled={isLoading}
                             />
@@ -155,7 +155,7 @@ const Register = () => {
 
                     {/* Profile Image Field */}
                     <div className="space-y-2">
-                        <label className="block text-sm font-bold text-slate-700">
+                        <label className="block text-sm font-bold text-base-content">
                             Profile Picture (Optional)
                         </label>
                         <div className="flex items-center gap-4">
@@ -163,11 +163,11 @@ const Register = () => {
                                 <img 
                                     src={imagePreview} 
                                     alt="Preview" 
-                                    className="w-16 h-16 rounded-full object-cover border-2 border-slate-200"
+                                    className="w-16 h-16 rounded-full object-cover border-2 border-base-300"
                                 />
                             ) : (
-                                <div className="w-16 h-16 bg-slate-100 rounded-full flex items-center justify-center">
-                                    <User size={24} className="text-slate-400" />
+                                <div className="w-16 h-16 bg-base-200 rounded-full flex items-center justify-center">
+                                    <User size={24} className="text-base-content/40" />
                                 </div>
                             )}
                             <div className="flex-1">
@@ -182,24 +182,24 @@ const Register = () => {
                                 />
                                 <label
                                     htmlFor="image-upload"
-                                    className="cursor-pointer inline-flex items-center gap-2 px-4 py-2 border border-slate-300 rounded-lg text-sm font-medium text-slate-700 hover:bg-slate-50 transition-colors"
+                                    className="cursor-pointer inline-flex items-center gap-2 px-4 py-2 border border-base-300 rounded-lg text-sm font-medium text-base-content hover:bg-base-200 transition-colors"
                                 >
                                     <Upload size={16} />
                                     Choose Image
                                 </label>
-                                <p className="text-xs text-slate-500 mt-1">Max 5MB, JPG/PNG</p>
+                                <p className="text-xs text-base-content/60 mt-1">Max 5MB, JPG/PNG</p>
                             </div>
                         </div>
                     </div>
 
                     {/* Email Field */}
                     <div className="space-y-2">
-                        <label className="block text-sm font-bold text-slate-700">
+                        <label className="block text-sm font-bold text-base-content">
                             Email Address
                         </label>
                         <div className="relative">
                             <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                <Mail size={18} className="text-slate-400" />
+                                <Mail size={18} className="text-base-content/40" />
                             </div>
                             <input
                                 {...register("email", {
@@ -211,8 +211,8 @@ const Register = () => {
                                 })}
                                 type="email"
                                 placeholder="Enter your email"
-                                className={`w-full pl-10 pr-4 py-3 border rounded-xl focus:ring-2 focus:ring-primary focus:border-primary transition-all duration-300 ${
-                                    errors.email ? 'border-red-300 bg-red-50' : 'border-slate-300'
+                                className={`w-full pl-10 pr-4 py-3 border rounded-xl bg-base-100 text-base-content focus:ring-2 focus:ring-primary focus:border-primary transition-all duration-300 ${
+                                    errors.email ? 'border-red-300 bg-red-50' : 'border-base-300'
                                 }`}
                                 disabled={isLoading}
                             />
@@ -227,12 +227,12 @@ const Register = () => {
 
                     {/* Password Field */}
                     <div className="space-y-2">
-                        <label className="block text-sm font-bold text-slate-700">
+                        <label className="block text-sm font-bold text-base-content">
                             Password
                         </label>
                         <div className="relative">
                             <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                <Lock size={18} className="text-slate-400" />
+                                <Lock size={18} className="text-base-content/40" />
                             </div>
                             <input
                                 {...register("password", {
@@ -244,8 +244,8 @@ const Register = () => {
                                 })}
                                 type={showPassword ? "text" : "password"}
                                 placeholder="Create a strong password"
-                                className={`w-full pl-10 pr-12 py-3 border rounded-xl focus:ring-2 focus:ring-primary focus:border-primary transition-all duration-300 ${
-                                    errors.password ? 'border-red-300 bg-red-50' : 'border-slate-300'
+                                className={`w-full pl-10 pr-12 py-3 border rounded-xl bg-base-100 text-base-content focus:ring-2 focus:ring-primary focus:border-primary transition-all duration-300 ${
+                                    errors.password ? 'border-red-300 bg-red-50' : 'border-base-300'
                                 }`}
                                 disabled={isLoading}
                             />
@@ -256,9 +256,9 @@ const Register = () => {
                                 disabled={isLoading}
                             >
                                 {showPassword ? (
-                                    <EyeOff size={18} className="text-slate-400 hover:text-slate-600" />
+                                    <EyeOff size={18} className="text-base-content/40 hover:text-base-content/60" />
                                 ) : (
-                                    <Eye size={18} className="text-slate-400 hover:text-slate-600" />
+                                    <Eye size={18} className="text-base-content/40 hover:text-base-content/60" />
                                 )}
                             </button>
                         </div>
@@ -272,12 +272,12 @@ const Register = () => {
 
                     {/* Confirm Password Field */}
                     <div className="space-y-2">
-                        <label className="block text-sm font-bold text-slate-700">
+                        <label className="block text-sm font-bold text-base-content">
                             Confirm Password
                         </label>
                         <div className="relative">
                             <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                <Lock size={18} className="text-slate-400" />
+                                <Lock size={18} className="text-base-content/40" />
                             </div>
                             <input
                                 {...register("confirmPassword", {
@@ -286,8 +286,8 @@ const Register = () => {
                                 })}
                                 type={showConfirmPassword ? "text" : "password"}
                                 placeholder="Confirm your password"
-                                className={`w-full pl-10 pr-12 py-3 border rounded-xl focus:ring-2 focus:ring-primary focus:border-primary transition-all duration-300 ${
-                                    errors.confirmPassword ? 'border-red-300 bg-red-50' : 'border-slate-300'
+                                className={`w-full pl-10 pr-12 py-3 border rounded-xl bg-base-100 text-base-content focus:ring-2 focus:ring-primary focus:border-primary transition-all duration-300 ${
+                                    errors.confirmPassword ? 'border-red-300 bg-red-50' : 'border-base-300'
                                 }`}
                                 disabled={isLoading}
                             />
@@ -298,9 +298,9 @@ const Register = () => {
                                 disabled={isLoading}
                             >
                                 {showConfirmPassword ? (
-                                    <EyeOff size={18} className="text-slate-400 hover:text-slate-600" />
+                                    <EyeOff size={18} className="text-base-content/40 hover:text-base-content/60" />
                                 ) : (
-                                    <Eye size={18} className="text-slate-400 hover:text-slate-600" />
+                                    <Eye size={18} className="text-base-content/40 hover:text-base-content/60" />
                                 )}
                             </button>
                         </div>
@@ -320,10 +320,10 @@ const Register = () => {
                                     required: "You must accept the terms and conditions"
                                 })}
                                 type="checkbox"
-                                className="mt-1 w-4 h-4 text-primary border-slate-300 rounded focus:ring-primary"
+                                className="mt-1 w-4 h-4 text-primary border-base-300 rounded focus:ring-primary"
                                 disabled={isLoading}
                             />
-                            <span className="text-sm text-slate-600">
+                            <span className="text-sm text-base-content/70">
                                 I agree to the{' '}
                                 <Link to="/terms-of-service" className="text-primary hover:text-primary/80 font-medium">
                                     Terms of Service
@@ -365,10 +365,10 @@ const Register = () => {
                 {/* Divider */}
                 <div className="relative">
                     <div className="absolute inset-0 flex items-center">
-                        <div className="w-full border-t border-slate-200"></div>
+                        <div className="w-full border-t border-base-300"></div>
                     </div>
                     <div className="relative flex justify-center text-sm">
-                        <span className="px-4 bg-white text-slate-500 font-medium">Or continue with</span>
+                        <span className="px-4 bg-base-100 text-base-content/60 font-medium">Or continue with</span>
                     </div>
                 </div>
 
@@ -377,7 +377,7 @@ const Register = () => {
 
                 {/* Login Link */}
                 <div className="text-center">
-                    <p className="text-slate-600">
+                    <p className="text-base-content/70">
                         Already have an account?{' '}
                         <Link 
                             to="/login"

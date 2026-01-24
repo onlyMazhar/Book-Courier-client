@@ -5,15 +5,15 @@ import Logo from './Logo';
 import ThemeToggle from './ThemeToggle';
 import { useAuth } from '../Hooks/useAuth';
 import useRole from '../Hooks/useRole';
-import { 
-    Menu, 
-    X, 
-    Search, 
-    ShoppingCart, 
-    Heart, 
-    User, 
-    Settings, 
-    LogOut, 
+import {
+    Menu,
+    X,
+    Search,
+    ShoppingCart,
+    Heart,
+    User,
+    Settings,
+    LogOut,
     LayoutDashboard,
     BookOpen,
     Users,
@@ -53,7 +53,7 @@ const Navbar = () => {
     const loggedOutLinks = [
         { to: '/', label: 'Home', end: true },
         { to: '/books', label: 'Books' },
-        { to: '/about', label: 'About' }
+            { to: '/dashboard', label: 'Dashboard' }
     ];
 
     // Navigation links based on authentication status and role
@@ -67,8 +67,8 @@ const Navbar = () => {
         // Only show My Orders and Wishlist for customers (user role)
         if (role === 'user') {
             baseLinks.push(
-                { to: '/orders', label: 'My Orders' },
-                { to: '/wishlist', label: 'Wishlist' }
+                { to: '/dashboard/my-orders', label: 'My Orders' },
+                { to: '/dashboard/wishlist', label: 'Wishlist' }
             );
         }
 
@@ -80,7 +80,7 @@ const Navbar = () => {
     // Role-based profile dropdown links
     const getProfileLinks = () => {
         const baseLinks = [
-            { to: '/dashboard/user-profile', label: 'My Profile', icon: <User size={18} /> }
+            { to: '/dashboard/my-profile', label: 'My Profile', icon: <User size={18} /> }
         ];
 
         // Only add My Orders and Wishlist for customers (user role)
@@ -95,7 +95,7 @@ const Navbar = () => {
             return [
                 ...baseLinks,
                 { divider: true },
-                { to: '/dashboard/admin-statistics', label: 'Admin Dashboard', icon: <BarChart3 size={18} /> },
+                { to: '/dashboard', label: 'Admin Dashboard', icon: <BarChart3 size={18} /> },
                 { to: '/dashboard/manage-users', label: 'Manage Users', icon: <Users size={18} /> },
                 { to: '/dashboard/manage-books', label: 'Manage Books', icon: <BookOpen size={18} /> }
             ];
@@ -113,19 +113,17 @@ const Navbar = () => {
     };
 
     const linkClass = ({ isActive }) =>
-        `relative py-2 px-4 font-medium transition-all duration-300 rounded-lg hover:bg-white/10 ${
-            isActive 
-                ? 'text-white bg-white/20' 
-                : 'text-white/80 hover:text-white'
+        `relative py-2 px-4 font-medium transition-all duration-300 rounded-lg hover:bg-white/10 ${isActive
+            ? 'text-white bg-white/20'
+            : 'text-white/80 hover:text-white'
         }`;
 
     return (
         <header className="fixed top-0 w-full z-50">
-            <nav className={`transition-all duration-300 ${
-                scrolled 
-                    ? 'bg-primary/95 backdrop-blur-md shadow-xl py-3' 
+            <nav className={`transition-all duration-300 ${scrolled
+                    ? 'bg-primary/95 backdrop-blur-md shadow-xl py-3'
                     : 'bg-primary py-4'
-            }`}>
+                }`}>
                 <Container>
                     <div className="flex items-center justify-between">
                         {/* Logo */}
@@ -160,14 +158,14 @@ const Navbar = () => {
                             {/* Cart & Wishlist (only for customers) */}
                             {user && role === 'user' && (
                                 <>
-                                    <Link 
-                                        to="/wishlist" 
+                                    <Link
+                                        to="/wishlist"
                                         className="btn btn-ghost btn-circle text-white hover:bg-white/10 hidden sm:flex transition-all duration-300"
                                     >
                                         <Heart size={20} />
                                     </Link>
-                                    <Link 
-                                        to="/cart" 
+                                    <Link
+                                        to="/cart"
                                         className="btn btn-ghost btn-circle text-white hover:bg-white/10 hidden sm:flex relative transition-all duration-300"
                                     >
                                         <ShoppingCart size={20} />
@@ -193,9 +191,9 @@ const Navbar = () => {
                                         <span className="text-white text-sm font-medium hidden md:block">
                                             {user?.displayName?.split(' ')[0] || 'User'}
                                         </span>
-                                        <ChevronDown 
-                                            size={16} 
-                                            className={`text-white transition-transform ${userMenuOpen ? 'rotate-180' : ''}`} 
+                                        <ChevronDown
+                                            size={16}
+                                            className={`text-white transition-transform ${userMenuOpen ? 'rotate-180' : ''}`}
                                         />
                                     </button>
 
@@ -240,9 +238,9 @@ const Navbar = () => {
                                                         </Link>
                                                     )
                                                 ))}
-                                                
+
                                                 <div className="divider my-2 opacity-30"></div>
-                                                
+
                                                 <button
                                                     onClick={handleLogout}
                                                     className="flex w-full items-center gap-3 p-3 rounded-xl hover:bg-red-50 text-red-600 transition-all duration-300 group"
@@ -291,17 +289,16 @@ const Navbar = () => {
                                         to={link.to}
                                         end={link.end}
                                         className={({ isActive }) =>
-                                            `block py-3 px-4 rounded-lg font-medium transition-colors ${
-                                                isActive 
-                                                    ? 'text-white bg-white/20' 
-                                                    : 'text-white/80 hover:text-white hover:bg-white/10'
+                                            `block py-3 px-4 rounded-lg font-medium transition-colors ${isActive
+                                                ? 'text-white bg-white/20'
+                                                : 'text-white/80 hover:text-white hover:bg-white/10'
                                             }`
                                         }
                                     >
                                         {link.label}
                                     </NavLink>
                                 ))}
-                                
+
                                 {/* Mobile-only links (only for customers) */}
                                 {user && role === 'user' && (
                                     <>
@@ -320,7 +317,7 @@ const Navbar = () => {
                                         </Link>
                                     </>
                                 )}
-                                
+
                                 {!user && (
                                     <Link
                                         to="/login"

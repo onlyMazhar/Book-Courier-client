@@ -83,8 +83,8 @@ const Login = () => {
                     <div className="w-16 h-16 bg-primary/10 rounded-2xl flex items-center justify-center mx-auto mb-4">
                         <User size={32} className="text-primary" />
                     </div>
-                    <h1 className="text-3xl font-black text-slate-900">Welcome Back</h1>
-                    <p className="text-slate-600">
+                    <h1 className="text-3xl font-black text-base-content">Welcome Back</h1>
+                    <p className="text-base-content/70">
                         Sign in to your BookCourier account
                     </p>
                 </div>
@@ -93,7 +93,7 @@ const Login = () => {
                 <button
                     type="button"
                     onClick={handleDemoLogin}
-                    className="w-full bg-gradient-to-r from-blue-50 to-indigo-50 border border-blue-200 text-blue-700 py-3 px-4 rounded-xl font-medium hover:from-blue-100 hover:to-indigo-100 transition-all duration-200 flex items-center justify-center gap-2"
+                    className="w-full bg-gradient-to-r from-primary/5 to-primary/10 border border-primary/20 text-primary py-3 px-4 rounded-xl font-medium hover:from-primary/10 hover:to-primary/20 transition-all duration-200 flex items-center justify-center gap-2"
                 >
                     <ArrowRight size={18} />
                     Try Demo Account
@@ -103,12 +103,12 @@ const Login = () => {
                 <form onSubmit={handleSubmit(handleLogin)} className="space-y-6">
                     {/* Email Field */}
                     <div className="space-y-2">
-                        <label className="block text-sm font-bold text-slate-700">
+                        <label className="block text-sm font-bold text-base-content">
                             Email Address
                         </label>
                         <div className="relative">
                             <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                <Mail size={18} className="text-slate-400" />
+                                <Mail size={18} className="text-base-content/40" />
                             </div>
                             <input
                                 {...register("email", {
@@ -120,7 +120,7 @@ const Login = () => {
                                 })}
                                 type="email"
                                 placeholder="Enter your email"
-                                className={`w-full pl-10 pr-4 py-3 border rounded-xl focus:ring-2 focus:ring-primary focus:border-primary transition-all duration-300 ${errors.email ? 'border-red-300 bg-red-50' : 'border-slate-300'
+                                className={`w-full pl-10 pr-4 py-3 border rounded-xl bg-base-100 text-base-content focus:ring-2 focus:ring-primary focus:border-primary transition-all duration-300 ${errors.email ? 'border-red-300 bg-red-50' : 'border-base-300'
                                     }`}
                                 disabled={isLoading}
                             />
@@ -135,12 +135,12 @@ const Login = () => {
 
                     {/* Password Field */}
                     <div className="space-y-2">
-                        <label className="block text-sm font-bold text-slate-700">
+                        <label className="block text-sm font-bold text-base-content">
                             Password
                         </label>
                         <div className="relative">
                             <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                <Lock size={18} className="text-slate-400" />
+                                <Lock size={18} className="text-base-content/40" />
                             </div>
                             <input
                                 {...register("password", {
@@ -152,7 +152,7 @@ const Login = () => {
                                 })}
                                 type={showPassword ? "text" : "password"}
                                 placeholder="Enter your password"
-                                className={`w-full pl-10 pr-12 py-3 border rounded-xl focus:ring-2 focus:ring-primary focus:border-primary transition-all duration-300 ${errors.password ? 'border-red-300 bg-red-50' : 'border-slate-300'
+                                className={`w-full pl-10 pr-12 py-3 border rounded-xl bg-base-100 text-base-content focus:ring-2 focus:ring-primary focus:border-primary transition-all duration-300 ${errors.password ? 'border-red-300 bg-red-50' : 'border-base-300'
                                     }`}
                                 disabled={isLoading}
                             />
@@ -163,9 +163,9 @@ const Login = () => {
                                 disabled={isLoading}
                             >
                                 {showPassword ? (
-                                    <EyeOff size={18} className="text-slate-400 hover:text-slate-600" />
+                                    <EyeOff size={18} className="text-base-content/40 hover:text-base-content/60" />
                                 ) : (
-                                    <Eye size={18} className="text-slate-400 hover:text-slate-600" />
+                                    <Eye size={18} className="text-base-content/40 hover:text-base-content/60" />
                                 )}
                             </button>
                         </div>
@@ -207,10 +207,10 @@ const Login = () => {
                 {/* Divider */}
                 <div className="relative">
                     <div className="absolute inset-0 flex items-center">
-                        <div className="w-full border-t border-slate-200"></div>
+                        <div className="w-full border-t border-base-300"></div>
                     </div>
                     <div className="relative flex justify-center text-sm">
-                        <span className="px-4 bg-white text-slate-500 font-medium">Or continue with</span>
+                        <span className="px-4 bg-base-100 text-base-content/60 font-medium">Or continue with</span>
                     </div>
                 </div>
 
@@ -219,7 +219,7 @@ const Login = () => {
 
                 {/* Register Link */}
                 <div className="text-center">
-                    <p className="text-slate-600">
+                    <p className="text-base-content/70">
                         Don't have an account?{' '}
                         <Link
                             to="/register"

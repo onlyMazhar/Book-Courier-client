@@ -50,7 +50,7 @@ const SocialLogin = () => {
             <button 
                 onClick={handleGoogleLogin}
                 disabled={isGoogleLoading}
-                className="w-full bg-white hover:bg-slate-50 text-slate-700 border border-slate-300 py-3 px-4 rounded-xl font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-3"
+                className="w-full bg-base-100 hover:bg-base-200 text-base-content border border-base-300 py-3 px-4 rounded-xl font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-3"
             >
                 {isGoogleLoading ? (
                     <>
