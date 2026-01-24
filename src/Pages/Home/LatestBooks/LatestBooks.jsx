@@ -35,7 +35,7 @@ const LatestBooks = () => {
 
                     <Link
                         to="/books"
-                        className="btn btn-ghost text-primary hover:bg-primary/10 gap-2 group"
+                        className="btn btn-ghost text-primary hover:bg-primary/10 gap-2 group transition-all duration-300"
                     >
                         View All Books
                         <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />

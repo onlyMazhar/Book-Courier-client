@@ -153,7 +153,7 @@ const Navbar = () => {
                             <ThemeToggle variant="navbar" />
 
                             {/* Search Button */}
-                            <button className="btn btn-ghost btn-circle text-white hover:bg-white/10 hidden sm:flex">
+                            <button className="btn btn-ghost btn-circle text-white hover:bg-white/10 hidden sm:flex transition-all duration-300">
                                 <Search size={20} />
                             </button>
 
@@ -162,13 +162,13 @@ const Navbar = () => {
                                 <>
                                     <Link 
                                         to="/wishlist" 
-                                        className="btn btn-ghost btn-circle text-white hover:bg-white/10 hidden sm:flex"
+                                        className="btn btn-ghost btn-circle text-white hover:bg-white/10 hidden sm:flex transition-all duration-300"
                                     >
                                         <Heart size={20} />
                                     </Link>
                                     <Link 
                                         to="/cart" 
-                                        className="btn btn-ghost btn-circle text-white hover:bg-white/10 hidden sm:flex relative"
+                                        className="btn btn-ghost btn-circle text-white hover:bg-white/10 hidden sm:flex relative transition-all duration-300"
                                     >
                                         <ShoppingCart size={20} />
                                         <span className="absolute -top-1 -right-1 bg-secondary text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
@@ -183,7 +183,7 @@ const Navbar = () => {
                                 <div className="relative">
                                     <button
                                         onClick={() => setUserMenuOpen(!userMenuOpen)}
-                                        className="flex items-center gap-2 p-1 pr-3 rounded-full hover:bg-white/10 transition-colors border border-white/20"
+                                        className="flex items-center gap-2 p-1 pr-3 rounded-full hover:bg-white/10 transition-all duration-300 border border-white/20"
                                     >
                                         <img
                                             className="w-8 h-8 rounded-full border border-white/50 object-cover"
@@ -231,7 +231,7 @@ const Navbar = () => {
                                                         <Link
                                                             key={link.to}
                                                             to={link.to}
-                                                            className="flex items-center gap-3 p-3 rounded-xl hover:bg-primary/5 transition-colors group"
+                                                            className="flex items-center gap-3 p-3 rounded-xl hover:bg-primary/5 transition-all duration-300 group"
                                                         >
                                                             <span className="text-neutral-400 group-hover:text-primary">
                                                                 {link.icon}
@@ -245,7 +245,7 @@ const Navbar = () => {
                                                 
                                                 <button
                                                     onClick={handleLogout}
-                                                    className="flex w-full items-center gap-3 p-3 rounded-xl hover:bg-red-50 text-red-600 transition-colors group"
+                                                    className="flex w-full items-center gap-3 p-3 rounded-xl hover:bg-red-50 text-red-600 transition-all duration-300 group"
                                                 >
                                                     <LogOut size={18} />
                                                     <span className="text-sm font-bold">Sign Out</span>
@@ -258,7 +258,7 @@ const Navbar = () => {
                                 <div className="flex items-center gap-2">
                                     <Link
                                         to="/login"
-                                        className="btn btn-ghost text-white hover:bg-white/10 hidden sm:flex"
+                                        className="btn btn-ghost text-white hover:bg-white/10 hidden sm:flex transition-all duration-300"
                                     >
                                         Login
                                     </Link>

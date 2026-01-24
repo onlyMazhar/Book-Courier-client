@@ -106,7 +106,7 @@ const Card = ({ book }) => {
                         {/* View Details Button */}
                         <Link 
                             to={`/books/${_id}`}
-                            className="btn btn-primary w-full rounded-2xl font-bold hover:scale-105 transition-transform duration-200 focus:ring-2 focus:ring-primary focus:ring-offset-2"
+                            className="btn btn-primary w-full rounded-2xl font-bold hover:scale-105 transition-all duration-300 focus:ring-2 focus:ring-primary focus:ring-offset-2"
                         >
                             View Details
                         </Link>

@@ -123,7 +123,7 @@ const BecomeLibrarianPage = () => {
                         Turn your book collection into a source of income. Join 500+ librarians 
                         who are earning money while helping their community access great books.
                     </p>
-                    <button className="btn btn-primary btn-lg px-12 rounded-full shadow-lg hover:scale-105 transition-transform">
+                    <button className="btn btn-primary btn-lg px-12 rounded-full shadow-lg hover:scale-105 transition-all duration-300">
                         Apply Now
                     </button>
                 </div>
@@ -284,7 +284,7 @@ const BecomeLibrarianPage = () => {
                         Apply today and start your journey!
                     </p>
                     <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                        <button className="btn btn-secondary btn-lg px-12 rounded-full shadow-lg hover:scale-105 transition-transform">
+                        <button className="btn btn-secondary btn-lg px-12 rounded-full shadow-lg hover:scale-105 transition-all duration-300">
                             Apply Now
                         </button>
                         <button className="btn btn-outline btn-white btn-lg px-8 rounded-full">

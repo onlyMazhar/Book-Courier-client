@@ -76,13 +76,13 @@ const FeaturedServices = () => {
                     {services.map((service) => (
                         <div
                             key={service.id}
-                            className="group relative p-8 bg-base-200 backdrop-blur-sm rounded-3xl border border-base-300 hover:bg-base-300 transition-all duration-500 hover:shadow-2xl hover:-translate-y-3"
+                            className="group relative p-8 bg-base-200 backdrop-blur-sm rounded-3xl border border-base-300 hover:bg-base-300 transition-all duration-300 hover:shadow-xl hover:-translate-y-2"
                         >
                             {/* Gradient Background */}
                             <div className={`absolute inset-0 bg-gradient-to-br ${service.color} opacity-0 group-hover:opacity-5 rounded-3xl transition-opacity duration-500`}></div>
                             
                             {/* Icon */}
-                            <div className={`w-20 h-20 bg-gradient-to-br ${service.color} rounded-2xl flex items-center justify-center text-white mb-6 group-hover:scale-110 transition-transform duration-300 shadow-lg`}>
+                            <div className={`w-20 h-20 bg-gradient-to-br ${service.color} rounded-2xl flex items-center justify-center text-white mb-6 `}>
                                 {service.icon}
                             </div>
 

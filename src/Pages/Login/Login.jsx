@@ -120,7 +120,7 @@ const Login = () => {
                                 })}
                                 type="email"
                                 placeholder="Enter your email"
-                                className={`w-full pl-10 pr-4 py-3 border rounded-xl focus:ring-2 focus:ring-primary focus:border-primary transition-colors ${errors.email ? 'border-red-300 bg-red-50' : 'border-slate-300'
+                                className={`w-full pl-10 pr-4 py-3 border rounded-xl focus:ring-2 focus:ring-primary focus:border-primary transition-all duration-300 ${errors.email ? 'border-red-300 bg-red-50' : 'border-slate-300'
                                     }`}
                                 disabled={isLoading}
                             />
@@ -152,7 +152,7 @@ const Login = () => {
                                 })}
                                 type={showPassword ? "text" : "password"}
                                 placeholder="Enter your password"
-                                className={`w-full pl-10 pr-12 py-3 border rounded-xl focus:ring-2 focus:ring-primary focus:border-primary transition-colors ${errors.password ? 'border-red-300 bg-red-50' : 'border-slate-300'
+                                className={`w-full pl-10 pr-12 py-3 border rounded-xl focus:ring-2 focus:ring-primary focus:border-primary transition-all duration-300 ${errors.password ? 'border-red-300 bg-red-50' : 'border-slate-300'
                                     }`}
                                 disabled={isLoading}
                             />

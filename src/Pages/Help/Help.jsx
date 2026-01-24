@@ -170,7 +170,7 @@ const HelpPage = () => {
                             placeholder="Search for help articles..."
                             value={searchQuery}
                             onChange={(e) => setSearchQuery(e.target.value)}
-                            className="w-full pl-12 pr-4 py-4 rounded-2xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-primary text-lg"
+                            className="w-full pl-12 pr-4 py-4 rounded-2xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-primary text-lg transition-all duration-300"
                         />
                     </div>
                 </div>

@@ -139,7 +139,7 @@ const Register = () => {
                                 })}
                                 type="text"
                                 placeholder="Enter your full name"
-                                className={`w-full pl-10 pr-4 py-3 border rounded-xl focus:ring-2 focus:ring-primary focus:border-primary transition-colors ${
+                                className={`w-full pl-10 pr-4 py-3 border rounded-xl focus:ring-2 focus:ring-primary focus:border-primary transition-all duration-300 ${
                                     errors.name ? 'border-red-300 bg-red-50' : 'border-slate-300'
                                 }`}
                                 disabled={isLoading}
@@ -211,7 +211,7 @@ const Register = () => {
                                 })}
                                 type="email"
                                 placeholder="Enter your email"
-                                className={`w-full pl-10 pr-4 py-3 border rounded-xl focus:ring-2 focus:ring-primary focus:border-primary transition-colors ${
+                                className={`w-full pl-10 pr-4 py-3 border rounded-xl focus:ring-2 focus:ring-primary focus:border-primary transition-all duration-300 ${
                                     errors.email ? 'border-red-300 bg-red-50' : 'border-slate-300'
                                 }`}
                                 disabled={isLoading}
@@ -244,7 +244,7 @@ const Register = () => {
                                 })}
                                 type={showPassword ? "text" : "password"}
                                 placeholder="Create a strong password"
-                                className={`w-full pl-10 pr-12 py-3 border rounded-xl focus:ring-2 focus:ring-primary focus:border-primary transition-colors ${
+                                className={`w-full pl-10 pr-12 py-3 border rounded-xl focus:ring-2 focus:ring-primary focus:border-primary transition-all duration-300 ${
                                     errors.password ? 'border-red-300 bg-red-50' : 'border-slate-300'
                                 }`}
                                 disabled={isLoading}
@@ -286,7 +286,7 @@ const Register = () => {
                                 })}
                                 type={showConfirmPassword ? "text" : "password"}
                                 placeholder="Confirm your password"
-                                className={`w-full pl-10 pr-12 py-3 border rounded-xl focus:ring-2 focus:ring-primary focus:border-primary transition-colors ${
+                                className={`w-full pl-10 pr-12 py-3 border rounded-xl focus:ring-2 focus:ring-primary focus:border-primary transition-all duration-300 ${
                                     errors.confirmPassword ? 'border-red-300 bg-red-50' : 'border-slate-300'
                                 }`}
                                 disabled={isLoading}

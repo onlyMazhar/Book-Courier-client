@@ -180,9 +180,9 @@ const BlogSection = () => {
                         <input 
                             type="email" 
                             placeholder="Enter your email address"
-                            className="flex-1 border border-white px-6 py-2 rounded-full text-slate-900 placeholder-slate-300 focus:outline-none focus:ring-2 focus:ring-white"
+                            className="flex-1 border border-white px-6 py-2 rounded-full text-slate-900 placeholder-slate-300 focus:outline-none focus:ring-2 focus:ring-white transition-all duration-300"
                         />
-                        <button className="btn btn-secondary px-8 rounded-full hover:scale-105 transition-transform">
+                        <button className="btn btn-secondary px-8 rounded-full hover:scale-105 transition-all duration-300">
                             Subscribe
                         </button>
                     </div>

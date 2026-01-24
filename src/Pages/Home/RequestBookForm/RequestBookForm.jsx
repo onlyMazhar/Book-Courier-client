@@ -60,7 +60,7 @@ const RequestBookForm = () => {
                                             {...register("name", { required: true })}
                                             type="text" 
                                             placeholder="John Doe" 
-                                            className="input input-bordered w-full pl-12 rounded-xl focus:ring-2 focus:ring-primary"
+                                            className="input input-bordered w-full pl-12 rounded-xl focus:ring-2 focus:ring-primary transition-all duration-300"
                                         />
                                     </div>
                                 </div>
@@ -74,7 +74,7 @@ const RequestBookForm = () => {
                                             {...register("email", { required: true })}
                                             type="email" 
                                             placeholder="john@example.com" 
-                                            className="input input-bordered w-full pl-12 rounded-xl focus:ring-2 focus:ring-primary"
+                                            className="input input-bordered w-full pl-12 rounded-xl focus:ring-2 focus:ring-primary transition-all duration-300"
                                         />
                                     </div>
                                 </div>
@@ -89,7 +89,7 @@ const RequestBookForm = () => {
                                         {...register("bookTitle", { required: true })}
                                         type="text" 
                                         placeholder="e.g. The Great Gatsby" 
-                                        className="input input-bordered w-full pl-12 rounded-xl focus:ring-2 focus:ring-primary"
+                                        className="input input-bordered w-full pl-12 rounded-xl focus:ring-2 focus:ring-primary transition-all duration-300"
                                     />
                                 </div>
                             </div>
@@ -101,7 +101,7 @@ const RequestBookForm = () => {
                                     {...register("author")}
                                     type="text" 
                                     placeholder="e.g. F. Scott Fitzgerald" 
-                                    className="input input-bordered w-full rounded-xl focus:ring-2 focus:ring-primary"
+                                    className="input input-bordered w-full rounded-xl focus:ring-2 focus:ring-primary transition-all duration-300"
                                 />
                             </div>
 
@@ -112,13 +112,13 @@ const RequestBookForm = () => {
                                     <MessageSquare className="absolute left-4 top-4 text-neutral/40" size={18} />
                                     <textarea 
                                         {...register("notes")}
-                                        className="textarea textarea-bordered w-full pl-12 rounded-xl h-32 focus:ring-2 focus:ring-primary" 
+                                        className="textarea textarea-bordered w-full pl-12 rounded-xl h-32 focus:ring-2 focus:ring-primary transition-all duration-300" 
                                         placeholder="Hardcover, specific publisher, or language..."
                                     ></textarea>
                                 </div>
                             </div>
 
-                            <button className="btn btn-primary w-full rounded-xl text-white font-bold h-14 shadow-lg shadow-primary/20 hover:scale-[1.02] transition-transform">
+                            <button className="btn btn-primary w-full rounded-xl text-white font-bold h-14 shadow-lg shadow-primary/20 hover:scale-[1.02] transition-all duration-300">
                                 Submit Request
                             </button>
                         </form>

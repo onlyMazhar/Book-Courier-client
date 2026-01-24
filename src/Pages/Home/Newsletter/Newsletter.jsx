@@ -39,7 +39,7 @@ const Newsletter = () => {
     ];
 
     return (
-        <div className="py-20 bg-base-100 relative overflow-hidden">
+        <div className="py-20 bg-base-10 relative overflow-hidden">
             {/* Background Pattern */}
             
 
@@ -85,7 +85,7 @@ const Newsletter = () => {
                                             {...register("name", { required: "Name is required" })}
                                             type="text"
                                             placeholder="Your Name"
-                                            className="w-full px-6 py-4 rounded-2xl bg-white text-slate-900 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-primary"
+                                            className="w-full px-6 py-4 rounded-2xl bg-white text-slate-900 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-primary transition-all duration-300"
                                         />
                                         {errors.name && (
                                             <p className="text-red-200 text-sm mt-2">{errors.name.message}</p>
@@ -102,7 +102,7 @@ const Newsletter = () => {
                                             })}
                                             type="email"
                                             placeholder="Your Email Address"
-                                            className="w-full px-6 py-4 rounded-2xl bg-white text-slate-900 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-primary"
+                                            className="w-full px-6 py-4 rounded-2xl bg-white text-slate-900 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-primary transition-all duration-300"
                                         />
                                         {errors.email && (
                                             <p className="text-red-200 text-sm mt-2">{errors.email.message}</p>
@@ -130,7 +130,7 @@ const Newsletter = () => {
 
                                 <button 
                                     type="submit"
-                                    className="btn btn-primary btn-lg px-12 rounded-full shadow-lg hover:scale-105 transition-transform w-full md:w-auto"
+                                    className="btn btn-primary btn-lg px-12 rounded-full shadow-lg hover:scale-105 transition-all duration-300 w-full md:w-auto"
                                 >
                                     Subscribe to Newsletter
                                 </button>

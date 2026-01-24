@@ -60,7 +60,25 @@ body {
 
 /* Theme transition for smooth switching */
 * {
-  transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+  transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease, opacity 0.3s ease;
+}
+
+/* Smooth hover transitions for interactive elements */
+button, a, input, textarea, select, [role="button"], .btn {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Enhanced hover effects */
+.hover-lift:hover {
+  transform: translateY(-4px);
+}
+
+.hover-scale:hover {
+  transform: scale(1.05);
+}
+
+.hover-glow:hover {
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
 }
 
 /* Shimmer animation for skeleton loaders */

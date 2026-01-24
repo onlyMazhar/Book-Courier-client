@@ -79,7 +79,7 @@ const BookHighlights = () => {
     ];
 
     return (
-        <div className="py-20 bg-base-100">
+        <div className="py-20 bg-base-10">
             <div className="mx-auto px-4">
                 {/* Header */}
                 <div className="text-center mb-16">
@@ -162,7 +162,7 @@ const BookHighlights = () => {
                 <div className="mt-16 text-center">
                     <Link 
                         to="/books" 
-                        className="btn btn-primary btn-lg px-12 rounded-full shadow-lg hover:scale-105 transition-transform"
+                        className="btn btn-primary btn-lg px-12 rounded-full shadow-lg hover:scale-105 transition-all duration-300"
                     >
                         Explore All Books
                     </Link>

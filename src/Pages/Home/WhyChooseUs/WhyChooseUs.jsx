@@ -82,7 +82,7 @@ const WhyChooseUs = () => {
                         <h4 className="text-2xl md:text-3xl font-bold mb-2 text-white">Ready to start your reading journey?</h4>
                         <p className="opacity-70">Browse thousands of books from local libraries today.</p>
                     </div>
-                    <button className="btn btn-primary btn-lg px-10 rounded-full shadow-lg hover:scale-105 transition-transform">
+                    <button className="btn btn-primary btn-lg px-10 rounded-full shadow-lg hover:scale-105 transition-all duration-300">
                         Explore Books
                     </button>
                 </div>

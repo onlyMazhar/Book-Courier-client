@@ -94,9 +94,9 @@ const BookCategories = () => {
                         <Link
                             key={category.id}
                             to={`/books?category=${category.name.toLowerCase().replace(/\s+/g, '-')}`}
-                            className="group p-6 bg-base-200 backdrop-blur-sm rounded-3xl border border-base-300 hover:bg-base-300 transition-all duration-300 hover:shadow-xl hover:-translate-y-2"
+                            className="group p-6 bg-base-200 backdrop-blur-sm rounded-3xl border border-base-300 hover:bg-base-300 transition-all duration-300 hover:shadow-xl hover:-translate-y-2 "
                         >
-                            <div className={`w-16 h-16 ${category.color} rounded-2xl flex items-center justify-center text-white mb-4 group-hover:scale-110 transition-transform duration-300`}>
+                            <div className={`w-16 h-16 ${category.color} rounded-2xl flex items-center justify-center text-white mb-4  `}>
                                 {category.icon}
                             </div>
                             <h3 className="text-xl font-bold mb-2 group-hover:text-primary transition-colors">
@@ -121,7 +121,7 @@ const BookCategories = () => {
                 <div className="text-center">
                     <Link 
                         to="/books" 
-                        className="btn btn-primary btn-lg px-12 rounded-full shadow-lg hover:scale-105 transition-transform"
+                        className="btn btn-primary btn-lg px-12 rounded-full shadow-lg hover:scale-105 transition-all duration-300"
                     >
                         View All Categories
                     </Link>

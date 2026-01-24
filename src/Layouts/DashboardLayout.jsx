@@ -67,7 +67,7 @@ const DashboardLayout = () => {
             {/* Navbar */}
             <header className="fixed top-0 left-0 right-0 h-16 bg-base-100 border-b border-base-300 px-4 flex items-center justify-between z-50">
                 <div className="flex items-center gap-4">
-                    <button onClick={toggleSidebar} className="p-2 hover:bg-base-200 rounded-lg text-base-content">
+                    <button onClick={toggleSidebar} className="p-2 hover:bg-base-200 rounded-lg text-base-content transition-all duration-300">
                         {sidebarOpen ? <ChevronLeft size={20} /> : <Menu size={20} />}
                     </button>
                     <h1 className="text-xl font-bold text-primary">Dashboard</h1>
@@ -76,7 +76,7 @@ const DashboardLayout = () => {
                 <div className="flex items-center gap-4">
                     <ThemeToggle variant="dashboard" />
                     
-                    <button className="p-2 hover:bg-base-200 rounded-lg relative text-base-content">
+                    <button className="p-2 hover:bg-base-200 rounded-lg relative text-base-content transition-all duration-300">
                         <Bell size={20} />
                         <span className="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full"></span>
                     </button>
@@ -85,7 +85,7 @@ const DashboardLayout = () => {
                     <div className="relative">
                         <button
                             onClick={() => setUserMenuOpen(!userMenuOpen)}
-                            className="flex items-center gap-2 p-1 hover:bg-base-200 rounded-lg text-base-content"
+                            className="flex items-center gap-2 p-1 hover:bg-base-200 rounded-lg text-base-content transition-all duration-300"
                         >
                             {user?.photoURL
                                 ? <img className="w-9 h-9 rounded-full border border-base-300" src={user.photoURL} alt="User" />
@@ -108,7 +108,7 @@ const DashboardLayout = () => {
                                 <div className="p-2">
                                     <NavLink
                                         to="/dashboard/my-profile"
-                                        className="flex items-center gap-3 p-2 rounded hover:bg-base-200 text-base-content"
+                                        className="flex items-center gap-3 p-2 rounded hover:bg-base-200 text-base-content transition-all duration-300"
                                     >
                                         <User size={18} />
                                         Profile
@@ -117,7 +117,7 @@ const DashboardLayout = () => {
                                     <hr className="my-2 border-base-300" />
                                     <Link
                                         onClick={handleUserLogout}
-                                        className="flex items-center gap-3 p-2 rounded hover:bg-red-50 text-red-600"
+                                        className="flex items-center gap-3 p-2 rounded hover:bg-red-50 text-red-600 transition-all duration-300"
                                     >
                                         <LogOut size={18} />
                                         Sign Out
@@ -138,7 +138,7 @@ const DashboardLayout = () => {
                             to={path}
                             end
                             className={({ isActive }) =>
-                                `flex items-center gap-4 p-3 rounded-lg transition-colors
+                                `flex items-center gap-4 p-3 rounded-lg transition-all duration-300
                                 ${isActive ? 'bg-primary text-primary-content' : 'hover:bg-neutral-focus'}`
                             }
                         >

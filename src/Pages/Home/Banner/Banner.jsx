@@ -30,7 +30,7 @@ const Banner = () => {
                                 Dive into our collection with up to <span className="font-bold text-primary">60% OFF</span>. Your next adventure is just a click away.
                             </p>
                             <div className="pt-4">
-                                <Link to="/books" className="btn btn-primary btn-lg px-10 rounded-2xl shadow-xl shadow-primary/30 gap-3 hover:scale-105 transition-transform">
+                                <Link to="/books" className="btn btn-primary btn-lg px-10 rounded-2xl shadow-xl shadow-primary/30 gap-3 hover:scale-105 transition-all duration-300">
                                     Shop the Sale <ShoppingBag size={20} />
                                 </Link>
                             </div>

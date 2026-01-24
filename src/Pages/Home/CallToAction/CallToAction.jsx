@@ -11,7 +11,7 @@ const CallToAction = () => {
     ];
 
     return (
-        <div className="py-20 bg-base-100 relative overflow-hidden">
+        <div className="py-20 bg-base-10 relative overflow-hidden">
             {/* Background Elements */}
             <div className="absolute inset-0 opacity-5">
                 <div className="absolute top-1/4 left-1/4 w-64 h-64 bg-primary rounded-full blur-3xl"></div>
@@ -96,7 +96,7 @@ const CallToAction = () => {
                             </ul>
                             <Link 
                                 to="/books" 
-                                className="btn btn-primary w-full rounded-2xl group-hover:scale-105 transition-transform"
+                                className="btn btn-primary w-full rounded-2xl group-hover:scale-105 transition-all duration-300"
                             >
                                 Start Reading Today
                             </Link>
@@ -128,7 +128,7 @@ const CallToAction = () => {
                             </ul>
                             <Link 
                                 to="/register" 
-                                className="btn btn-secondary w-full rounded-2xl group-hover:scale-105 transition-transform"
+                                className="btn btn-secondary w-full rounded-2xl group-hover:scale-105 transition-all duration-300"
                             >
                                 Become a Librarian
                             </Link>
