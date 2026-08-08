@@ -6,8 +6,9 @@ BookCourier is an online platform designed to streamline the process of managing
 ## Live URL
 [Live Demo]https://book-courier-assignment.netlify.app 
 
-Directory structure:
-└── onlymazhar-book-courier-client/
+### Directory structure:
+```
+    onlymazhar-book-courier-client/
     ├── README.md
     ├── eslint.config.js
     ├── index.html
@@ -149,7 +150,7 @@ Directory structure:
             ├── index.js
             └── sidebarMenu.js
 
-
+```
 ## Key Features
 ### Admin
 - View all books added by librarians
